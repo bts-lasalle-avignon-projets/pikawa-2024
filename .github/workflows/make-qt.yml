@@ -1,0 +1,37 @@
+name: qt-build
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+#      - name: Install Qt
+#        uses: jurplel/install-qt-action@v2
+#        with:
+#          version: "5.12.8"
+#          host: "linux"
+#          target: "desktop"
+
+      - name: Install Qt
+        run: |
+          sudo apt-get update >/dev/null && sudo apt-get install -y --no-install-recommends qt5-qmake qt5-qmake-bin qtbase5-dev qtbase5-dev-tools qtmultimedia5-dev libqt5bluetooth5  qtconnectivity5-dev >/dev/null
+
+      - name: Run qmake
+        run: |
+          cd pikawa-rpi && qmake
+
+      - name: Run make
+        run: |
+          cd pikawa-rpi && make
