@@ -10,8 +10,8 @@ class Utilisateur
 
   public:
     Utilisateur(std::string nom, std::string prenom);
-    std::string getNom();
-    std::string getPrenom();
+    std::string getNom() const;
+    std::string getPrenom()const;
     void        authentifier();
 };
 

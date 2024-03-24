@@ -12,7 +12,7 @@ void GestionMachine::AlerterPresenceCapsule()
 {
 }
 
-int GestionMachine::getQuantiteCapsule()
+int GestionMachine::getQuantiteCapsule() const
 {
     return quantiteCapsule;
 }

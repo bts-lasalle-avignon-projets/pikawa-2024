@@ -8,7 +8,7 @@ AnalyseSante::AnalyseSante(std::string preference, int nbCafesParJour) :
 {
 }
 
-string AnalyseSante::getPreference()
+string AnalyseSante::getPreference() const
 {
     return preference;
 }

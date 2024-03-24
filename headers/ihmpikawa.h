@@ -1,7 +1,7 @@
 #ifndef IHMPIKAWA_H
 #define IHMPIKAWA_H
 
-#include <QWidget>
+#include <QtWidget>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class IhmPikawa; }

@@ -11,7 +11,7 @@ class GestionMachine
 
   public:
     GestionMachine(int quantiteCapsule, int numeroCapsule);
-    int  getQuantiteCapsule();
+    int  getQuantiteCapsule() const;
     void AlerterPresenceCapsule();
     void gererCapsule();
 };

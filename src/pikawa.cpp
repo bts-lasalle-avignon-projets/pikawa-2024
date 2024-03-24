@@ -1,4 +1,4 @@
-#include "pikawa.h"
+#include "../hearders/pikawa.h"
 #include <iostream>
 
 Pikawa::Pikawa()

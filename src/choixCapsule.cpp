@@ -11,3 +11,7 @@ ChoixCapsule::ChoixCapsule(string typeDeCapsule, string listeCapsule) :
 string ChoixCapsule::selectionnerCapsule()
 {
 }
+
+int ChoixCapsule::selectionnerQuantite()
+{
+}
