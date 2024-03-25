@@ -37,26 +37,26 @@ IhmPikawa::~IhmPikawa()
 void IhmPikawa::initialiserGUI()
 {
     qDebug() << Q_FUNC_INFO;
-    retournerAccueil       = new QPushButton("Accueil", this);
-    choisirCafe            = new QPushButton("Café", this);
-    visualiserConsommation = new QPushButton("Consommation", this);
-    analyserSante          = new QPushButton("Santé", this);
-    gererPreferences       = new QPushButton("Préférences", this);
-    gererCapsules          = new QPushButton("Capsules", this);
-    voirAlertes            = new QPushButton("Alertes", this);
+    boutonAccueil       = new QPushButton("Accueil", this);
+    boutonChoisirCafe            = new QPushButton("Café", this);
+    boutonVisualiserConsommation = new QPushButton("Consommation", this);
+    boutonAnalyserSante          = new QPushButton("Santé", this);
+    boutonGererPreferences       = new QPushButton("Préférences", this);
+    boutonGererCapsules          = new QPushButton("Capsules", this);
+    boutonVoirAlertes            = new QPushButton("Alertes", this);
 
     QVBoxLayout* layoutPrincipal = new QVBoxLayout;
     QHBoxLayout* rowLayout1      = new QHBoxLayout;
     QHBoxLayout* rowLayout2      = new QHBoxLayout;
 
-    rowLayout1->addWidget(retournerAccueil);
-    rowLayout1->addWidget(analyserSante);
-    rowLayout1->addWidget(choisirCafe);
+    rowLayout1->addWidget(boutonAccueil);
+    rowLayout1->addWidget(boutonAnalyserSante);
+    rowLayout1->addWidget(boutonChoisirCafe);
 
-    rowLayout2->addWidget(visualiserConsommation);
-    rowLayout2->addWidget(gererPreferences);
-    rowLayout2->addWidget(gererCapsules);
-    rowLayout2->addWidget(voirAlertes);
+    rowLayout2->addWidget(boutonVisualiserConsommation);
+    rowLayout2->addWidget(boutonGererPreferences);
+    rowLayout2->addWidget(boutonGererCapsules);
+    rowLayout2->addWidget(boutonVoirAlertes);
 
     layoutPrincipal->addLayout(rowLayout1);
     layoutPrincipal->addLayout(rowLayout2);
@@ -66,7 +66,7 @@ void IhmPikawa::initialiserGUI()
 void IhmPikawa::gererEvenements()
 {
     qDebug() << Q_FUNC_INFO;
-    connect(retournerAccueil, &QPushButton::clicked, this, &IhmPikawa::actualiserAcceuil);
+    connect(boutonAccueil, &QPushButton::clicked, this, &IhmPikawa::actualiserAcceuil);
 }
 
 void IhmPikawa::actualiserAcceuil()

@@ -53,13 +53,13 @@ class IhmPikawa : public QWidget
     Ui::IhmPikawa* ui;     //!< la GUI de cette classe
     Pikawa*        pikawa; //!< l'association vers la classe Pikawa
     // La GUI
-    QPushButton* retournerAccueil;
-    QPushButton* choisirCafe;
-    QPushButton* visualiserConsommation;
-    QPushButton* analyserSante;
-    QPushButton* gererPreferences;
-    QPushButton* gererCapsules;
-    QPushButton* voirAlertes;
+    QPushButton* boutonAccueil;
+    QPushButton* boutonChoisirCafe;
+    QPushButton* boutonVisualiserConsommation;
+    QPushButton* boutonAnalyserSante;
+    QPushButton* boutonGererPreferences;
+    QPushButton* boutonGererCapsules;
+    QPushButton* boutonVoirAlertes;
 
     void initialiserGUI();
     void gererEvenements();
