@@ -1,0 +1,5 @@
+class AnalyseSante
+!!!128042.cpp!!!	AnalyseSante(in preference : QString, in nbCafesParJour : int)
+    qDebug() << Q_FUNC_INFO;
+!!!128298.cpp!!!	getPreference() : QString
+    return preference;

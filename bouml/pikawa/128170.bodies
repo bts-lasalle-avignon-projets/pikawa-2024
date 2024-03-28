@@ -1,0 +1,3 @@
+class ChoixCapsule
+!!!128426.cpp!!!	ChoixCapsule(in typeDeCapsule : QString, in listeCapsule : QString)
+    qDebug() << Q_FUNC_INFO;

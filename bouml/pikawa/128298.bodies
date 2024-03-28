@@ -1,0 +1,5 @@
+class GestionMachine
+!!!128554.cpp!!!	GestionMachine(inout parent : QObject = nullptr)
+    qDebug() << Q_FUNC_INFO;
+!!!128682.cpp!!!	~GestionMachine()
+    qDebug() << Q_FUNC_INFO;
