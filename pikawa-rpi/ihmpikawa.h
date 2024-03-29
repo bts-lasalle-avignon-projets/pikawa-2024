@@ -34,7 +34,7 @@ namespace Ui
 class IhmPikawa;
 }
 
-class Pikawa;
+class GestionMachine;
 class BaseDeDonnees;
 
 /**
@@ -51,9 +51,9 @@ class IhmPikawa : public QWidget
     ~IhmPikawa();
 
   private:
-    Ui::IhmPikawa* ui;     //!< la GUI de cette classe
-    Pikawa*        pikawa; //!< l'association vers la classe Pikawa
-    BaseDeDonnees* bdd;    //!< l'association vers la classe BaseDeDonnees
+    Ui::IhmPikawa*  ui;             //!< la GUI de cette classe
+    GestionMachine* gestionMachine; //!< l'association vers la classe GestionMachine
+    BaseDeDonnees*  bdd;            //!< l'association vers la classe BaseDeDonnees
     // La GUI
     QPushButton* boutonAccueil;
     QPushButton* boutonChoisirCafe;

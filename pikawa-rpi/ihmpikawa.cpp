@@ -1,6 +1,6 @@
 #include "ihmpikawa.h"
 #include "ui_ihmpikawa.h"
-#include "Pikawa.h"
+#include "GestionMachine.h"
 #include "BaseDeDonnees.h"
 #include <QDebug>
 
@@ -20,7 +20,7 @@
  * fenêtre principale de l'application
  */
 IhmPikawa::IhmPikawa(QWidget* parent) :
-    QWidget(parent), ui(new Ui::IhmPikawa), pikawa(new Pikawa(this)),
+    QWidget(parent), ui(new Ui::IhmPikawa), gestionMachine(new GestionMachine(this)),
     bdd(BaseDeDonnees::getInstance())
 {
     ui->setupUi(this);

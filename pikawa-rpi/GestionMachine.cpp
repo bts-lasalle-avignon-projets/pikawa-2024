@@ -1,14 +1,17 @@
 #include "GestionMachine.h"
+#include "BaseDeDonnees.h"
 #include <QDebug>
 
-GestionMachine::GestionMachine(QObject* parent) : QObject(parent), choixCapsule(0), choixTypeDeCapsule(0)
+GestionMachine::GestionMachine(QObject* parent) :
+    QObject(parent), bdd(BaseDeDonnees::getInstance()), choixCapsule(CHOIX_CAPSULE_NON_DEFINI)
 {
     qDebug() << Q_FUNC_INFO;
+    chargerListeCapsules();
 }
-
 
 GestionMachine::~GestionMachine()
 {
+    BaseDeDonnees::detruireInstance();
     qDebug() << Q_FUNC_INFO;
 }
 
@@ -17,17 +20,28 @@ int GestionMachine::getChoixCapsule() const
     return choixCapsule;
 }
 
-int GestionMachine::getChoixTypeDeCapsule() const
+void GestionMachine::setChoixCapsule(int choixCapsule)
 {
-    return choixTypeDeCapsule;
+    if(choixCapsule != CHOIX_CAPSULE_NON_DEFINI && choixCapsule < listeCapsules.size())
+        this->choixCapsule = choixCapsule;
 }
 
-void GestionMachine:: setChoixCapsule(int & choixCapsule)
+void GestionMachine::chargerListeCapsules()
 {
-    this->choixCapsule = choixCapsule;
+    QString requeteSQL = "SELECT * FROM Capsule";
+    bdd->recuperer(requeteSQL, listeCapsules);
+    qDebug() << Q_FUNC_INFO << "listeCapsules" << listeCapsules;
 }
 
-void GestionMachine::setChoixTypeDeCapsule(int &choixTypeDeCapsule)
+QVector<QStringList> GestionMachine::getListeCapsules() const
 {
-    this->choixTypeDeCapsule = choixTypeDeCapsule;
+    return listeCapsules;
+}
+
+QStringList GestionMachine::getCapsule() const
+{
+    if(choixCapsule != CHOIX_CAPSULE_NON_DEFINI && choixCapsule < listeCapsules.size())
+        return listeCapsules[choixCapsule];
+    else
+        return QStringList();
 }

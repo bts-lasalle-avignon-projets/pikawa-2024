@@ -8,7 +8,6 @@ SOURCES += \
     AnalyseSante.cpp \
     BaseDeDonnees.cpp \
     GestionMachine.cpp \
-    Pikawa.cpp \
     Utilisateur.cpp \
     main.cpp \
     ihmpikawa.cpp
@@ -17,7 +16,6 @@ HEADERS += \
     AnalyseSante.h \
     BaseDeDonnees.h \
     GestionMachine.h \
-    Pikawa.h \
     Utilisateur.h \
     ihmpikawa.h
 
