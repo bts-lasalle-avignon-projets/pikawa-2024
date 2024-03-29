@@ -7,10 +7,11 @@ class IhmPikawa
     gererEvenements();
 !!!128938.cpp!!!	~IhmPikawa()
     delete ui;
+    BaseDeDonnees::detruireInstance();
     qDebug() << Q_FUNC_INFO;
 !!!129066.cpp!!!	initialiserGUI() : void
     qDebug() << Q_FUNC_INFO;
-    boutonAccueil       = new QPushButton("Accueil", this);
+    boutonAccueil                = new QPushButton("Accueil", this);
     boutonChoisirCafe            = new QPushButton("Café", this);
     boutonVisualiserConsommation = new QPushButton("Consommation", this);
     boutonAnalyserSante          = new QPushButton("Santé", this);

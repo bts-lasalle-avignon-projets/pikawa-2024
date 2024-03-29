@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -6,6 +6,7 @@ CONFIG += c++11
 
 SOURCES += \
     AnalyseSante.cpp \
+    BaseDeDonnees.cpp \
     GestionMachine.cpp \
     Pikawa.cpp \
     Utilisateur.cpp \
@@ -14,6 +15,7 @@ SOURCES += \
 
 HEADERS += \
     AnalyseSante.h \
+    BaseDeDonnees.h \
     GestionMachine.h \
     Pikawa.h \
     Utilisateur.h \
@@ -21,5 +23,10 @@ HEADERS += \
 
 FORMS += \
     ihmpikawa.ui
+
+COPIES += bdd
+bdd.files = pikawa.db
+bdd.path = $$OUT_PWD/
+bdd.base = $$PWD/
 
 CONFIG(release, debug|release):DEFINES+=QT_NO_DEBUG_OUTPUT

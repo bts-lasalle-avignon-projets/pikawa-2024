@@ -35,6 +35,7 @@ class IhmPikawa;
 }
 
 class Pikawa;
+class BaseDeDonnees;
 
 /**
  * @class IhmPikawa
@@ -52,6 +53,7 @@ class IhmPikawa : public QWidget
   private:
     Ui::IhmPikawa* ui;     //!< la GUI de cette classe
     Pikawa*        pikawa; //!< l'association vers la classe Pikawa
+    BaseDeDonnees* bdd;    //!< l'association vers la classe BaseDeDonnees
     // La GUI
     QPushButton* boutonAccueil;
     QPushButton* boutonChoisirCafe;
