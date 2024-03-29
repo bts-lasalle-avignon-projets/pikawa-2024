@@ -1,0 +1,5 @@
+class Pikawa
+!!!129450.cpp!!!	Pikawa(inout parent : QObject = nullptr)
+    qDebug() << Q_FUNC_INFO;
+!!!129578.cpp!!!	~Pikawa()
+    qDebug() << Q_FUNC_INFO;

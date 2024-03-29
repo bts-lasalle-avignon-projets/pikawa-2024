@@ -1,0 +1,7 @@
+class Utilisateur
+!!!129962.cpp!!!	Utilisateur(in nom : QString, in prenom : QString)
+    qDebug() << Q_FUNC_INFO;
+!!!130090.cpp!!!	getNom() : QString
+    return nom;
+!!!130218.cpp!!!	getPrenom() : QString
+    return prenom;

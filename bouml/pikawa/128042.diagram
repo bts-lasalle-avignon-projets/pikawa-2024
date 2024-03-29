@@ -1,0 +1,37 @@
+format 224
+
+classcanvas 128042 class_ref 128554 // IhmPikawa
+  classdiagramsettings member_max_width 0 end
+  xyz 634 21 2000
+end
+classcanvas 128170 class_ref 128810 // Pikawa
+  classdiagramsettings member_max_width 0 end
+  xyz 665 530 3005
+end
+classcanvas 128426 class_ref 128298 // GestionMachine
+  classdiagramsettings member_max_width 0 end
+  xyz 628 832 3011
+end
+classcanvas 128682 class_ref 128042 // AnalyseSante
+  classdiagramsettings member_max_width 0 end
+  xyz 1224 530 2000
+end
+classcanvas 128810 class_ref 128170 // ChoixCapsule
+  classdiagramsettings member_max_width 0 end
+  xyz 10 832 2000
+end
+classcanvas 128938 class_ref 128938 // Utilisateur
+  classdiagramsettings member_max_width 0 end
+  xyz 90 530 3010
+end
+relationcanvas 128298 relation_ref 128298 // <unidirectional association>
+  from ref 128042 z 3006 to ref 128170
+  role_a_pos 849 504 3000 no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 128554 relation_ref 128554 // <unidirectional association>
+  from ref 128170 z 3012 to ref 128426
+  role_a_pos 849 806 3000 no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+end
