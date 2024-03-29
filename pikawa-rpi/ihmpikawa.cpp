@@ -1,6 +1,7 @@
 #include "ihmpikawa.h"
 #include "ui_ihmpikawa.h"
 #include "Pikawa.h"
+#include "BaseDeDonnees.h"
 #include <QDebug>
 
 /**
@@ -19,7 +20,8 @@
  * fenêtre principale de l'application
  */
 IhmPikawa::IhmPikawa(QWidget* parent) :
-    QWidget(parent), ui(new Ui::IhmPikawa), pikawa(new Pikawa(this))
+    QWidget(parent), ui(new Ui::IhmPikawa), pikawa(new Pikawa(this)),
+    bdd(BaseDeDonnees::getInstance())
 {
     ui->setupUi(this);
     qDebug() << Q_FUNC_INFO;
@@ -31,13 +33,14 @@ IhmPikawa::IhmPikawa(QWidget* parent) :
 IhmPikawa::~IhmPikawa()
 {
     delete ui;
+    BaseDeDonnees::detruireInstance();
     qDebug() << Q_FUNC_INFO;
 }
 
 void IhmPikawa::initialiserGUI()
 {
     qDebug() << Q_FUNC_INFO;
-    boutonAccueil       = new QPushButton("Accueil", this);
+    boutonAccueil                = new QPushButton("Accueil", this);
     boutonChoisirCafe            = new QPushButton("Café", this);
     boutonVisualiserConsommation = new QPushButton("Consommation", this);
     boutonAnalyserSante          = new QPushButton("Santé", this);

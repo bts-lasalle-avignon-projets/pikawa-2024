@@ -2,11 +2,11 @@ format 224
 
 classcanvas 128042 class_ref 128554 // IhmPikawa
   classdiagramsettings member_max_width 0 end
-  xyz 634 21 2000
+  xyz 634 22 2000
 end
 classcanvas 128170 class_ref 128810 // Pikawa
   classdiagramsettings member_max_width 0 end
-  xyz 665 530 3005
+  xyz 649 531 3005
 end
 classcanvas 128426 class_ref 128298 // GestionMachine
   classdiagramsettings member_max_width 0 end
@@ -14,7 +14,7 @@ classcanvas 128426 class_ref 128298 // GestionMachine
 end
 classcanvas 128682 class_ref 128042 // AnalyseSante
   classdiagramsettings member_max_width 0 end
-  xyz 1224 530 2000
+  xyz 1319 529 2000
 end
 classcanvas 128810 class_ref 128170 // ChoixCapsule
   classdiagramsettings member_max_width 0 end
@@ -24,14 +24,37 @@ classcanvas 128938 class_ref 128938 // Utilisateur
   classdiagramsettings member_max_width 0 end
   xyz 90 530 3010
 end
+classcanvas 129066 class_ref 135466 // BaseDeDonnees
+  classdiagramsettings member_max_width 0 end
+  xyz 1263 20 3011
+end
 relationcanvas 128298 relation_ref 128298 // <unidirectional association>
   from ref 128042 z 3006 to ref 128170
-  role_a_pos 849 504 3000 no_role_b
+  role_a_pos 849 505 3000 no_role_b
   no_multiplicity_a no_multiplicity_b
 end
 relationcanvas 128554 relation_ref 128554 // <unidirectional association>
   from ref 128170 z 3012 to ref 128426
   role_a_pos 849 806 3000 no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 129194 relation_ref 135210 // <unidirectional association>
+  decenter_begin 179
+  decenter_end 101
+  from ref 129066 z 3012 to point 1206 82
+  line 129322 z 3012 to point 1205 55
+  line 129450 z 3012 to ref 129066
+  role_a_pos 1109 31 3000 no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 129578 relation_ref 135466 // <unidirectional association>
+  from ref 128170 z 3012 to ref 129066
+  role_a_pos 1215 347 3000 no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 129706 relation_ref 135338 // <unidirectional association>
+  from ref 128042 z 3012 to ref 129066
+  role_a_pos 1215 162 3000 no_role_b
   no_multiplicity_a no_multiplicity_b
 end
 end
