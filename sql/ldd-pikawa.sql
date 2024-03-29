@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS StockMagasin(
 -- Structure de la table AnalyseSante
 
 CREATE TABLE IF NOT EXISTS AnalyseSante(
-  idUtilisateur INTEGER PRIMARY KEY NOT NULL,
+  idUtilisateur INTEGER NOT NULL,
   nombreCafeDuJour INTEGER DEFAULT 0,
   CONSTRAINT AnalyseSante_fk_1 FOREIGN KEY (idUtilisateur) REFERENCES Utilisateur(idUtilisateur) ON DELETE CASCADE
 );
