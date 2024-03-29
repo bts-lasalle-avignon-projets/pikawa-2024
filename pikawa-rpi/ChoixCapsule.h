@@ -2,15 +2,21 @@
 #define CHOIXCAPSULE_H
 
 #include <QString>
+#include <QVector>
+
+#define NB_CAPSULE_MAX 32
 
 class ChoixCapsule
 {
   private:
-    QString typeDeCapsule;
-    QString listeCapsule;
+    QVector<QString> listeCapsule;
+    int              choixUtilisateur;
+    int              nbCapsules;
 
   public:
-    ChoixCapsule(QString typeDeCapsule, QString listeCapsule);
+    ChoixCapsule();
+    ChoixCapsule(int choixUtilisateur, int nbCapsules);
+    void choisirSacapsule(int choixUtilisateur);
 };
 
 #endif // CHOIXCAPSULE_H
