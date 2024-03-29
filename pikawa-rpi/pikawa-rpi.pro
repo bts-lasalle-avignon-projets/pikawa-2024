@@ -6,7 +6,6 @@ CONFIG += c++11
 
 SOURCES += \
     AnalyseSante.cpp \
-    ChoixCapsule.cpp \
     GestionMachine.cpp \
     Pikawa.cpp \
     Utilisateur.cpp \
@@ -15,7 +14,6 @@ SOURCES += \
 
 HEADERS += \
     AnalyseSante.h \
-    ChoixCapsule.h \
     GestionMachine.h \
     Pikawa.h \
     Utilisateur.h \
