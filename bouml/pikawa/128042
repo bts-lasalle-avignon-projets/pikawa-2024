@@ -1,6 +1,6 @@
 format 224
 "pikawa-rpi" // pikawa-rpi
-  revision 3
+  revision 4
   modified_by 42 "tv"
   // class settings
   
@@ -136,62 +136,6 @@ ${body}}
       end
     end
 
-    class 128170 "ChoixCapsule"
-      visibility package 
-      cpp_decl "${comment}${template}class ${name}${inherit} {
-${members}};
-${inlines}
-"
-      java_decl ""
-      php_decl ""
-      python_2_2 python_decl ""
-      idl_decl ""
-      explicit_switch_type ""
-      mysql_decl ""
-      
-      attribute 128298 "typeDeCapsule"
-	private explicit_type "QString"
-	cpp_decl "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
-      end
-
-      attribute 128426 "listeCapsule"
-	private explicit_type "QString"
-	cpp_decl "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
-      end
-
-      operation 128426 "ChoixCapsule"
-	preserve_cpp_body_indent public explicit_return_type ""
-	nparams 2
-	  param in name "typeDeCapsule" explicit_type "QString"
-	  param in name "listeCapsule" explicit_type "QString"
-	cpp_decl "    ${comment}${inline}${name}${(}${t0} ${p0}${v0}, ${t1} ${p1}${v1}${)}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${typeprefix}${class}::${name}${(}${t0} ${p0}, ${t1} ${p1}${)} :
-    typeDeCapsule(typeDeCapsule), listeCapsule(listeCapsule)
-${throw}{
-${body}}
-"
-	
-	
-	
-	
-      end
-    end
-
     class 128298 "GestionMachine"
       visibility package 
       cpp_decl "${comment}${template}class ${name}${inherit} {
@@ -223,6 +167,115 @@ ${inlines}
 	mysql ""
       end
 
+      class 142122 "TableCapsule"
+	visibility package stereotype "enum"
+	cpp_decl "${comment}enum ${name} {
+${items}};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	attribute 143914 "ID_CAPSULE"
+	  public type class_ref 142122 // TableCapsule
+	  init_value " 0"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 144042 "MARQUE"
+	  public type class_ref 142122 // TableCapsule
+	  init_value " 1"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 144170 "DESIGNATION"
+	  public type class_ref 142122 // TableCapsule
+	  init_value " 2"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 144298 "DESCRIPTION"
+	  public type class_ref 142122 // TableCapsule
+	  init_value " 3"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 144426 "INTENSITE"
+	  public type class_ref 142122 // TableCapsule
+	  init_value " 4
+    "
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+      end
+
+      classrelation 141994 // bdd (<unidirectional association>)
+	relation 141994 --->
+	  a role_name "bdd" private
+	    comment "!< association vers la classe BaseDeDonnees"
+	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 141994 // bdd (<unidirectional association>)
+	  b parent class_ref 135466 // BaseDeDonnees
+      end
+
+      attribute 144554 "listeCapsules"
+	private explicit_type "QStringList"
+	stereotype "QVector"
+	cpp_decl "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${stereotype}<${type}> ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 144682 "choixCapsule"
+	private explicit_type "int"
+	cpp_decl "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
       operation 128554 "GestionMachine"
 	preserve_cpp_body_indent public explicit_return_type ""
 	nparams 1
@@ -230,7 +283,8 @@ ${inlines}
 	    defaultvalue "nullptr"
 	cpp_decl "    ${comment}${inline}${name}${(}${t0} * ${p0}${v0}${)}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${typeprefix}${class}::${name}${(}${t0} * ${p0}${)} : QObject(parent)
+	cpp_def "${comment}${inline}${typeprefix}${class}::${name}${(}${t0} * ${p0}${)} :
+    QObject(parent), bdd(BaseDeDonnees::getInstance()), choixCapsule(CHOIX_CAPSULE_NON_DEFINI)
 ${throw}{
 ${body}}
 "
@@ -247,6 +301,77 @@ ${body}}
 "
 	cpp_def "${comment}${inline}${typeprefix}${class}::${name}${(}${)}${throw}{
 ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 145066 "getChoixCapsule"
+	preserve_cpp_body_indent const public explicit_return_type "int"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 145194 "setChoixCapsule"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 1
+	  param in name "choixCapsule" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${t0} ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 145322 "chargerListeCapsules"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 145450 "getListeCapsules"
+	preserve_cpp_body_indent const public explicit_return_type "QVector<QStringList>"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 145578 "getCapsule"
+	preserve_cpp_body_indent const public explicit_return_type "QStringList"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
 "
 	
 	
@@ -325,7 +450,7 @@ ${inlines}
 //
 
 ${inline}${typeprefix}${class}::${name}${(}${t0} * ${p0}${)} :
-    QWidget(parent), ui(new Ui::IhmPikawa), pikawa(new Pikawa(this)),
+    QWidget(parent), ui(new Ui::IhmPikawa), gestionMachine(new GestionMachine(this)),
     bdd(BaseDeDonnees::getInstance())
 ${throw}{
 ${body}}
@@ -363,14 +488,14 @@ ${body}}
 	comment "!< la GUI de cette classe"
       end
 
-      classrelation 128298 // pikawa (<unidirectional association>)
-	relation 128298 --->
-	  a role_name "pikawa" private
-	    comment "!< l'association vers la classe Pikawa"
+      classrelation 142122 // gestionMachine (<unidirectional association>)
+	relation 142122 --->
+	  a role_name "gestionMachine" private
+	    comment "!< l'association vers la classe GestionMachine"
 	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${value};
 "
-	    classrelation_ref 128298 // pikawa (<unidirectional association>)
-	  b parent class_ref 128810 // Pikawa
+	    classrelation_ref 142122 // gestionMachine (<unidirectional association>)
+	  b parent class_ref 128298 // GestionMachine
       end
 
       classrelation 135338 // bdd (<unidirectional association>)
@@ -543,252 +668,6 @@ ${body}}
       explicit_switch_type ""
       mysql_decl ""
       
-    end
-
-    class 128810 "Pikawa"
-      visibility package 
-      cpp_decl "${comment}${template}class ${name}${inherit} {
-${members}};
-${inlines}
-"
-      java_decl ""
-      php_decl ""
-      python_2_2 python_decl ""
-      idl_decl ""
-      explicit_switch_type ""
-      mysql_decl ""
-      
-      classrelation 128426 // <generalisation>
-	relation 128426 ---|>
-	  a public
-	    cpp default "${type}"
-	    classrelation_ref 128426 // <generalisation>
-	  b parent class_ref 128426 // typedef1
-      end
-
-      extra_member 128554 "Q_OBJECT"
-	
-	cpp "  Q_OBJECT" ""
-	java ""
-	php ""
-	python ""
-	idl ""
-	mysql ""
-      end
-
-      class 135594 "TableCapsule"
-	visibility package stereotype "enum"
-	cpp_decl "${comment}enum ${name} {
-${items}};
-"
-	java_decl ""
-	php_decl ""
-	python_2_2 python_decl ""
-	idl_decl ""
-	explicit_switch_type ""
-	mysql_decl ""
-	
-	attribute 136746 "ID_CAPSULE"
-	  public type class_ref 135594 // TableCapsule
-	  init_value " 0"
-	  cpp_decl "  ${name}${value},${comment}"
-	  java_decl ""
-	  php_decl ""
-	  python_decl ""
-	  idl_decl ""
-	  mysql_decl ""
-	  MysqlColumn
-	end
-
-	attribute 136874 "MARQUE"
-	  public type class_ref 135594 // TableCapsule
-	  init_value " 1"
-	  cpp_decl "  ${name}${value},${comment}"
-	  java_decl ""
-	  php_decl ""
-	  python_decl ""
-	  idl_decl ""
-	  mysql_decl ""
-	  MysqlColumn
-	end
-
-	attribute 137002 "DESIGNATION"
-	  public type class_ref 135594 // TableCapsule
-	  init_value " 2"
-	  cpp_decl "  ${name}${value},${comment}"
-	  java_decl ""
-	  php_decl ""
-	  python_decl ""
-	  idl_decl ""
-	  mysql_decl ""
-	  MysqlColumn
-	end
-
-	attribute 137130 "DESCRIPTION"
-	  public type class_ref 135594 // TableCapsule
-	  init_value " 3"
-	  cpp_decl "  ${name}${value},${comment}"
-	  java_decl ""
-	  php_decl ""
-	  python_decl ""
-	  idl_decl ""
-	  mysql_decl ""
-	  MysqlColumn
-	end
-
-	attribute 137258 "INTENSITE"
-	  public type class_ref 135594 // TableCapsule
-	  init_value " 4
-    "
-	  cpp_decl "  ${name}${value},${comment}"
-	  java_decl ""
-	  php_decl ""
-	  python_decl ""
-	  idl_decl ""
-	  mysql_decl ""
-	  MysqlColumn
-	end
-      end
-
-      classrelation 128554 // gestionMachine (<unidirectional association>)
-	relation 128554 --->
-	  a role_name "gestionMachine" private
-	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${value};
-"
-	    classrelation_ref 128554 // gestionMachine (<unidirectional association>)
-	  b parent class_ref 128298 // GestionMachine
-      end
-
-      classrelation 135466 // bdd (<unidirectional association>)
-	relation 135466 --->
-	  a role_name "bdd" private
-	    comment "!< association vers la classe BaseDeDonnees"
-	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${value};
-"
-	    classrelation_ref 135466 // bdd (<unidirectional association>)
-	  b parent class_ref 135466 // BaseDeDonnees
-      end
-
-      attribute 137386 "listeCapsules"
-	private explicit_type "QStringList"
-	stereotype "QVector"
-	cpp_decl "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${stereotype}<${type}> ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
-      end
-
-      operation 129450 "Pikawa"
-	preserve_cpp_body_indent public explicit_return_type ""
-	nparams 1
-	  param inout name "parent" explicit_type "QObject"
-	    defaultvalue "nullptr"
-	cpp_decl "    ${comment}${inline}${name}${(}${t0} * ${p0}${v0}${)}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${typeprefix}${class}::${name}${(}${t0} * ${p0}${)} :
-    QObject(parent), gestionMachine(new GestionMachine(this)), bdd(BaseDeDonnees::getInstance())
-${throw}{
-${body}}
-"
-	
-	
-	
-	
-      end
-
-      operation 129578 "~Pikawa"
-	preserve_cpp_body_indent cpp_virtual public explicit_return_type ""
-	nparams 0
-	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${typeprefix}${class}::${name}${(}${)}${throw}{
-${body}}
-"
-	
-	
-	
-	
-      end
-
-      operation 129706 "demarrer"
-	preserve_cpp_body_indent public explicit_return_type "void"
-	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-${body}}
-"
-	
-	
-	
-	
-      end
-
-      operation 129834 "arreter"
-	preserve_cpp_body_indent public explicit_return_type "void"
-	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-${body}}
-"
-	
-	
-	
-	
-      end
-
-      operation 138410 "chargerListeCapsules"
-	preserve_cpp_body_indent public explicit_return_type "void"
-	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-	
-      end
-
-      operation 138538 "getrListeCapsules"
-	preserve_cpp_body_indent const public explicit_return_type "QVector<QStringList>"
-	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-	
-      end
-
-      extra_member 128682 "signals"
-	
-	cpp "  signals:" ""
-	java ""
-	php ""
-	python ""
-	idl ""
-	mysql ""
-      end
-
-      extra_member 128810 "slots"
-	
-	cpp "  public slots:" ""
-	java ""
-	php ""
-	python ""
-	idl ""
-	mysql ""
-      end
     end
 
     class 128938 "Utilisateur"
@@ -1005,8 +884,8 @@ ${inlines}
 	  param in name "type" explicit_type "QString"
 	cpp_decl "    ${comment}${inline}${name}${(}${t0} ${p0}${v0}${)}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${typeprefix}${class}::${name}${(}${)}${volatile}${throw} {
-  ${body}}
+	cpp_def "${comment}${inline}${typeprefix}${class}::${name}${(}${t0} ${p0}${)}${throw}{
+${body}}
 "
 	
 	
@@ -1025,8 +904,8 @@ Constructeur de la classe BaseDeDonnees en privé afin de controller les instanc
 	nparams 0
 	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${typeprefix}${class}::${name}${(}${)}${volatile}${throw} {
-  ${body}}
+	cpp_def "${comment}${inline}${typeprefix}${class}::${name}${(}${)}${throw}{
+${body}}
 "
 	
 	
@@ -1044,8 +923,8 @@ Destructeur de la classe BaseDeDonnees
 	    defaultvalue "\"QSQLITE\""
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} * ${name}${(}${t0} ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
+	cpp_def "${comment}${inline}${typeprefix}${type} * ${class}::${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}{
+${body}}
 "
 	
 	
@@ -1064,7 +943,7 @@ Permet de créer une instance unique ou de récuperer celle déjà en cours
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
+${body}}
 "
 	
 	
@@ -1082,8 +961,8 @@ Permet de detruire l'instance en cours
 	    defaultvalue "NOM_BDD"
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${t0} ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}{
+${body}}
 "
 	
 	
@@ -1102,7 +981,7 @@ Permet d'ouvrir le fichier de base de données passé en paramètre
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
+${body}}
 "
 	
 	
@@ -1120,7 +999,7 @@ Permet de fermer la base de données
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
+${body}}
 "
 	
 	
@@ -1138,8 +1017,8 @@ Permet de savoir si la base de données est ouverte ou non
 	  param in name "requete" explicit_type "QString"
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${t0} ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}{
+${body}}
 "
 	
 	
@@ -1159,8 +1038,8 @@ Permet d'exécuter une requete SQL de type INSERT, UPDATE ou DELETE
 	  param inout name "donnees" explicit_type "QString"
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${t0} ${p0}${v0}, ${t1} & ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}{
+${body}}
 "
 	
 	
@@ -1182,8 +1061,8 @@ QString enregistrement
 	  param inout name "donnees" explicit_type "QStringList"
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${t0} ${p0}${v0}, ${t1} & ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}{
+${body}}
 "
 	
 	
@@ -1205,8 +1084,8 @@ enregistrement  dans un QStringList
 	  param inout name "donnees" explicit_type "QVector<QString>"
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${t0} ${p0}${v0}, ${t1} & ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}{
+${body}}
 "
 	
 	
@@ -1228,8 +1107,8 @@ enregistrements dans un QVector<QString>
 	  param inout name "donnees" explicit_type "QVector<QStringList>"
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${t0} ${p0}${v0}, ${t1} & ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}{
+${body}}
 "
 	
 	
@@ -1293,29 +1172,6 @@ ${namespace_end}"
       end
     end
 
-    artifact 128170 "ChoixCapsule"
-      stereotype "source"
-      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
-#define ${NAMESPACE}_${NAME}_H
-
-${comment}
-${includes}
-${declarations}
-${namespace_start}
-${definition}
-${namespace_end}
-#endif
-"
-      cpp_src "${comment}
-${includes}
-${namespace_start}
-${members}
-${namespace_end}"
-      associated_elems
-	class_ref 128170 // ChoixCapsule
-      end
-    end
-
     artifact 128298 "GestionMachine"
       stereotype "source"
       cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
@@ -1359,29 +1215,6 @@ ${members}
 ${namespace_end}"
       associated_elems
 	class_ref 128554 // IhmPikawa
-      end
-    end
-
-    artifact 128554 "Pikawa"
-      stereotype "source"
-      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
-#define ${NAMESPACE}_${NAME}_H
-
-${comment}
-${includes}
-${declarations}
-${namespace_start}
-${definition}
-${namespace_end}
-#endif
-"
-      cpp_src "${comment}
-${includes}
-${namespace_start}
-${members}
-${namespace_end}"
-      associated_elems
-	class_ref 128810 // Pikawa
       end
     end
 
