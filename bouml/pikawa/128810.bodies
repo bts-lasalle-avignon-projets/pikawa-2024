@@ -1,5 +1,13 @@
 class Pikawa
 !!!129450.cpp!!!	Pikawa(inout parent : QObject = nullptr)
     qDebug() << Q_FUNC_INFO;
+    chargerListeCapsules();
 !!!129578.cpp!!!	~Pikawa()
+    BaseDeDonnees::detruireInstance();
     qDebug() << Q_FUNC_INFO;
+!!!138410.cpp!!!	chargerListeCapsules() : void
+    QString requeteSQL = "SELECT * FROM Capsule";
+    bdd->recuperer(requeteSQL, listeCapsules);
+    qDebug() << Q_FUNC_INFO << "listeCapsules" << listeCapsules;
+!!!138538.cpp!!!	getrListeCapsules() : QVector<QStringList>
+    return listeCapsules;

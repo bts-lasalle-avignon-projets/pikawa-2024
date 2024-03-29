@@ -1,6 +1,6 @@
 format 224
 "pikawa-rpi" // pikawa-rpi
-  revision 2
+  revision 3
   modified_by 42 "tv"
   // class settings
   
@@ -325,7 +325,8 @@ ${inlines}
 //
 
 ${inline}${typeprefix}${class}::${name}${(}${t0} * ${p0}${)} :
-    QWidget(parent), ui(new Ui::IhmPikawa), pikawa(new Pikawa(this))
+    QWidget(parent), ui(new Ui::IhmPikawa), pikawa(new Pikawa(this)),
+    bdd(BaseDeDonnees::getInstance())
 ${throw}{
 ${body}}
 "
@@ -370,6 +371,16 @@ ${body}}
 "
 	    classrelation_ref 128298 // pikawa (<unidirectional association>)
 	  b parent class_ref 128810 // Pikawa
+      end
+
+      classrelation 135338 // bdd (<unidirectional association>)
+	relation 135338 --->
+	  a role_name "bdd" private
+	    comment "!< l'association vers la classe BaseDeDonnees"
+	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 135338 // bdd (<unidirectional association>)
+	  b parent class_ref 135466 // BaseDeDonnees
       end
 
       attribute 128682 "boutonAccueil"
@@ -565,6 +576,80 @@ ${inlines}
 	mysql ""
       end
 
+      class 135594 "TableCapsule"
+	visibility package stereotype "enum"
+	cpp_decl "${comment}enum ${name} {
+${items}};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	attribute 136746 "ID_CAPSULE"
+	  public type class_ref 135594 // TableCapsule
+	  init_value " 0"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 136874 "MARQUE"
+	  public type class_ref 135594 // TableCapsule
+	  init_value " 1"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 137002 "DESIGNATION"
+	  public type class_ref 135594 // TableCapsule
+	  init_value " 2"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 137130 "DESCRIPTION"
+	  public type class_ref 135594 // TableCapsule
+	  init_value " 3"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 137258 "INTENSITE"
+	  public type class_ref 135594 // TableCapsule
+	  init_value " 4
+    "
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+      end
+
       classrelation 128554 // gestionMachine (<unidirectional association>)
 	relation 128554 --->
 	  a role_name "gestionMachine" private
@@ -574,6 +659,29 @@ ${inlines}
 	  b parent class_ref 128298 // GestionMachine
       end
 
+      classrelation 135466 // bdd (<unidirectional association>)
+	relation 135466 --->
+	  a role_name "bdd" private
+	    comment "!< association vers la classe BaseDeDonnees"
+	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 135466 // bdd (<unidirectional association>)
+	  b parent class_ref 135466 // BaseDeDonnees
+      end
+
+      attribute 137386 "listeCapsules"
+	private explicit_type "QStringList"
+	stereotype "QVector"
+	cpp_decl "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${stereotype}<${type}> ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
       operation 129450 "Pikawa"
 	preserve_cpp_body_indent public explicit_return_type ""
 	nparams 1
@@ -581,7 +689,8 @@ ${inlines}
 	    defaultvalue "nullptr"
 	cpp_decl "    ${comment}${inline}${name}${(}${t0} * ${p0}${v0}${)}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${typeprefix}${class}::${name}${(}${t0} * ${p0}${)} : QObject(parent), gestionMachine(new GestionMachine(this))
+	cpp_def "${comment}${inline}${typeprefix}${class}::${name}${(}${t0} * ${p0}${)} :
+    QObject(parent), gestionMachine(new GestionMachine(this)), bdd(BaseDeDonnees::getInstance())
 ${throw}{
 ${body}}
 "
@@ -626,6 +735,34 @@ ${body}}
 "
 	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
 ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 138410 "chargerListeCapsules"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 138538 "getrListeCapsules"
+	preserve_cpp_body_indent const public explicit_return_type "QVector<QStringList>"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
 "
 	
 	
@@ -754,6 +891,378 @@ ${body}}
     classdiagram 128042 "diagramme de classes du domaine"
       classdiagramsettings show_members_full_definition yes show_members_visibility yes show_members_stereotype yes show_members_multiplicity yes member_max_width 0 show_relation_visibility yes shadow no end
       size A0
+    end
+
+    class 135466 "BaseDeDonnees"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@file BaseDeDonnees.h
+@brief Classe permettant de s'interfacer avec la base de données SQLITE
+@see http://tvaira.free.fr/projets/activites/activite-base-donnees.html
+@author Thierry VAIRA
+@version 0.1
+@class BaseDeDonnees basededonnees.h \"basededonnees.h\"
+"
+      classrelation 135082 // <generalisation>
+	relation 135082 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 135082 // <generalisation>
+	  b parent class_ref 128426 // typedef1
+      end
+
+      extra_member 135338 "Q_OBJECT"
+	
+	cpp "  Q_OBJECT" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+	mysql ""
+      end
+
+      classrelation 135210 // baseDeDonnees (<unidirectional association>)
+	relation 135210 --->
+	  a role_name "baseDeDonnees" init_value "= nullptr" class_relation private
+	    comment "!< unique objet privé de type BaseDeDonnees accessible"
+	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 135210 // baseDeDonnees (<unidirectional association>)
+	  b parent class_ref 135466 // BaseDeDonnees
+      end
+
+      attribute 136234 "typeBase"
+	class_attribute private explicit_type "QString"
+	init_value "= \"QSQLITE\""
+	cpp_decl "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "!< uniquement depuis une méthode static
+!< attribut de type QString contenant le type de"
+      end
+
+      attribute 136362 "nbAcces"
+	class_attribute private explicit_type "int"
+	init_value "= 0"
+	cpp_decl "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "!< la base de données (MySQL, SQLite, ...)
+!< attribut de type int contenant le nombre d'accès en"
+      end
+
+      attribute 136490 "db"
+	private explicit_type "QSqlDatabase"
+	cpp_decl "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "!< cours à la base de données
+!< objet de type QSqlDatabase permettant la connexion"
+      end
+
+      attribute 136618 "mutex"
+	private explicit_type "QMutex"
+	cpp_decl "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "!< avec la base de données
+!< objet de type QMutex permettant de protéger les accès concurrents à la base"
+      end
+
+      operation 136874 "BaseDeDonnees"
+	preserve_cpp_body_indent private explicit_return_type ""
+	nparams 1
+	  param in name "type" explicit_type "QString"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} ${p0}${v0}${)}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${typeprefix}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	
+	
+	
+	
+	comment "!< de données
+
+@brief
+Constructeur de la classe BaseDeDonnees en privé afin de controller les instancations
+@param type
+"
+      end
+
+      operation 137002 "~BaseDeDonnees"
+	preserve_cpp_body_indent private explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${typeprefix}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	
+	
+	
+	
+	comment "@brief
+Destructeur de la classe BaseDeDonnees
+"
+      end
+
+      operation 137130 "getInstance"
+	class_operation preserve_cpp_body_indent public return_type class_ref 135466 // BaseDeDonnees
+	nparams 1
+	  param in name "type" explicit_type "QString"
+	    defaultvalue "\"QSQLITE\""
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} * ${name}${(}${t0} ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "@brief
+Permet de créer une instance unique ou de récuperer celle déjà en cours
+@param type
+@return Instance de la BDD
+"
+      end
+
+      operation 137258 "detruireInstance"
+	class_operation preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "@brief
+Permet de detruire l'instance en cours
+"
+      end
+
+      operation 137386 "ouvrir"
+	preserve_cpp_body_indent public explicit_return_type "bool"
+	nparams 1
+	  param in name "fichierBase" explicit_type "QString"
+	    defaultvalue "NOM_BDD"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${t0} ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "@brief
+Permet d'ouvrir le fichier de base de données passé en paramètre
+@param fichierBase
+@return bool
+"
+      end
+
+      operation 137514 "fermer"
+	preserve_cpp_body_indent public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "@brief
+Permet de fermer la base de données
+@return bool
+"
+      end
+
+      operation 137642 "estOuvert"
+	preserve_cpp_body_indent public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "@brief
+Permet de savoir si la base de données est ouverte ou non
+@return bool
+"
+      end
+
+      operation 137770 "executer"
+	preserve_cpp_body_indent public explicit_return_type "bool"
+	nparams 1
+	  param in name "requete" explicit_type "QString"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${t0} ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "@brief
+Permet d'exécuter une requete SQL de type INSERT, UPDATE ou DELETE
+@param requete
+@return bool
+"
+      end
+
+      operation 137898 "recuperer"
+	preserve_cpp_body_indent public explicit_return_type "bool"
+	nparams 2
+	  param in name "requete" explicit_type "QString"
+	  param inout name "donnees" explicit_type "QString"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${t0} ${p0}${v0}, ${t1} & ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "@brief
+Permet d'exécuter une requete SQL de type SELECT qui retourne un seul champ d’un seul dans un
+QString enregistrement
+@param requete
+@param donnees
+@return bool
+"
+      end
+
+      operation 138026 "recuperer"
+	preserve_cpp_body_indent public explicit_return_type "bool"
+	nparams 2
+	  param in name "requete" explicit_type "QString"
+	  param inout name "donnees" explicit_type "QStringList"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${t0} ${p0}${v0}, ${t1} & ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "@brief
+Permet d'exécuter une requete SQL de type SELECT qui retourne plusieurs champs d’un seul
+enregistrement  dans un QStringList
+@param requete
+@param donnees
+@return bool
+"
+      end
+
+      operation 138154 "recuperer"
+	preserve_cpp_body_indent public explicit_return_type "bool"
+	nparams 2
+	  param in name "requete" explicit_type "QString"
+	  param inout name "donnees" explicit_type "QVector<QString>"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${t0} ${p0}${v0}, ${t1} & ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "@brief
+Permet d'exécuter une requete SQL de type SELECT qui retourne un seul champ de plusieurs
+enregistrements dans un QVector<QString>
+@param requete
+@param donnees
+@return bool
+"
+      end
+
+      operation 138282 "recuperer"
+	preserve_cpp_body_indent public explicit_return_type "bool"
+	nparams 2
+	  param in name "requete" explicit_type "QString"
+	  param inout name "donnees" explicit_type "QVector<QStringList>"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${t0} ${p0}${v0}, ${t1} & ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "@brief
+Permet d'exécuter une requete SQL de type SELECT qui retourne plusieurs champs de plusieurs
+enregistrements dans un QVector<QStringList>
+@param requete
+@param donnees
+@return bool
+"
+      end
+
+      extra_member 135466 "signals"
+	
+	cpp "  signals:" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+	mysql ""
+      end
+
+      extra_member 135594 "slots"
+	
+	cpp "  public slots:" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+	mysql ""
+      end
     end
   end
 
@@ -923,6 +1432,29 @@ int main(int argc, char* argv[])
 }
 "
       associated_elems
+      end
+    end
+
+    artifact 135338 "BaseDeDonnees"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_elems
+	class_ref 135466 // BaseDeDonnees
       end
     end
   end
