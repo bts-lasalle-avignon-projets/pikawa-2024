@@ -1,5 +1,23 @@
 class GestionMachine
 !!!128554.cpp!!!	GestionMachine(inout parent : QObject = nullptr)
     qDebug() << Q_FUNC_INFO;
+    chargerListeCapsules();
 !!!128682.cpp!!!	~GestionMachine()
+    BaseDeDonnees::detruireInstance();
     qDebug() << Q_FUNC_INFO;
+!!!145066.cpp!!!	getChoixCapsule() : int
+    return choixCapsule;
+!!!145194.cpp!!!	setChoixCapsule(in choixCapsule : int) : void
+    if(choixCapsule != CHOIX_CAPSULE_NON_DEFINI && choixCapsule < listeCapsules.size())
+        this->choixCapsule = choixCapsule;
+!!!145322.cpp!!!	chargerListeCapsules() : void
+    QString requeteSQL = "SELECT * FROM Capsule";
+    bdd->recuperer(requeteSQL, listeCapsules);
+    qDebug() << Q_FUNC_INFO << "listeCapsules" << listeCapsules;
+!!!145450.cpp!!!	getListeCapsules() : QVector<QStringList>
+    return listeCapsules;
+!!!145578.cpp!!!	getCapsule() : QStringList
+    if(choixCapsule != CHOIX_CAPSULE_NON_DEFINI && choixCapsule < listeCapsules.size())
+        return listeCapsules[choixCapsule];
+    else
+        return QStringList();
