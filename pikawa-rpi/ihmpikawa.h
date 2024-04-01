@@ -10,6 +10,7 @@
  */
 
 #include <QtWidgets>
+#include <QStackedWidget>
 
 /**
  * @def NOM
@@ -42,7 +43,7 @@ class BaseDeDonnees;
  * @brief Déclaration de la classe IhmPikawa
  * @details Cette classe contrôle l'IHM sur l'écran de la Raspeberry Pi
  */
-class IhmPikawa : public QWidget
+class IhmPikawa : public QMainWindow
 {
     Q_OBJECT
 
@@ -54,22 +55,28 @@ class IhmPikawa : public QWidget
     Ui::IhmPikawa*  ui;             //!< la GUI de cette classe
     GestionMachine* gestionMachine; //!< l'association vers la classe GestionMachine
     BaseDeDonnees*  bdd;            //!< l'association vers la classe BaseDeDonnees
-    // La GUI
-    QPushButton* boutonAccueil;
-    QPushButton* boutonChoisirCafe;
-    QPushButton* boutonVisualiserConsommation;
-    QPushButton* boutonAnalyserSante;
-    QPushButton* boutonGererPreferences;
-    QPushButton* boutonGererCapsules;
-    QPushButton* boutonVoirAlertes;
 
-    void initialiserGUI();
+    enum Ecran
+    {
+        Accueil = 0,
+        Ecran1,
+        Ecran2,
+        NbEcrans
+    };
+
+    void fixerRaccourcisClavier();
     void gererEvenements();
 
   signals:
 
   public slots:
+    void afficherEcranSuivant();
+    void afficherEcranPrecedent();
+    void afficherEcran(IhmPikawa::Ecran ecran);
     void actualiserAcceuil();
+  private slots:
+    void changerEcranCafe();
+    void ChangerEcranMachine();
 };
 
 #endif // IHMPIKAWA_H
