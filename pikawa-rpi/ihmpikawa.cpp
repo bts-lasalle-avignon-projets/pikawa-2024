@@ -104,8 +104,6 @@ void IhmPikawa::gererEvenements()
     qDebug() << Q_FUNC_INFO;
     connect(ui->selectionEcranCafe, &QPushButton::clicked, this, &IhmPikawa::changerEcranCafe);
     connect(ui->retourAccueilDeCafe, &QPushButton::clicked, this, &IhmPikawa::changerEcranAccueil);
-    connect(ui->selectionEcranMachine,
-            &QPushButton::clicked,
-            this,
-            &IhmPikawa::changerEcranMachine);
+    connect(ui->selectionEcranMachine,&QPushButton::clicked,this,&IhmPikawa::changerEcranMachine);
+    connect(ui->retourAccueilDeMachine,&QPushButton::clicked, this, &IhmPikawa::changerEcranAccueil);
 }

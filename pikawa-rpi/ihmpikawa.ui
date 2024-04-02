@@ -24,438 +24,526 @@
   </property>
   <property name="windowTitle">
    <string>IhmPikawa</string>
-  </property>  
+  </property>
   <widget class="QWidget" name="centralwidget">
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <property name="spacing">
-      <number>0</number>
-     </property>
-     <property name="leftMargin">
-      <number>0</number>
-     </property>
-     <property name="topMargin">
-      <number>0</number>
-     </property>
-     <property name="rightMargin">
-      <number>0</number>
-     </property>
-     <property name="bottomMargin">
-      <number>0</number>
-     </property>
-     <item>
-      <widget class="QStackedWidget" name="ecrans">
-       <property name="currentIndex">
-        <number>0</number>
-       </property>
-       <widget class="QWidget" name="ecranAccueil">
-        <layout class="QVBoxLayout" name="layoutEcranAccueil">
-         <property name="spacing">
-          <number>15</number>
-         </property>
-         <property name="leftMargin">
-          <number>15</number>
-         </property>
-         <property name="topMargin">
-          <number>15</number>
-         </property>
-         <property name="rightMargin">
-          <number>15</number>
-         </property>
-         <property name="bottomMargin">
-          <number>15</number>
-         </property>
-         <item>
-          <widget class="QLabel" name="titreEcranAccueil">
-           <property name="text">
-            <string>Accueil</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="selectionEcranCafe">
-           <property name="text">
-            <string>Café</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="selectionEcranMachine">
-           <property name="text">
-            <string>Machine</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-       <widget class="QWidget" name="ecranCafe">
-        <layout class="QVBoxLayout" name="layoutEcranCafe">
-         <property name="spacing">
-          <number>15</number>
-         </property>
-         <property name="leftMargin">
-          <number>15</number>
-         </property>
-         <property name="topMargin">
-          <number>15</number>
-         </property>
-         <property name="rightMargin">
-          <number>15</number>
-         </property>
-         <property name="bottomMargin">
-          <number>15</number>
-         </property>
-         <item>
-          <widget class="QLabel" name="titreEcranCafe">
-           <property name="text">
-            <string>Café</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <layout class="QGridLayout" name="gridLayout">
-           <item row="4" column="1" alignment="Qt::AlignHCenter">
-            <widget class="QComboBox" name="comboBox_5">
-             <property name="minimumSize">
-              <size>
-               <width>200</width>
-               <height>25</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>200</width>
-               <height>25</height>
-              </size>
-             </property>
-             <item>
-              <property name="text">
-               <string>Selectionner une capsule </string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Nespresso</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Livanto</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Vivalto</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-           <item row="4" column="0" alignment="Qt::AlignHCenter">
-            <widget class="QComboBox" name="comboBox_1">
-             <property name="minimumSize">
-              <size>
-               <width>200</width>
-               <height>25</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>200</width>
-               <height>25</height>
-              </size>
-             </property>
-             <item>
-              <property name="text">
-               <string>Selectionner une capsule</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Dulsao</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Decaffeinatto</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Indriya</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Rosabaya</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-           <item row="5" column="1" alignment="Qt::AlignHCenter">
-            <widget class="QComboBox" name="comboBox_6">
-             <property name="minimumSize">
-              <size>
-               <width>200</width>
-               <height>25</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>200</width>
-               <height>25</height>
-              </size>
-             </property>
-             <item>
-              <property name="text">
-               <string>Selectionner une capsule </string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Finezzio</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Fortissio</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Rosabaya</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-           <item row="6" column="0" alignment="Qt::AlignHCenter">
-            <widget class="QComboBox" name="comboBox_7">
-             <property name="minimumSize">
-              <size>
-               <width>200</width>
-               <height>25</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>200</width>
-               <height>25</height>
-              </size>
-             </property>
-             <item>
-              <property name="text">
-               <string>Selectionner une capsule </string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Cosi</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Volluto</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Ristretto</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Capriccio</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-           <item row="5" column="0" alignment="Qt::AlignHCenter">
-            <widget class="QComboBox" name="comboBox_3">
-             <property name="minimumSize">
-              <size>
-               <width>200</width>
-               <height>25</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>200</width>
-               <height>25</height>
-              </size>
-             </property>
-             <item>
-              <property name="text">
-               <string>Selectionner une capsule </string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Capriccio</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Roma</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Vivalto</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-           <item row="3" column="1" alignment="Qt::AlignHCenter">
-            <widget class="QComboBox" name="comboBox_4">
-             <property name="minimumSize">
-              <size>
-               <width>200</width>
-               <height>25</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>200</width>
-               <height>25</height>
-              </size>
-             </property>
-             <item>
-              <property name="text">
-               <string>Selectionner une capsule </string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Fortissio</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Vivalto</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Finezzio</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-           <item row="3" column="0" alignment="Qt::AlignHCenter">
-            <widget class="QComboBox" name="comboBox_2">
-             <property name="minimumSize">
-              <size>
-               <width>200</width>
-               <height>25</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>200</width>
-               <height>25</height>
-              </size>
-             </property>
-             <item>
-              <property name="text">
-               <string>Selectionner une capsule </string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Arpeggio</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Roma</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Livanto</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Capriccio</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-           <item row="6" column="1" alignment="Qt::AlignHCenter">
-            <widget class="QComboBox" name="comboBox_8">
-             <property name="minimumSize">
-              <size>
-               <width>200</width>
-               <height>25</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>250</width>
-               <height>25</height>
-              </size>
-             </property>
-             <item>
-              <property name="text">
-               <string>Selectionner une capsule </string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Nespresso</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Roma</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Livanto</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <widget class="QPushButton" name="retourAccueilDeCafe">
-           <property name="text">
-            <string>Accueil</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-       <widget class="QWidget" name="ecranMachine">
-        <layout class="QVBoxLayout" name="layoutEcranMachine">
-         <property name="spacing">
-          <number>15</number>
-         </property>
-         <property name="leftMargin">
-          <number>15</number>
-         </property>
-         <property name="topMargin">
-          <number>15</number>
-         </property>
-         <property name="rightMargin">
-          <number>15</number>
-         </property>
-         <property name="bottomMargin">
-          <number>15</number>
-         </property>
-         <item>
-          <widget class="QLabel" name="titreEcranMachine">
-           <property name="text">
-            <string>Machine</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="QStackedWidget" name="ecrans">
+      <property name="currentIndex">
+       <number>1</number>
+      </property>
+      <widget class="QWidget" name="ecranAccueil">
+       <layout class="QVBoxLayout" name="layoutEcranAccueil">
+        <property name="spacing">
+         <number>15</number>
+        </property>
+        <property name="leftMargin">
+         <number>15</number>
+        </property>
+        <property name="topMargin">
+         <number>15</number>
+        </property>
+        <property name="rightMargin">
+         <number>15</number>
+        </property>
+        <property name="bottomMargin">
+         <number>15</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="titreEcranAccueil">
+          <property name="text">
+           <string>Accueil</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="selectionEcranCafe">
+          <property name="text">
+           <string>Café</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="selectionEcranMachine">
+          <property name="text">
+           <string>Machine</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </widget>
-     </item>
-    </layout>
+      <widget class="QWidget" name="ecranCafe">
+       <layout class="QVBoxLayout" name="layoutEcranCafe">
+        <property name="spacing">
+         <number>15</number>
+        </property>
+        <property name="leftMargin">
+         <number>15</number>
+        </property>
+        <property name="topMargin">
+         <number>15</number>
+        </property>
+        <property name="rightMargin">
+         <number>15</number>
+        </property>
+        <property name="bottomMargin">
+         <number>15</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="titreEcranCafe">
+          <property name="text">
+           <string>Café</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QGridLayout" name="gridLayout">
+          <item row="4" column="1" alignment="Qt::AlignHCenter">
+           <widget class="QComboBox" name="comboBox_5">
+            <property name="minimumSize">
+             <size>
+              <width>200</width>
+              <height>25</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>200</width>
+              <height>25</height>
+             </size>
+            </property>
+            <item>
+             <property name="text">
+              <string>Selectionner une capsule </string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Nespresso</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Livanto</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Vivalto</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="4" column="0" alignment="Qt::AlignHCenter">
+           <widget class="QComboBox" name="comboBox_1">
+            <property name="minimumSize">
+             <size>
+              <width>200</width>
+              <height>25</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>200</width>
+              <height>25</height>
+             </size>
+            </property>
+            <item>
+             <property name="text">
+              <string>Selectionner une capsule</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Dulsao</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Decaffeinatto</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Indriya</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Rosabaya</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="5" column="1" alignment="Qt::AlignHCenter">
+           <widget class="QComboBox" name="comboBox_6">
+            <property name="minimumSize">
+             <size>
+              <width>200</width>
+              <height>25</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>200</width>
+              <height>25</height>
+             </size>
+            </property>
+            <item>
+             <property name="text">
+              <string>Selectionner une capsule </string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Finezzio</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Fortissio</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Rosabaya</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="6" column="0" alignment="Qt::AlignHCenter">
+           <widget class="QComboBox" name="comboBox_7">
+            <property name="minimumSize">
+             <size>
+              <width>200</width>
+              <height>25</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>200</width>
+              <height>25</height>
+             </size>
+            </property>
+            <item>
+             <property name="text">
+              <string>Selectionner une capsule </string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Cosi</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Volluto</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Ristretto</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Capriccio</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="5" column="0" alignment="Qt::AlignHCenter">
+           <widget class="QComboBox" name="comboBox_3">
+            <property name="minimumSize">
+             <size>
+              <width>200</width>
+              <height>25</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>200</width>
+              <height>25</height>
+             </size>
+            </property>
+            <item>
+             <property name="text">
+              <string>Selectionner une capsule </string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Capriccio</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Roma</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Vivalto</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="3" column="1" alignment="Qt::AlignHCenter">
+           <widget class="QComboBox" name="comboBox_4">
+            <property name="minimumSize">
+             <size>
+              <width>200</width>
+              <height>25</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>200</width>
+              <height>25</height>
+             </size>
+            </property>
+            <item>
+             <property name="text">
+              <string>Selectionner une capsule </string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Fortissio</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Vivalto</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Finezzio</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="3" column="0" alignment="Qt::AlignHCenter">
+           <widget class="QComboBox" name="comboBox_2">
+            <property name="minimumSize">
+             <size>
+              <width>200</width>
+              <height>25</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>200</width>
+              <height>25</height>
+             </size>
+            </property>
+            <item>
+             <property name="text">
+              <string>Selectionner une capsule </string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Arpeggio</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Roma</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Livanto</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Capriccio</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="6" column="1" alignment="Qt::AlignHCenter">
+           <widget class="QComboBox" name="comboBox_8">
+            <property name="minimumSize">
+             <size>
+              <width>200</width>
+              <height>25</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>250</width>
+              <height>25</height>
+             </size>
+            </property>
+            <item>
+             <property name="text">
+              <string>Selectionner une capsule </string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Nespresso</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Roma</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Livanto</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QPushButton" name="retourAccueilDeCafe">
+          <property name="text">
+           <string>Accueil</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="ecranMachine">
+       <layout class="QVBoxLayout" name="layoutEcranMachine">
+        <property name="spacing">
+         <number>15</number>
+        </property>
+        <property name="leftMargin">
+         <number>15</number>
+        </property>
+        <property name="topMargin">
+         <number>15</number>
+        </property>
+        <property name="rightMargin">
+         <number>15</number>
+        </property>
+        <property name="bottomMargin">
+         <number>15</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="titreEcranMachine">
+          <property name="text">
+           <string>Machine</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QGridLayout" name="gridLayout_2">
+          <item row="3" column="1">
+           <widget class="QPushButton" name="pushButton_4">
+            <property name="text">
+             <string>Volluto</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0">
+           <widget class="QPushButton" name="pushButton_6">
+            <property name="text">
+             <string>Livanto</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0">
+           <widget class="QPushButton" name="pushButton_5">
+            <property name="text">
+             <string>Roma</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QPushButton" name="pushButton_3">
+            <property name="text">
+             <string>Finizzio</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QPushButton" name="pushButton_2">
+            <property name="text">
+             <string>Capriccio</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="1">
+           <widget class="QPushButton" name="pushButton_8">
+            <property name="text">
+             <string>Fortissio</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QPushButton" name="pushButton_7">
+            <property name="text">
+             <string>Indriya</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QPushButton" name="pushButton">
+            <property name="text">
+             <string>Vivalto</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="2">
+           <widget class="QPushButton" name="pushButton_10">
+            <property name="text">
+             <string>Café Long </string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="2">
+           <widget class="QPushButton" name="pushButton_11">
+            <property name="text">
+             <string>Café préférée</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="2">
+           <widget class="QPushButton" name="pushButton_9">
+            <property name="text">
+             <string>Café court</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QPushButton" name="retourAccueilDeMachine">
+          <property name="text">
+           <string>Accueil</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>
