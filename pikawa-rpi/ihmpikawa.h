@@ -58,9 +58,9 @@ class IhmPikawa : public QMainWindow
 
     enum Ecran
     {
-        Accueil = 0,
-        Ecran1,
-        Ecran2,
+        EcranAccueil = 0,
+        EcranCafe,
+        EcranMachine,
         NbEcrans
     };
 
@@ -70,13 +70,13 @@ class IhmPikawa : public QMainWindow
   signals:
 
   public slots:
+    void fermerApplication();
+    void afficherEcran(IhmPikawa::Ecran ecran);
     void afficherEcranSuivant();
     void afficherEcranPrecedent();
-    void afficherEcran(IhmPikawa::Ecran ecran);
-    void actualiserAcceuil();
-  private slots:
+    void changerEcranAccueil();
     void changerEcranCafe();
-    void ChangerEcranMachine();
+    void changerEcranMachine();
 };
 
 #endif // IHMPIKAWA_H

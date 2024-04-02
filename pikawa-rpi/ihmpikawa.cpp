@@ -23,13 +23,13 @@ IhmPikawa::IhmPikawa(QWidget* parent) :
     QMainWindow(parent), ui(new Ui::IhmPikawa), gestionMachine(new GestionMachine(this)),
     bdd(BaseDeDonnees::getInstance())
 {
-    ui->setupUi(this);
     qDebug() << Q_FUNC_INFO;
+    ui->setupUi(this);
+
     fixerRaccourcisClavier();
     gererEvenements();
-    connect(ui->pushButton, &QPushButton::clicked, this, &IhmPikawa::changerEcranCafe);
-    connect(ui->pushButton_2, &QPushButton::clicked, this, &IhmPikawa::ChangerEcranMachine);
-    connect(ui->pushButton_3, &QPushButton::clicked, this, &IhmPikawa::changerEcranCafe);
+
+    changerEcranAccueil();
 }
 
 IhmPikawa::~IhmPikawa()
@@ -39,37 +39,9 @@ IhmPikawa::~IhmPikawa()
     qDebug() << Q_FUNC_INFO;
 }
 
-void IhmPikawa::gererEvenements()
+void IhmPikawa::fermerApplication()
 {
-    qDebug() << Q_FUNC_INFO;
-}
-
-void IhmPikawa::actualiserAcceuil()
-{
-    qDebug() << Q_FUNC_INFO;
-}
-
-
-void IhmPikawa::changerEcranCafe()
-{
-    qDebug() << "Changement d'écran...";
-    int nextIndex = ui->ecrans->currentIndex() + 1;
-    if (nextIndex >= ui->ecrans->count())
-    {
-        nextIndex = 0;
-    }
-    ui->ecrans->setCurrentIndex(nextIndex);
-}
-
-void IhmPikawa::ChangerEcranMachine()
-{
-        qDebug() << "Changement d'écran...";
-        int nextIndex = ui->ecrans->currentIndex() + 2;
-        if (nextIndex >= ui->ecrans->count())
-        {
-            nextIndex = 0;
-        }
-        ui->ecrans->setCurrentIndex(nextIndex);
+    close();
 }
 
 void IhmPikawa::afficherEcran(IhmPikawa::Ecran ecran)
@@ -94,6 +66,21 @@ void IhmPikawa::afficherEcranPrecedent()
     afficherEcran(IhmPikawa::Ecran(ecranPrecedent));
 }
 
+void IhmPikawa::changerEcranAccueil()
+{
+    afficherEcran(IhmPikawa::Ecran::EcranAccueil);
+}
+
+void IhmPikawa::changerEcranCafe()
+{
+    afficherEcran(IhmPikawa::Ecran::EcranCafe);
+}
+
+void IhmPikawa::changerEcranMachine()
+{
+    afficherEcran(IhmPikawa::Ecran::EcranMachine);
+}
+
 void IhmPikawa::fixerRaccourcisClavier()
 {
     QAction* quitter = new QAction(this);
@@ -104,16 +91,21 @@ void IhmPikawa::fixerRaccourcisClavier()
     QAction* actionAllerDroite = new QAction(this);
     actionAllerDroite->setShortcut(QKeySequence(Qt::Key_Right));
     addAction(actionAllerDroite);
-    connect(actionAllerDroite,
-            SIGNAL(triggered()),
-            this,
-            SLOT(afficherEcranSuivant()));
+    connect(actionAllerDroite, SIGNAL(triggered()), this, SLOT(afficherEcranSuivant()));
 
     QAction* actionAllerGauche = new QAction(this);
     actionAllerGauche->setShortcut(QKeySequence(Qt::Key_Left));
     addAction(actionAllerGauche);
-    connect(actionAllerGauche,
-            SIGNAL(triggered()),
+    connect(actionAllerGauche, SIGNAL(triggered()), this, SLOT(afficherEcranPrecedent()));
+}
+
+void IhmPikawa::gererEvenements()
+{
+    qDebug() << Q_FUNC_INFO;
+    connect(ui->selectionEcranCafe, &QPushButton::clicked, this, &IhmPikawa::changerEcranCafe);
+    connect(ui->retourAccueilDeCafe, &QPushButton::clicked, this, &IhmPikawa::changerEcranAccueil);
+    connect(ui->selectionEcranMachine,
+            &QPushButton::clicked,
             this,
-            SLOT(afficherEcranPrecedent()));
+            &IhmPikawa::changerEcranMachine);
 }
