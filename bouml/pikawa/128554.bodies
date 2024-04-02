@@ -1,42 +1,57 @@
 class IhmPikawa
 !!!128810.cpp!!!	IhmPikawa(inout parent : QWidget = nullptr)
-    ui->setupUi(this);
     qDebug() << Q_FUNC_INFO;
+    ui->setupUi(this);
 
-    initialiserGUI();
+    fixerRaccourcisClavier();
     gererEvenements();
+
+    changerEcranAccueil();
 !!!128938.cpp!!!	~IhmPikawa()
     delete ui;
     BaseDeDonnees::detruireInstance();
     qDebug() << Q_FUNC_INFO;
-!!!129066.cpp!!!	initialiserGUI() : void
-    qDebug() << Q_FUNC_INFO;
-    boutonAccueil                = new QPushButton("Accueil", this);
-    boutonChoisirCafe            = new QPushButton("Café", this);
-    boutonVisualiserConsommation = new QPushButton("Consommation", this);
-    boutonAnalyserSante          = new QPushButton("Santé", this);
-    boutonGererPreferences       = new QPushButton("Préférences", this);
-    boutonGererCapsules          = new QPushButton("Capsules", this);
-    boutonVoirAlertes            = new QPushButton("Alertes", this);
+!!!152106.cpp!!!	fixerRaccourcisClavier() : void
+    QAction* quitter = new QAction(this);
+    quitter->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Q));
+    addAction(quitter);
+    connect(quitter, SIGNAL(triggered()), this, SLOT(fermerApplication()));
 
-    QVBoxLayout* layoutPrincipal = new QVBoxLayout;
-    QHBoxLayout* rowLayout1      = new QHBoxLayout;
-    QHBoxLayout* rowLayout2      = new QHBoxLayout;
+    QAction* actionAllerDroite = new QAction(this);
+    actionAllerDroite->setShortcut(QKeySequence(Qt::Key_Right));
+    addAction(actionAllerDroite);
+    connect(actionAllerDroite, SIGNAL(triggered()), this, SLOT(afficherEcranSuivant()));
 
-    rowLayout1->addWidget(boutonAccueil);
-    rowLayout1->addWidget(boutonAnalyserSante);
-    rowLayout1->addWidget(boutonChoisirCafe);
-
-    rowLayout2->addWidget(boutonVisualiserConsommation);
-    rowLayout2->addWidget(boutonGererPreferences);
-    rowLayout2->addWidget(boutonGererCapsules);
-    rowLayout2->addWidget(boutonVoirAlertes);
-
-    layoutPrincipal->addLayout(rowLayout1);
-    layoutPrincipal->addLayout(rowLayout2);
-    setLayout(layoutPrincipal);
+    QAction* actionAllerGauche = new QAction(this);
+    actionAllerGauche->setShortcut(QKeySequence(Qt::Key_Left));
+    addAction(actionAllerGauche);
+    connect(actionAllerGauche, SIGNAL(triggered()), this, SLOT(afficherEcranPrecedent()));
 !!!129194.cpp!!!	gererEvenements() : void
     qDebug() << Q_FUNC_INFO;
-    connect(boutonAccueil, &QPushButton::clicked, this, &IhmPikawa::actualiserAcceuil);
-!!!129322.cpp!!!	actualiserAcceuil() : void
-    qDebug() << Q_FUNC_INFO;
+    connect(ui->selectionEcranCafe, &QPushButton::clicked, this, &IhmPikawa::changerEcranCafe);
+    connect(ui->retourAccueilDeCafe, &QPushButton::clicked, this, &IhmPikawa::changerEcranAccueil);
+    connect(ui->selectionEcranMachine,
+            &QPushButton::clicked,
+            this,
+            &IhmPikawa::changerEcranMachine);
+!!!152234.cpp!!!	fermerApplication() : void
+    close();
+!!!152362.cpp!!!	afficherEcran(in ecran : IhmPikawa::Ecran) : void
+    qDebug() << Q_FUNC_INFO << "ecran" << ecran;
+    ui->ecrans->setCurrentIndex(ecran);
+!!!152490.cpp!!!	afficherEcranSuivant() : void
+    int ecranCourant = IhmPikawa::Ecran(ui->ecrans->currentIndex());
+    int ecranSuivant = (ecranCourant + 1) % int(IhmPikawa::NbEcrans);
+    afficherEcran(IhmPikawa::Ecran(ecranSuivant));
+!!!152618.cpp!!!	afficherEcranPrecedent() : void
+    int ecranCourant   = ui->ecrans->currentIndex();
+    int ecranPrecedent = (ecranCourant - 1) % int(IhmPikawa::NbEcrans);
+    if(ecranPrecedent == -1)
+        ecranPrecedent = int(IhmPikawa::NbEcrans) - 1;
+    afficherEcran(IhmPikawa::Ecran(ecranPrecedent));
+!!!152746.cpp!!!	changerEcranAccueil() : void
+    afficherEcran(IhmPikawa::Ecran::EcranAccueil);
+!!!152874.cpp!!!	changerEcranCafe() : void
+    afficherEcran(IhmPikawa::Ecran::EcranCafe);
+!!!153002.cpp!!!	changerEcranMachine() : void
+    afficherEcran(IhmPikawa::Ecran::EcranMachine);

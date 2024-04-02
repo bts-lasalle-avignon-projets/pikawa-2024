@@ -6,7 +6,7 @@ classcanvas 128042 class_ref 128554 // IhmPikawa
 end
 classcanvas 128426 class_ref 128298 // GestionMachine
   classdiagramsettings member_max_width 0 end
-  xyz 628 529 3011
+  xyz 615 529 3011
 end
 classcanvas 128682 class_ref 128042 // AnalyseSante
   classdiagramsettings member_max_width 0 end
@@ -31,17 +31,17 @@ relationcanvas 129194 relation_ref 135210 // <unidirectional association>
 end
 relationcanvas 129706 relation_ref 135338 // <unidirectional association>
   from ref 128042 z 3012 to ref 129066
-  role_a_pos 1215 162 3000 no_role_b
+  role_a_pos 1215 158 3000 no_role_b
   no_multiplicity_a no_multiplicity_b
 end
 relationcanvas 129834 relation_ref 141994 // <unidirectional association>
   from ref 128426 z 3012 to ref 129066
-  role_a_pos 1222 352 3000 no_role_b
+  role_a_pos 1217 352 3000 no_role_b
   no_multiplicity_a no_multiplicity_b
 end
 relationcanvas 129962 relation_ref 142122 // <unidirectional association>
   from ref 128042 z 3012 to ref 128426
-  role_a_pos 849 503 3000 no_role_b
+  role_a_pos 836 503 3000 no_role_b
   no_multiplicity_a no_multiplicity_b
 end
 end
