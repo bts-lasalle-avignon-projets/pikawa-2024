@@ -1,6 +1,6 @@
 format 224
 "pikawa-rpi" // pikawa-rpi
-  revision 5
+  revision 6
   modified_by 42 "tv"
   // class settings
   
@@ -572,7 +572,7 @@ ${items}};
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
+${body}}
 "
 	
 	
@@ -587,6 +587,20 @@ ${items}};
 "
 	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
 ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 159530 "initialiserListeCapsules"
+	preserve_cpp_body_indent private explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
 "
 	
 	
@@ -620,7 +634,7 @@ ${body}}
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
+${body}}
 "
 	
 	
@@ -634,8 +648,8 @@ ${body}}
 	  param in name "ecran" type class_ref 148778 // Ecran
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${t0} ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}{
+${body}}
 "
 	
 	
@@ -649,7 +663,7 @@ ${body}}
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
+${body}}
 "
 	
 	
@@ -663,7 +677,7 @@ ${body}}
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
+${body}}
 "
 	
 	
@@ -677,7 +691,7 @@ ${body}}
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
+${body}}
 "
 	
 	
@@ -691,7 +705,7 @@ ${body}}
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
+${body}}
 "
 	
 	
@@ -705,14 +719,13 @@ ${body}}
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
+${body}}
 "
 	
 	
 	
 	
       end
-
     end
 
     class 128682 "typedef2"
@@ -1285,7 +1298,6 @@ ${namespace_start}
 ${members}
 ${namespace_end}"
       associated_elems
-	class_ref 148650 // typedef3
 	class_ref 128554 // IhmPikawa
       end
     end

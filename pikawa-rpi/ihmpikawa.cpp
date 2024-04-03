@@ -29,6 +29,7 @@ IhmPikawa::IhmPikawa(QWidget* parent) :
     fixerRaccourcisClavier();
     gererEvenements();
 
+    initialiserListeCapsules();
     changerEcranAccueil();
 }
 
@@ -104,6 +105,31 @@ void IhmPikawa::gererEvenements()
     qDebug() << Q_FUNC_INFO;
     connect(ui->selectionEcranCafe, &QPushButton::clicked, this, &IhmPikawa::changerEcranCafe);
     connect(ui->retourAccueilDeCafe, &QPushButton::clicked, this, &IhmPikawa::changerEcranAccueil);
-    connect(ui->selectionEcranMachine,&QPushButton::clicked,this,&IhmPikawa::changerEcranMachine);
-    connect(ui->retourAccueilDeMachine,&QPushButton::clicked, this, &IhmPikawa::changerEcranAccueil);
+    connect(ui->selectionEcranMachine,
+            &QPushButton::clicked,
+            this,
+            &IhmPikawa::changerEcranMachine);
+    connect(ui->retourAccueilDeMachine,
+            &QPushButton::clicked,
+            this,
+            &IhmPikawa::changerEcranAccueil);
+}
+
+void IhmPikawa::initialiserListeCapsules()
+{
+    ui->comboBox_1->clear();
+    QVector<QStringList> listeCapsules = gestionMachine->getListeCapsules();
+    for(int i = 0; i < listeCapsules.size(); ++i)
+    {
+        QFont formatFont = ui->comboBox_1->font();
+        formatFont.setCapitalization(QFont::Capitalize);
+        ui->comboBox_1->setFont(formatFont);
+        ui->comboBox_1->addItem(listeCapsules[i].at(GestionMachine::TableCapsule::DESIGNATION));
+    }
+    ui->comboBox_1->addItem("Vide");
+    ui->comboBox_1->addItem("Aucune");
+    ui->comboBox_1->setCurrentIndex(ui->comboBox_1->count() - 1);
+    // @todo initialiser l'ensemble des liste déroulantes et
+    // les boutons
+    // attention, il faudra tenir compte des stocks du magasin
 }

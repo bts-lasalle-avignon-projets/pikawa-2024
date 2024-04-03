@@ -6,6 +6,7 @@ class IhmPikawa
     fixerRaccourcisClavier();
     gererEvenements();
 
+    initialiserListeCapsules();
     changerEcranAccueil();
 !!!128938.cpp!!!	~IhmPikawa()
     delete ui;
@@ -34,6 +35,26 @@ class IhmPikawa
             &QPushButton::clicked,
             this,
             &IhmPikawa::changerEcranMachine);
+    connect(ui->retourAccueilDeMachine,
+            &QPushButton::clicked,
+            this,
+            &IhmPikawa::changerEcranAccueil);
+!!!159530.cpp!!!	initialiserListeCapsules() : void
+    ui->comboBox_1->clear();
+    QVector<QStringList> listeCapsules = gestionMachine->getListeCapsules();
+    for(int i = 0; i < listeCapsules.size(); ++i)
+    {
+        QFont formatFont = ui->comboBox_1->font();
+        formatFont.setCapitalization(QFont::Capitalize);
+        ui->comboBox_1->setFont(formatFont);
+        ui->comboBox_1->addItem(listeCapsules[i].at(GestionMachine::TableCapsule::DESIGNATION));
+    }
+    ui->comboBox_1->addItem("Vide");
+    ui->comboBox_1->addItem("Aucune");
+    ui->comboBox_1->setCurrentIndex(ui->comboBox_1->count() - 1);
+    // @todo initialiser l'ensemble des liste déroulantes et
+    // les boutons
+    // attention, il faudra tenir compte des stocks du magasin
 !!!152234.cpp!!!	fermerApplication() : void
     close();
 !!!152362.cpp!!!	afficherEcran(in ecran : IhmPikawa::Ecran) : void
