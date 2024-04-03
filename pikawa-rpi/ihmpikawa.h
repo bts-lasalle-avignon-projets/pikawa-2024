@@ -67,6 +67,8 @@ class IhmPikawa : public QMainWindow
     void fixerRaccourcisClavier();
     void gererEvenements();
     void initialiserListeCapsules();
+    void initialiserListeDeroulante();
+    void initialiserBouton(GestionMachine& gestionMachine);
 
   signals:
 

@@ -1,7 +1,7 @@
 format 224
 "pikawa-rpi" // pikawa-rpi
-  revision 6
-  modified_by 42 "tv"
+  revision 7
+  modified_by 2 "btssn2"
   // class settings
   
   classdiagramsettings member_max_width 0 end
@@ -600,7 +600,7 @@ ${body}}
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
+${body}}
 "
 	
 	
@@ -836,6 +836,7 @@ ${body}}
 	
 	
       end
+
     end
 
     classdiagram 128042 "diagramme de classes du domaine"
@@ -1373,6 +1374,282 @@ ${namespace_end}"
       associated_elems
 	class_ref 135466 // BaseDeDonnees
       end
+    end
+  end
+
+  usecaseview 128002 "Vue des cas d'utilisation"
+    
+    usecasediagramsettings end
+    
+    sequencediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    activitydiagramsettings
+     end
+    usecasediagram 128002 "Diagramme des cas d'utilisation"
+      usecasediagramsettings draw_all_relations no end
+      size A0
+    end
+
+    usecase 128002 "Selectionner une capsule"
+      
+      usecasediagramsettings end
+      
+      sequencediagramsettings end
+      
+      collaborationdiagramsettings end
+      
+      classdiagramsettings member_max_width 0 end
+      
+      classcompositediagramsettings end
+      
+      objectdiagramsettings end
+      
+      objectcompositediagramsettings end
+      
+      statediagramsettings
+       end
+      
+      activitydiagramsettings
+       end
+      simplerelation 128642
+	-_->
+	  stereotype "include"
+	  on usecase_ref 128898 // Dialoguer avec le magasin
+      end
+
+      simplerelation 128770
+	-_->
+	  on usecase_ref 128770 // S'identifier
+      end
+
+      simplerelation 128898
+	-_->
+	  on usecase_ref 128770 // S'identifier
+      end
+    end
+
+    usecase 128130 "Administrer la machine "
+      
+      usecasediagramsettings end
+      
+      sequencediagramsettings end
+      
+      collaborationdiagramsettings end
+      
+      classdiagramsettings member_max_width 0 end
+      
+      classcompositediagramsettings end
+      
+      objectdiagramsettings end
+      
+      objectcompositediagramsettings end
+      
+      statediagramsettings
+       end
+      
+      activitydiagramsettings
+       end
+    end
+
+    usecase 128258 "Administrer le machine    [Vue des cas d'utilisation]"
+      
+      usecasediagramsettings end
+      
+      sequencediagramsettings end
+      
+      collaborationdiagramsettings end
+      
+      classdiagramsettings member_max_width 0 end
+      
+      classcompositediagramsettings end
+      
+      objectdiagramsettings end
+      
+      objectcompositediagramsettings end
+      
+      statediagramsettings
+       end
+      
+      activitydiagramsettings
+       end
+    end
+
+    usecase 128386 "Administrer le magasin"
+      
+      usecasediagramsettings end
+      
+      sequencediagramsettings end
+      
+      collaborationdiagramsettings end
+      
+      classdiagramsettings member_max_width 0 end
+      
+      classcompositediagramsettings end
+      
+      objectdiagramsettings end
+      
+      objectcompositediagramsettings end
+      
+      statediagramsettings
+       end
+      
+      activitydiagramsettings
+       end
+      simplerelation 128386
+	-_->
+	  on usecase_ref 128770 // S'identifier
+      end
+
+      simplerelation 128514
+	-_->
+	  stereotype "include"
+	  on usecase_ref 128898 // Dialoguer avec le magasin
+      end
+    end
+
+    usecase 128514 "Parametrer ses préférences "
+      
+      usecasediagramsettings end
+      
+      sequencediagramsettings end
+      
+      collaborationdiagramsettings end
+      
+      classdiagramsettings member_max_width 0 end
+      
+      classcompositediagramsettings end
+      
+      objectdiagramsettings end
+      
+      objectcompositediagramsettings end
+      
+      statediagramsettings
+       end
+      
+      activitydiagramsettings
+       end
+      simplerelation 128130
+	-_->
+	  stereotype "include"
+	  on usecase_ref 128770 // S'identifier
+      end
+    end
+
+    usecase 128642 "Visualiser son utilisation "
+      
+      usecasediagramsettings end
+      
+      sequencediagramsettings end
+      
+      collaborationdiagramsettings end
+      
+      classdiagramsettings member_max_width 0 end
+      
+      classcompositediagramsettings end
+      
+      objectdiagramsettings end
+      
+      objectcompositediagramsettings end
+      
+      statediagramsettings
+       end
+      
+      activitydiagramsettings
+       end
+      simplerelation 128258
+	-_->
+	  stereotype "include"
+	  on usecase_ref 128898 // Dialoguer avec le magasin
+      end
+    end
+
+    usecase 128770 "S'identifier"
+      
+      usecasediagramsettings end
+      
+      sequencediagramsettings end
+      
+      collaborationdiagramsettings end
+      
+      classdiagramsettings member_max_width 0 end
+      
+      classcompositediagramsettings end
+      
+      objectdiagramsettings end
+      
+      objectcompositediagramsettings end
+      
+      statediagramsettings
+       end
+      
+      activitydiagramsettings
+       end
+      simplerelation 128002
+	-_->
+	  on usecase_ref 128002 // Selectionner une capsule
+      end
+
+      simplerelation 129026
+	-_->
+	  stereotype "extend"
+	  on usecase_ref 128002 // Selectionner une capsule
+      end
+    end
+
+    usecase 128898 "Dialoguer avec le magasin"
+      
+      usecasediagramsettings end
+      
+      sequencediagramsettings end
+      
+      collaborationdiagramsettings end
+      
+      classdiagramsettings member_max_width 0 end
+      
+      classcompositediagramsettings end
+      
+      objectdiagramsettings end
+      
+      objectcompositediagramsettings end
+      
+      statediagramsettings
+       end
+      
+      activitydiagramsettings
+       end
+    end
+
+    sequencediagram 128130 "Diagramme de séquence"
+      sequencediagramsettings end
+      overlapping_bars size A0
+    end
+
+    class 128130 "Utilisateur"
+      visibility package stereotype "actor"
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
     end
   end
 end
