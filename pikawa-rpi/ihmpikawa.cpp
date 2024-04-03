@@ -26,11 +26,12 @@ IhmPikawa::IhmPikawa(QWidget* parent) :
     qDebug() << Q_FUNC_INFO;
     ui->setupUi(this);
 
+    initialiserRessourcesGUI();
     fixerRaccourcisClavier();
     gererEvenements();
 
     initialiserListeCapsules();
-    initialiserListeDeroulante();
+    initialiserStocksRangeeCapsules();
     changerEcranAccueil();
 }
 
@@ -80,7 +81,36 @@ void IhmPikawa::changerEcranCafe()
 
 void IhmPikawa::changerEcranMachine()
 {
+    initialiserBoutonsCapsules();
     afficherEcran(IhmPikawa::Ecran::EcranMachine);
+}
+
+void IhmPikawa::initialiserRessourcesGUI()
+{
+    listesDeroulantesCapsules.push_back(ui->listeCapsulesR1);
+    listesDeroulantesCapsules.push_back(ui->listeCapsulesR2);
+    listesDeroulantesCapsules.push_back(ui->listeCapsulesR3);
+    listesDeroulantesCapsules.push_back(ui->listeCapsulesR4);
+    listesDeroulantesCapsules.push_back(ui->listeCapsulesR5);
+    listesDeroulantesCapsules.push_back(ui->listeCapsulesR6);
+    listesDeroulantesCapsules.push_back(ui->listeCapsulesR7);
+    listesDeroulantesCapsules.push_back(ui->listeCapsulesR8);
+    stocksRangeesCapsules.push_back(ui->stockR1);
+    stocksRangeesCapsules.push_back(ui->stockR2);
+    stocksRangeesCapsules.push_back(ui->stockR3);
+    stocksRangeesCapsules.push_back(ui->stockR4);
+    stocksRangeesCapsules.push_back(ui->stockR5);
+    stocksRangeesCapsules.push_back(ui->stockR6);
+    stocksRangeesCapsules.push_back(ui->stockR7);
+    stocksRangeesCapsules.push_back(ui->stockR8);
+    boutonsChoixCapsules.push_back(ui->boutonChoixCapsule1);
+    boutonsChoixCapsules.push_back(ui->boutonChoixCapsule2);
+    boutonsChoixCapsules.push_back(ui->boutonChoixCapsule3);
+    boutonsChoixCapsules.push_back(ui->boutonChoixCapsule4);
+    boutonsChoixCapsules.push_back(ui->boutonChoixCapsule5);
+    boutonsChoixCapsules.push_back(ui->boutonChoixCapsule6);
+    boutonsChoixCapsules.push_back(ui->boutonChoixCapsule7);
+    boutonsChoixCapsules.push_back(ui->boutonChoixCapsule8);
 }
 
 void IhmPikawa::fixerRaccourcisClavier()
@@ -118,133 +148,52 @@ void IhmPikawa::gererEvenements()
 
 void IhmPikawa::initialiserListeCapsules()
 {
-    ui->listeDeroulante1->clear();
-    ui->listeDeroulante2->clear();
-    ui->listeDeroulante3->clear();
-    ui->listeDeroulante4->clear();
-    ui->listeDeroulante5->clear();
-    ui->listeDeroulante6->clear();
-    ui->listeDeroulante7->clear();
-    ui->listeDeroulante8->clear();
-
     QVector<QStringList> listeCapsules = gestionMachine->getListeCapsules();
-    for(int i = 0; i < listeCapsules.size(); ++i)
+    for(int i = 0; i < listesDeroulantesCapsules.size(); ++i)
     {
-        QFont formatFont = ui->listeDeroulante1->font();
-        formatFont.setCapitalization(QFont::Capitalize);
-        ui->listeDeroulante1->setFont(formatFont);
-        ui->listeDeroulante1->addItem(
-          listeCapsules[i].at(GestionMachine::TableCapsule::DESIGNATION));
-
-        formatFont.setCapitalization(QFont::Capitalize);
-        ui->listeDeroulante2->setFont(formatFont);
-        ui->listeDeroulante2->addItem(
-          listeCapsules[i].at(GestionMachine::TableCapsule::DESIGNATION));
-
-        formatFont.setCapitalization(QFont::Capitalize);
-        ui->listeDeroulante3->setFont(formatFont);
-        ui->listeDeroulante3->addItem(
-          listeCapsules[i].at(GestionMachine::TableCapsule::DESIGNATION));
-
-        formatFont.setCapitalization(QFont::Capitalize);
-        ui->listeDeroulante4->setFont(formatFont);
-        ui->listeDeroulante4->addItem(
-          listeCapsules[i].at(GestionMachine::TableCapsule::DESIGNATION));
-
-        formatFont.setCapitalization(QFont::Capitalize);
-        ui->listeDeroulante5->setFont(formatFont);
-        ui->listeDeroulante5->addItem(
-          listeCapsules[i].at(GestionMachine::TableCapsule::DESIGNATION));
-
-        formatFont.setCapitalization(QFont::Capitalize);
-        ui->listeDeroulante6->setFont(formatFont);
-        ui->listeDeroulante6->addItem(
-          listeCapsules[i].at(GestionMachine::TableCapsule::DESIGNATION));
-
-        formatFont.setCapitalization(QFont::Capitalize);
-        ui->listeDeroulante7->setFont(formatFont);
-        ui->listeDeroulante7->addItem(
-          listeCapsules[i].at(GestionMachine::TableCapsule::DESIGNATION));
-
-        formatFont.setCapitalization(QFont::Capitalize);
-        ui->listeDeroulante8->setFont(formatFont);
-        ui->listeDeroulante8->addItem(
-          listeCapsules[i].at(GestionMachine::TableCapsule::DESIGNATION));
+        listesDeroulantesCapsules[i]->clear();
+        for(int j = 0; j < listeCapsules.size(); ++j)
+        {
+            QFont formatFont = listesDeroulantesCapsules[i]->font();
+            formatFont.setCapitalization(QFont::Capitalize);
+            listesDeroulantesCapsules[i]->setFont(formatFont);
+            listesDeroulantesCapsules[i]->addItem(
+              listeCapsules[j].at(GestionMachine::TableCapsule::DESIGNATION));
+        }
+        listesDeroulantesCapsules[i]->addItem("Vide");
+        listesDeroulantesCapsules[i]->addItem("Aucune");
+        listesDeroulantesCapsules[i]->setCurrentIndex(listesDeroulantesCapsules[i]->count() - 1);
     }
 }
 
-void IhmPikawa::initialiserListeDeroulante()
+void IhmPikawa::initialiserStocksRangeeCapsules()
 {
-    ui->listeDeroulante1->addItem("Vide");
-    ui->listeDeroulante1->addItem("Aucune");
-    ui->listeDeroulante1->setCurrentIndex(ui->listeDeroulante1->count() - 1);
-
-    ui->listeDeroulante2->addItem("Vide");
-    ui->listeDeroulante2->addItem("Aucune");
-    ui->listeDeroulante2->setCurrentIndex(ui->listeDeroulante2->count() - 1);
-
-    ui->listeDeroulante3->addItem("Vide");
-    ui->listeDeroulante3->addItem("Aucune");
-    ui->listeDeroulante3->setCurrentIndex(ui->listeDeroulante3->count() - 1);
-
-    ui->listeDeroulante4->addItem("Vide");
-    ui->listeDeroulante4->addItem("Aucune");
-    ui->listeDeroulante4->setCurrentIndex(ui->listeDeroulante4->count() - 1);
-
-    ui->listeDeroulante5->addItem("Vide");
-    ui->listeDeroulante5->addItem("Aucune");
-    ui->listeDeroulante5->setCurrentIndex(ui->listeDeroulante5->count() - 1);
-
-    ui->listeDeroulante6->addItem("Vide");
-    ui->listeDeroulante6->addItem("Aucune");
-    ui->listeDeroulante6->setCurrentIndex(ui->listeDeroulante6->count() - 1);
-
-    ui->listeDeroulante7->addItem("Vide");
-    ui->listeDeroulante7->addItem("Aucune");
-    ui->listeDeroulante7->setCurrentIndex(ui->listeDeroulante7->count() - 1);
-
-    ui->listeDeroulante8->addItem("Vide");
-    ui->listeDeroulante8->addItem("Aucune");
-    ui->listeDeroulante8->setCurrentIndex(ui->listeDeroulante8->count() - 1);
-
-    // @todo initialiser l'ensemble des liste déroulantes et
-    // les boutons
-    // attention, il faudra tenir compte des stocks du magasin
+    for(int i = 0; i < stocksRangeesCapsules.size(); ++i)
+    {
+        // pour l'instant, par défaut 0
+        stocksRangeesCapsules[i]->setValue(0);
+    }
 }
 
-void IhmPikawa::initialiserBouton(GestionMachine& gestionMachine)
+void IhmPikawa::initialiserBoutonsCapsules()
 {
     qDebug() << Q_FUNC_INFO;
-    connect(ui->boutonChoixCapsule1,
-            &QPushButton::clicked,
-            &gestionMachine,
-            &GestionMachine::setChoixCapsule);
-    connect(ui->boutonChoixCapsule2,
-            &QPushButton::clicked,
-            &gestionMachine,
-            &GestionMachine::setChoixCapsule);
-    connect(ui->boutonChoixCapsule3,
-            &QPushButton::clicked,
-            &gestionMachine,
-            &GestionMachine::setChoixCapsule);
-    connect(ui->boutonChoixCapsule4,
-            &QPushButton::clicked,
-            &gestionMachine,
-            &GestionMachine::setChoixCapsule);
-    connect(ui->boutonChoixCapsule5,
-            &QPushButton::clicked,
-            &gestionMachine,
-            &GestionMachine::setChoixCapsule);
-    connect(ui->boutonChoixCapsule6,
-            &QPushButton::clicked,
-            &gestionMachine,
-            &GestionMachine::setChoixCapsule);
-    connect(ui->boutonChoixCapsule7,
-            &QPushButton::clicked,
-            &gestionMachine,
-            &GestionMachine::setChoixCapsule);
-    connect(ui->boutonChoixCapsule8,
-            &QPushButton::clicked,
-            &gestionMachine,
-            &GestionMachine::setChoixCapsule);
+    for(int i = 0; i < listesDeroulantesCapsules.size(); ++i)
+    {
+        if(listesDeroulantesCapsules[i]->currentText() != "Vide" &&
+           listesDeroulantesCapsules[i]->currentText() != "Aucune" &&
+           stocksRangeesCapsules[i]->value() > 0)
+        {
+            QFont formatFont = boutonsChoixCapsules[i]->font();
+            formatFont.setCapitalization(QFont::Capitalize);
+            boutonsChoixCapsules[i]->setFont(formatFont);
+            boutonsChoixCapsules[i]->setText(listesDeroulantesCapsules[i]->currentText());
+            boutonsChoixCapsules[i]->setEnabled(true);
+        }
+        else
+        {
+            boutonsChoixCapsules[i]->setText("");
+            boutonsChoixCapsules[i]->setEnabled(false);
+        }
+    }
 }

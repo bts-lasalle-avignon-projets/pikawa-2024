@@ -10,7 +10,7 @@
  */
 
 #include <QtWidgets>
-#include <QStackedWidget>
+#include <QVector>
 
 /**
  * @def NOM
@@ -52,9 +52,12 @@ class IhmPikawa : public QMainWindow
     ~IhmPikawa();
 
   private:
-    Ui::IhmPikawa*  ui;             //!< la GUI de cette classe
-    GestionMachine* gestionMachine; //!< l'association vers la classe GestionMachine
-    BaseDeDonnees*  bdd;            //!< l'association vers la classe BaseDeDonnees
+    Ui::IhmPikawa*        ui;             //!< la GUI de cette classe
+    GestionMachine*       gestionMachine; //!< l'association vers la classe GestionMachine
+    BaseDeDonnees*        bdd;            //!< l'association vers la classe BaseDeDonnees
+    QVector<QComboBox*>   listesDeroulantesCapsules;
+    QVector<QSpinBox*>    stocksRangeesCapsules;
+    QVector<QPushButton*> boutonsChoixCapsules;
 
     enum Ecran
     {
@@ -64,11 +67,12 @@ class IhmPikawa : public QMainWindow
         NbEcrans
     };
 
+    void initialiserRessourcesGUI();
     void fixerRaccourcisClavier();
     void gererEvenements();
     void initialiserListeCapsules();
-    void initialiserListeDeroulante();
-    void initialiserBouton(GestionMachine& gestionMachine);
+    void initialiserStocksRangeeCapsules();
+    void initialiserBoutonsCapsules();
 
   signals:
 

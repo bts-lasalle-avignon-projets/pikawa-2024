@@ -3,15 +3,42 @@ class IhmPikawa
     qDebug() << Q_FUNC_INFO;
     ui->setupUi(this);
 
+    initialiserRessourcesGUI();
     fixerRaccourcisClavier();
     gererEvenements();
 
     initialiserListeCapsules();
+    initialiserStocksRangeeCapsules();
     changerEcranAccueil();
 !!!128938.cpp!!!	~IhmPikawa()
     delete ui;
     BaseDeDonnees::detruireInstance();
     qDebug() << Q_FUNC_INFO;
+!!!166058.cpp!!!	initialiserRessourcesGUI() : void
+    listesDeroulantesCapsules.push_back(ui->listeCapsulesR1);
+    listesDeroulantesCapsules.push_back(ui->listeCapsulesR2);
+    listesDeroulantesCapsules.push_back(ui->listeCapsulesR3);
+    listesDeroulantesCapsules.push_back(ui->listeCapsulesR4);
+    listesDeroulantesCapsules.push_back(ui->listeCapsulesR5);
+    listesDeroulantesCapsules.push_back(ui->listeCapsulesR6);
+    listesDeroulantesCapsules.push_back(ui->listeCapsulesR7);
+    listesDeroulantesCapsules.push_back(ui->listeCapsulesR8);
+    stocksRangeesCapsules.push_back(ui->stockR1);
+    stocksRangeesCapsules.push_back(ui->stockR2);
+    stocksRangeesCapsules.push_back(ui->stockR3);
+    stocksRangeesCapsules.push_back(ui->stockR4);
+    stocksRangeesCapsules.push_back(ui->stockR5);
+    stocksRangeesCapsules.push_back(ui->stockR6);
+    stocksRangeesCapsules.push_back(ui->stockR7);
+    stocksRangeesCapsules.push_back(ui->stockR8);
+    boutonsChoixCapsules.push_back(ui->boutonChoixCapsule1);
+    boutonsChoixCapsules.push_back(ui->boutonChoixCapsule2);
+    boutonsChoixCapsules.push_back(ui->boutonChoixCapsule3);
+    boutonsChoixCapsules.push_back(ui->boutonChoixCapsule4);
+    boutonsChoixCapsules.push_back(ui->boutonChoixCapsule5);
+    boutonsChoixCapsules.push_back(ui->boutonChoixCapsule6);
+    boutonsChoixCapsules.push_back(ui->boutonChoixCapsule7);
+    boutonsChoixCapsules.push_back(ui->boutonChoixCapsule8);
 !!!152106.cpp!!!	fixerRaccourcisClavier() : void
     QAction* quitter = new QAction(this);
     quitter->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Q));
@@ -40,21 +67,48 @@ class IhmPikawa
             this,
             &IhmPikawa::changerEcranAccueil);
 !!!159530.cpp!!!	initialiserListeCapsules() : void
-    ui->comboBox_1->clear();
     QVector<QStringList> listeCapsules = gestionMachine->getListeCapsules();
-    for(int i = 0; i < listeCapsules.size(); ++i)
+    for(int i = 0; i < listesDeroulantesCapsules.size(); ++i)
     {
-        QFont formatFont = ui->comboBox_1->font();
-        formatFont.setCapitalization(QFont::Capitalize);
-        ui->comboBox_1->setFont(formatFont);
-        ui->comboBox_1->addItem(listeCapsules[i].at(GestionMachine::TableCapsule::DESIGNATION));
+        listesDeroulantesCapsules[i]->clear();
+        for(int j = 0; j < listeCapsules.size(); ++j)
+        {
+            QFont formatFont = listesDeroulantesCapsules[i]->font();
+            formatFont.setCapitalization(QFont::Capitalize);
+            listesDeroulantesCapsules[i]->setFont(formatFont);
+            listesDeroulantesCapsules[i]->addItem(
+              listeCapsules[j].at(GestionMachine::TableCapsule::DESIGNATION));
+        }
+        listesDeroulantesCapsules[i]->addItem("Vide");
+        listesDeroulantesCapsules[i]->addItem("Aucune");
+        listesDeroulantesCapsules[i]->setCurrentIndex(listesDeroulantesCapsules[i]->count() - 1);
     }
-    ui->comboBox_1->addItem("Vide");
-    ui->comboBox_1->addItem("Aucune");
-    ui->comboBox_1->setCurrentIndex(ui->comboBox_1->count() - 1);
-    // @todo initialiser l'ensemble des liste déroulantes et
-    // les boutons
-    // attention, il faudra tenir compte des stocks du magasin
+!!!166186.cpp!!!	initialiserStocksRangeeCapsules() : void
+    for(int i = 0; i < stocksRangeesCapsules.size(); ++i)
+    {
+        // pour l'instant, par défaut 0
+        stocksRangeesCapsules[i]->setValue(0);
+    }
+!!!166314.cpp!!!	initialiserBoutonsCapsules() : void
+    qDebug() << Q_FUNC_INFO;
+    for(int i = 0; i < listesDeroulantesCapsules.size(); ++i)
+    {
+        if(listesDeroulantesCapsules[i]->currentText() != "Vide" &&
+           listesDeroulantesCapsules[i]->currentText() != "Aucune" &&
+           stocksRangeesCapsules[i]->value() > 0)
+        {
+            QFont formatFont = boutonsChoixCapsules[i]->font();
+            formatFont.setCapitalization(QFont::Capitalize);
+            boutonsChoixCapsules[i]->setFont(formatFont);
+            boutonsChoixCapsules[i]->setText(listesDeroulantesCapsules[i]->currentText());
+            boutonsChoixCapsules[i]->setEnabled(true);
+        }
+        else
+        {
+            boutonsChoixCapsules[i]->setText("");
+            boutonsChoixCapsules[i]->setEnabled(false);
+        }
+    }
 !!!152234.cpp!!!	fermerApplication() : void
     close();
 !!!152362.cpp!!!	afficherEcran(in ecran : IhmPikawa::Ecran) : void
@@ -75,4 +129,5 @@ class IhmPikawa
 !!!152874.cpp!!!	changerEcranCafe() : void
     afficherEcran(IhmPikawa::Ecran::EcranCafe);
 !!!153002.cpp!!!	changerEcranMachine() : void
+    initialiserBoutonsCapsules();
     afficherEcran(IhmPikawa::Ecran::EcranMachine);
