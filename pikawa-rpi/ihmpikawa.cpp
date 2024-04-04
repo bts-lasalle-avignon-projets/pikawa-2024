@@ -20,14 +20,19 @@
  * fenêtre principale de l'application
  */
 IhmPikawa::IhmPikawa(QWidget* parent) :
-    QWidget(parent), ui(new Ui::IhmPikawa), gestionMachine(new GestionMachine(this)),
+    QMainWindow(parent), ui(new Ui::IhmPikawa), gestionMachine(new GestionMachine(this)),
     bdd(BaseDeDonnees::getInstance())
 {
-    ui->setupUi(this);
     qDebug() << Q_FUNC_INFO;
+    ui->setupUi(this);
 
-    initialiserGUI();
+    initialiserRessourcesGUI();
+    fixerRaccourcisClavier();
     gererEvenements();
+
+    initialiserListeCapsules();
+    initialiserStocksRangeeCapsules();
+    changerEcranAccueil();
 }
 
 IhmPikawa::~IhmPikawa()
@@ -37,42 +42,158 @@ IhmPikawa::~IhmPikawa()
     qDebug() << Q_FUNC_INFO;
 }
 
-void IhmPikawa::initialiserGUI()
+void IhmPikawa::fermerApplication()
 {
-    qDebug() << Q_FUNC_INFO;
-    boutonAccueil                = new QPushButton("Accueil", this);
-    boutonChoisirCafe            = new QPushButton("Café", this);
-    boutonVisualiserConsommation = new QPushButton("Consommation", this);
-    boutonAnalyserSante          = new QPushButton("Santé", this);
-    boutonGererPreferences       = new QPushButton("Préférences", this);
-    boutonGererCapsules          = new QPushButton("Capsules", this);
-    boutonVoirAlertes            = new QPushButton("Alertes", this);
+    close();
+}
 
-    QVBoxLayout* layoutPrincipal = new QVBoxLayout;
-    QHBoxLayout* rowLayout1      = new QHBoxLayout;
-    QHBoxLayout* rowLayout2      = new QHBoxLayout;
+void IhmPikawa::afficherEcran(IhmPikawa::Ecran ecran)
+{
+    qDebug() << Q_FUNC_INFO << "ecran" << ecran;
+    ui->ecrans->setCurrentIndex(ecran);
+}
 
-    rowLayout1->addWidget(boutonAccueil);
-    rowLayout1->addWidget(boutonAnalyserSante);
-    rowLayout1->addWidget(boutonChoisirCafe);
+void IhmPikawa::afficherEcranSuivant()
+{
+    int ecranCourant = IhmPikawa::Ecran(ui->ecrans->currentIndex());
+    int ecranSuivant = (ecranCourant + 1) % int(IhmPikawa::NbEcrans);
+    afficherEcran(IhmPikawa::Ecran(ecranSuivant));
+}
 
-    rowLayout2->addWidget(boutonVisualiserConsommation);
-    rowLayout2->addWidget(boutonGererPreferences);
-    rowLayout2->addWidget(boutonGererCapsules);
-    rowLayout2->addWidget(boutonVoirAlertes);
+void IhmPikawa::afficherEcranPrecedent()
+{
+    int ecranCourant   = ui->ecrans->currentIndex();
+    int ecranPrecedent = (ecranCourant - 1) % int(IhmPikawa::NbEcrans);
+    if(ecranPrecedent == -1)
+        ecranPrecedent = int(IhmPikawa::NbEcrans) - 1;
+    afficherEcran(IhmPikawa::Ecran(ecranPrecedent));
+}
 
-    layoutPrincipal->addLayout(rowLayout1);
-    layoutPrincipal->addLayout(rowLayout2);
-    setLayout(layoutPrincipal);
+void IhmPikawa::changerEcranAccueil()
+{
+    afficherEcran(IhmPikawa::Ecran::EcranAccueil);
+}
+
+void IhmPikawa::changerEcranCafe()
+{
+    afficherEcran(IhmPikawa::Ecran::EcranCafe);
+}
+
+void IhmPikawa::changerEcranMachine()
+{
+    initialiserBoutonsCapsules();
+    afficherEcran(IhmPikawa::Ecran::EcranMachine);
+}
+
+void IhmPikawa::initialiserRessourcesGUI()
+{
+    listesDeroulantesCapsules.push_back(ui->listeCapsulesR1);
+    listesDeroulantesCapsules.push_back(ui->listeCapsulesR2);
+    listesDeroulantesCapsules.push_back(ui->listeCapsulesR3);
+    listesDeroulantesCapsules.push_back(ui->listeCapsulesR4);
+    listesDeroulantesCapsules.push_back(ui->listeCapsulesR5);
+    listesDeroulantesCapsules.push_back(ui->listeCapsulesR6);
+    listesDeroulantesCapsules.push_back(ui->listeCapsulesR7);
+    listesDeroulantesCapsules.push_back(ui->listeCapsulesR8);
+    stocksRangeesCapsules.push_back(ui->stockR1);
+    stocksRangeesCapsules.push_back(ui->stockR2);
+    stocksRangeesCapsules.push_back(ui->stockR3);
+    stocksRangeesCapsules.push_back(ui->stockR4);
+    stocksRangeesCapsules.push_back(ui->stockR5);
+    stocksRangeesCapsules.push_back(ui->stockR6);
+    stocksRangeesCapsules.push_back(ui->stockR7);
+    stocksRangeesCapsules.push_back(ui->stockR8);
+    boutonsChoixCapsules.push_back(ui->boutonChoixCapsule1);
+    boutonsChoixCapsules.push_back(ui->boutonChoixCapsule2);
+    boutonsChoixCapsules.push_back(ui->boutonChoixCapsule3);
+    boutonsChoixCapsules.push_back(ui->boutonChoixCapsule4);
+    boutonsChoixCapsules.push_back(ui->boutonChoixCapsule5);
+    boutonsChoixCapsules.push_back(ui->boutonChoixCapsule6);
+    boutonsChoixCapsules.push_back(ui->boutonChoixCapsule7);
+    boutonsChoixCapsules.push_back(ui->boutonChoixCapsule8);
+}
+
+void IhmPikawa::fixerRaccourcisClavier()
+{
+    QAction* quitter = new QAction(this);
+    quitter->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Q));
+    addAction(quitter);
+    connect(quitter, SIGNAL(triggered()), this, SLOT(fermerApplication()));
+
+    QAction* actionAllerDroite = new QAction(this);
+    actionAllerDroite->setShortcut(QKeySequence(Qt::Key_Right));
+    addAction(actionAllerDroite);
+    connect(actionAllerDroite, SIGNAL(triggered()), this, SLOT(afficherEcranSuivant()));
+
+    QAction* actionAllerGauche = new QAction(this);
+    actionAllerGauche->setShortcut(QKeySequence(Qt::Key_Left));
+    addAction(actionAllerGauche);
+    connect(actionAllerGauche, SIGNAL(triggered()), this, SLOT(afficherEcranPrecedent()));
 }
 
 void IhmPikawa::gererEvenements()
 {
     qDebug() << Q_FUNC_INFO;
-    connect(boutonAccueil, &QPushButton::clicked, this, &IhmPikawa::actualiserAcceuil);
+    connect(ui->selectionEcranCafe, &QPushButton::clicked, this, &IhmPikawa::changerEcranCafe);
+    connect(ui->retourAccueilDeCafe, &QPushButton::clicked, this, &IhmPikawa::changerEcranAccueil);
+    connect(ui->selectionEcranMachine,
+            &QPushButton::clicked,
+            this,
+            &IhmPikawa::changerEcranMachine);
+    connect(ui->retourAccueilDeMachine,
+            &QPushButton::clicked,
+            this,
+            &IhmPikawa::changerEcranAccueil);
 }
 
-void IhmPikawa::actualiserAcceuil()
+void IhmPikawa::initialiserListeCapsules()
+{
+    QVector<QStringList> listeCapsules = gestionMachine->getListeCapsules();
+    for(int i = 0; i < listesDeroulantesCapsules.size(); ++i)
+    {
+        listesDeroulantesCapsules[i]->clear();
+        for(int j = 0; j < listeCapsules.size(); ++j)
+        {
+            QFont formatFont = listesDeroulantesCapsules[i]->font();
+            formatFont.setCapitalization(QFont::Capitalize);
+            listesDeroulantesCapsules[i]->setFont(formatFont);
+            listesDeroulantesCapsules[i]->addItem(
+              listeCapsules[j].at(GestionMachine::TableCapsule::DESIGNATION));
+        }
+        listesDeroulantesCapsules[i]->addItem("Vide");
+        listesDeroulantesCapsules[i]->addItem("Aucune");
+        listesDeroulantesCapsules[i]->setCurrentIndex(listesDeroulantesCapsules[i]->count() - 1);
+    }
+}
+
+void IhmPikawa::initialiserStocksRangeeCapsules()
+{
+    for(int i = 0; i < stocksRangeesCapsules.size(); ++i)
+    {
+        // pour l'instant, par défaut 0
+        stocksRangeesCapsules[i]->setValue(0);
+    }
+}
+
+void IhmPikawa::initialiserBoutonsCapsules()
 {
     qDebug() << Q_FUNC_INFO;
+    for(int i = 0; i < listesDeroulantesCapsules.size(); ++i)
+    {
+        if(listesDeroulantesCapsules[i]->currentText() != "Vide" &&
+           listesDeroulantesCapsules[i]->currentText() != "Aucune" &&
+           stocksRangeesCapsules[i]->value() > 0)
+        {
+            QFont formatFont = boutonsChoixCapsules[i]->font();
+            formatFont.setCapitalization(QFont::Capitalize);
+            boutonsChoixCapsules[i]->setFont(formatFont);
+            boutonsChoixCapsules[i]->setText(listesDeroulantesCapsules[i]->currentText());
+            boutonsChoixCapsules[i]->setEnabled(true);
+        }
+        else
+        {
+            boutonsChoixCapsules[i]->setText("");
+            boutonsChoixCapsules[i]->setEnabled(false);
+        }
+    }
 }

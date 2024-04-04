@@ -10,6 +10,7 @@
  */
 
 #include <QtWidgets>
+#include <QVector>
 
 /**
  * @def NOM
@@ -42,7 +43,7 @@ class BaseDeDonnees;
  * @brief Déclaration de la classe IhmPikawa
  * @details Cette classe contrôle l'IHM sur l'écran de la Raspeberry Pi
  */
-class IhmPikawa : public QWidget
+class IhmPikawa : public QMainWindow
 {
     Q_OBJECT
 
@@ -51,25 +52,38 @@ class IhmPikawa : public QWidget
     ~IhmPikawa();
 
   private:
-    Ui::IhmPikawa*  ui;             //!< la GUI de cette classe
-    GestionMachine* gestionMachine; //!< l'association vers la classe GestionMachine
-    BaseDeDonnees*  bdd;            //!< l'association vers la classe BaseDeDonnees
-    // La GUI
-    QPushButton* boutonAccueil;
-    QPushButton* boutonChoisirCafe;
-    QPushButton* boutonVisualiserConsommation;
-    QPushButton* boutonAnalyserSante;
-    QPushButton* boutonGererPreferences;
-    QPushButton* boutonGererCapsules;
-    QPushButton* boutonVoirAlertes;
+    Ui::IhmPikawa*        ui;             //!< la GUI de cette classe
+    GestionMachine*       gestionMachine; //!< l'association vers la classe GestionMachine
+    BaseDeDonnees*        bdd;            //!< l'association vers la classe BaseDeDonnees
+    QVector<QComboBox*>   listesDeroulantesCapsules;
+    QVector<QSpinBox*>    stocksRangeesCapsules;
+    QVector<QPushButton*> boutonsChoixCapsules;
 
-    void initialiserGUI();
+    enum Ecran
+    {
+        EcranAccueil = 0,
+        EcranCafe,
+        EcranMachine,
+        NbEcrans
+    };
+
+    void initialiserRessourcesGUI();
+    void fixerRaccourcisClavier();
     void gererEvenements();
+    void initialiserListeCapsules();
+    void initialiserStocksRangeeCapsules();
+    void initialiserBoutonsCapsules();
 
   signals:
 
   public slots:
-    void actualiserAcceuil();
+    void fermerApplication();
+    void afficherEcran(IhmPikawa::Ecran ecran);
+    void afficherEcranSuivant();
+    void afficherEcranPrecedent();
+    void changerEcranAccueil();
+    void changerEcranCafe();
+    void changerEcranMachine();
 };
 
 #endif // IHMPIKAWA_H
