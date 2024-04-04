@@ -1,47 +1,47 @@
 format 224
 
+classcanvas 128023 class_ref 134551 // GestionMagasin
+  classdiagramsettings member_max_width 0 end
+  xyz 587 540.8 3017
+end
 classcanvas 128042 class_ref 128554 // IhmPikawa
   classdiagramsettings member_max_width 0 end
-  xyz 555.4 16 2000
-end
-classcanvas 128426 class_ref 128298 // GestionMachine
-  classdiagramsettings member_max_width 0 end
-  xyz 589 522 3011
+  xyz 560 34.8 2000
 end
 classcanvas 128682 class_ref 128042 // AnalyseSante
   classdiagramsettings member_max_width 0 end
-  xyz 1325 522 2000
+  xyz 1329 538.8 2000
 end
 classcanvas 128938 class_ref 128938 // Utilisateur
   classdiagramsettings member_max_width 0 end
-  xyz 10.8 521.8 3010
+  xyz 13.8 540.8 3010
 end
 classcanvas 129066 class_ref 135466 // BaseDeDonnees
   classdiagramsettings member_max_width 0 end
-  xyz 1272 17 3011
+  xyz 1277 60 3011
+end
+relationcanvas 128151 relation_ref 134679 // <unidirectional association>
+  from ref 128023 z 3018 to ref 129066
+  role_a_pos 1229 311 3000 no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 128279 relation_ref 134807 // <unidirectional association>
+  from ref 128042 z 3018 to ref 128023
+  role_a_pos 774 511 3000 no_role_b
+  no_multiplicity_a no_multiplicity_b
 end
 relationcanvas 129194 relation_ref 135210 // <unidirectional association>
   decenter_begin 179
   decenter_end 101
-  from ref 129066 z 3012 to point 1213 77
-  line 129322 z 3012 to point 1212 49
+  from ref 129066 z 3012 to point 1216 98
+  line 129322 z 3012 to point 1216 70
   line 129450 z 3012 to ref 129066
-  role_a_pos 1118 28 3000 no_role_b
+  role_a_pos 1145 60 3000 no_role_b
   no_multiplicity_a no_multiplicity_b
 end
 relationcanvas 129706 relation_ref 135338 // <unidirectional association>
   from ref 128042 z 3012 to ref 129066
-  role_a_pos 1224 184 3000 no_role_b
-  no_multiplicity_a no_multiplicity_b
-end
-relationcanvas 129834 relation_ref 141994 // <unidirectional association>
-  from ref 128426 z 3012 to ref 129066
-  role_a_pos 1224 341 3000 no_role_b
-  no_multiplicity_a no_multiplicity_b
-end
-relationcanvas 129962 relation_ref 142122 // <unidirectional association>
-  from ref 128042 z 3012 to ref 128426
-  role_a_pos 810 496 3000 no_role_b
+  role_a_pos 1229 185 3000 no_role_b
   no_multiplicity_a no_multiplicity_b
 end
 end

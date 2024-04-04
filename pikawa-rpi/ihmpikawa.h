@@ -35,7 +35,7 @@ namespace Ui
 class IhmPikawa;
 }
 
-class GestionMachine;
+class GestionMagasin;
 class BaseDeDonnees;
 
 /**
@@ -53,7 +53,7 @@ class IhmPikawa : public QMainWindow
 
   private:
     Ui::IhmPikawa*        ui;             //!< la GUI de cette classe
-    GestionMachine*       gestionMachine; //!< l'association vers la classe GestionMachine
+    GestionMagasin*       gestionMagasin; //!< l'association vers la classe GestionMachine
     BaseDeDonnees*        bdd;            //!< l'association vers la classe BaseDeDonnees
     QVector<QComboBox*>   listesDeroulantesCapsules;
     QVector<QSpinBox*>    stocksRangeesCapsules;

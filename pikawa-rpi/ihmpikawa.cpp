@@ -1,6 +1,6 @@
 #include "ihmpikawa.h"
 #include "ui_ihmpikawa.h"
-#include "GestionMachine.h"
+#include "GestionMagasin.h"
 #include "BaseDeDonnees.h"
 #include <QDebug>
 
@@ -20,7 +20,7 @@
  * fenêtre principale de l'application
  */
 IhmPikawa::IhmPikawa(QWidget* parent) :
-    QMainWindow(parent), ui(new Ui::IhmPikawa), gestionMachine(new GestionMachine(this)),
+    QMainWindow(parent), ui(new Ui::IhmPikawa), gestionMagasin(new GestionMagasin(this)),
     bdd(BaseDeDonnees::getInstance())
 {
     qDebug() << Q_FUNC_INFO;
@@ -148,7 +148,7 @@ void IhmPikawa::gererEvenements()
 
 void IhmPikawa::initialiserListeCapsules()
 {
-    QVector<QStringList> listeCapsules = gestionMachine->getListeCapsules();
+    QVector<QStringList> listeCapsules = gestionMagasin->getListeCapsules();
     for(int i = 0; i < listesDeroulantesCapsules.size(); ++i)
     {
         listesDeroulantesCapsules[i]->clear();
@@ -158,7 +158,7 @@ void IhmPikawa::initialiserListeCapsules()
             formatFont.setCapitalization(QFont::Capitalize);
             listesDeroulantesCapsules[i]->setFont(formatFont);
             listesDeroulantesCapsules[i]->addItem(
-              listeCapsules[j].at(GestionMachine::TableCapsule::DESIGNATION));
+              listeCapsules[j].at(GestionMagasin::TableCapsule::DESIGNATION));
         }
         listesDeroulantesCapsules[i]->addItem("Vide");
         listesDeroulantesCapsules[i]->addItem("Aucune");

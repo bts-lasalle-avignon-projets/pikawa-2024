@@ -7,7 +7,7 @@ CONFIG += c++11
 SOURCES += \
     AnalyseSante.cpp \
     BaseDeDonnees.cpp \
-    GestionMachine.cpp \
+    GestionMagasin.cpp \
     Utilisateur.cpp \
     main.cpp \
     ihmpikawa.cpp
@@ -15,7 +15,7 @@ SOURCES += \
 HEADERS += \
     AnalyseSante.h \
     BaseDeDonnees.h \
-    GestionMachine.h \
+    GestionMagasin.h \
     Utilisateur.h \
     ihmpikawa.h
 
