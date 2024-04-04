@@ -1,5 +1,5 @@
-#ifndef GESTIONMACHINE_H
-#define GESTIONMACHINE_H
+#ifndef GESTIONMAGASIN_H
+#define GESTIONMAGASIN_H
 
 #include <QObject>
 #include <QVector>
@@ -12,7 +12,7 @@
 
 class BaseDeDonnees;
 
-class GestionMachine : public QObject
+class GestionMagasin : public QObject
 {
     Q_OBJECT
 
@@ -37,8 +37,8 @@ class GestionMachine : public QObject
     int                  choixCapsule;
 
   public:
-    GestionMachine(QObject* parent = nullptr);
-    virtual ~GestionMachine();
+    GestionMagasin(QObject* parent = nullptr);
+    virtual ~GestionMagasin();
     int                  getChoixCapsule() const;
     void                 setChoixCapsule(int choixCapsule);
     void                 chargerListeCapsules();
@@ -46,4 +46,4 @@ class GestionMachine : public QObject
     QStringList          getCapsule() const;
 };
 
-#endif // GESTIONMACHINE_H
+#endif // GESTIONMAGASIN_H
