@@ -1,9 +1,7 @@
 #include "Utilisateur.h"
-#include <QDebug>
 
 Utilisateur::Utilisateur(QString nom, QString prenom) : nom(nom), prenom(prenom)
 {
-    qDebug() << Q_FUNC_INFO;
 }
 
 QString Utilisateur::getNom() const
@@ -19,3 +17,5 @@ QString Utilisateur::getPrenom() const
 void Utilisateur::authentifier()
 {
 }
+
+// TODO : identifier l'utilisateur

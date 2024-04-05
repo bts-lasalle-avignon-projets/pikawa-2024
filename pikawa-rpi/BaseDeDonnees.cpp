@@ -5,7 +5,6 @@
  * @version 1.1
  */
 #include "BaseDeDonnees.h"
-#include <QDebug>
 
 BaseDeDonnees* BaseDeDonnees::baseDeDonnees = nullptr;
 QString        BaseDeDonnees::typeBase      = "QSQLITE";
@@ -13,14 +12,12 @@ int            BaseDeDonnees::nbAcces       = 0;
 
 BaseDeDonnees::BaseDeDonnees(QString type)
 {
-    qDebug() << Q_FUNC_INFO << type;
     db       = QSqlDatabase::addDatabase(type);
     typeBase = type;
 }
 
 BaseDeDonnees::~BaseDeDonnees()
 {
-    qDebug() << Q_FUNC_INFO;
 }
 
 BaseDeDonnees* BaseDeDonnees::getInstance(QString type)
@@ -32,7 +29,6 @@ BaseDeDonnees* BaseDeDonnees::getInstance(QString type)
     }
 
     nbAcces++;
-    qDebug() << Q_FUNC_INFO << "nbAcces" << nbAcces;
 
     return baseDeDonnees;
 }
@@ -43,8 +39,6 @@ void BaseDeDonnees::detruireInstance()
     {
         if(nbAcces > 0)
             nbAcces--;
-
-        qDebug() << Q_FUNC_INFO << "nbAcces" << nbAcces;
 
         if(nbAcces == 0)
         {
@@ -65,7 +59,7 @@ bool BaseDeDonnees::ouvrir(QString fichierBase)
         db.setDatabaseName(fichierBase);
         if(db.open())
         {
-            qDebug() << Q_FUNC_INFO << db.databaseName();
+
             return true;
         }
         else
@@ -111,17 +105,16 @@ bool BaseDeDonnees::executer(QString requete)
             }
             else
             {
-                qDebug() << Q_FUNC_INFO
-                         << QString::fromUtf8("Erreur : %1 pour la requête %2")
-                              .arg(r.lastError().text())
-                              .arg(requete);
+
+                QString::fromUtf8("Erreur : %1 pour la requête %2")
+                        .arg(r.lastError().text())
+                        .arg(requete);
                 return false;
             }
         }
         else
         {
-            qDebug() << Q_FUNC_INFO
-                     << QString::fromUtf8("Erreur : requête %1 non autorisée !").arg(requete);
+            QString::fromUtf8("Erreur : requête %1 non autorisée !").arg(requete);
             return false;
         }
     }
@@ -139,19 +132,19 @@ bool BaseDeDonnees::recuperer(QString requete, QString& donnees)
     {
         if(requete.contains("SELECT"))
         {
-            qDebug() << Q_FUNC_INFO << QString::fromUtf8("requête : %1").arg(requete);
+            QString::fromUtf8("requête : %1").arg(requete);
             retour = r.exec(requete);
             if(retour)
             {
                 r.first();
                 if(!r.isValid())
                 {
-                    qDebug() << Q_FUNC_INFO << QString::fromUtf8("Erreur : résultat non valide !");
+                    QString::fromUtf8("Erreur : résultat non valide !");
                     return false;
                 }
                 if(r.isNull(0))
                 {
-                    qDebug() << Q_FUNC_INFO << QString::fromUtf8("Erreur : aucun résultat !");
+                    QString::fromUtf8("Erreur : aucun résultat !");
                     return false;
                 }
                 donnees = r.value(0).toString();
@@ -159,17 +152,16 @@ bool BaseDeDonnees::recuperer(QString requete, QString& donnees)
             }
             else
             {
-                qDebug() << Q_FUNC_INFO
-                         << QString::fromUtf8("Erreur : %1 pour la requête %2")
-                              .arg(r.lastError().text())
-                              .arg(requete);
+
+                QString::fromUtf8("Erreur : %1 pour la requête %2")
+                        .arg(r.lastError().text())
+                        .arg(requete);
                 return false;
             }
         }
         else
         {
-            qDebug() << Q_FUNC_INFO
-                     << QString::fromUtf8("Erreur : requête %1 non autorisée !").arg(requete);
+            QString::fromUtf8("Erreur : requête %1 non autorisée !").arg(requete);
             return false;
         }
     }
@@ -187,14 +179,14 @@ bool BaseDeDonnees::recuperer(QString requete, QStringList& donnees)
     {
         if(requete.contains("SELECT"))
         {
-            qDebug() << Q_FUNC_INFO << QString::fromUtf8("requête : %1").arg(requete);
+            QString::fromUtf8("requête : %1").arg(requete);
             retour = r.exec(requete);
             if(retour)
             {
                 r.first();
                 if(!r.isValid())
                 {
-                    qDebug() << Q_FUNC_INFO << QString::fromUtf8("Erreur : résultat non valide !");
+                    QString::fromUtf8("Erreur : résultat non valide !");
                     return false;
                 }
                 for(int i = 0; i < r.record().count(); i++)
@@ -204,17 +196,17 @@ bool BaseDeDonnees::recuperer(QString requete, QStringList& donnees)
             }
             else
             {
-                qDebug() << Q_FUNC_INFO
-                         << QString::fromUtf8("Erreur : %1 pour la requête %2")
-                              .arg(r.lastError().text())
-                              .arg(requete);
+
+                QString::fromUtf8("Erreur : %1 pour la requête %2")
+                        .arg(r.lastError().text())
+                        .arg(requete);
                 return false;
             }
         }
         else
         {
-            qDebug() << Q_FUNC_INFO
-                     << QString::fromUtf8("Erreur : requête %1 non autorisée !").arg(requete);
+
+            QString::fromUtf8("Erreur : requête %1 non autorisée !").arg(requete);
             return false;
         }
     }
@@ -233,7 +225,7 @@ bool BaseDeDonnees::recuperer(QString requete, QVector<QString>& donnees)
     {
         if(requete.contains("SELECT"))
         {
-            qDebug() << Q_FUNC_INFO << QString::fromUtf8("requête : %1").arg(requete);
+            QString::fromUtf8("requête : %1").arg(requete);
             retour = r.exec(requete);
             if(retour)
             {
@@ -246,17 +238,17 @@ bool BaseDeDonnees::recuperer(QString requete, QVector<QString>& donnees)
             }
             else
             {
-                qDebug() << Q_FUNC_INFO
-                         << QString::fromUtf8("Erreur : %1 pour la requête %2")
-                              .arg(r.lastError().text())
-                              .arg(requete);
+
+                QString::fromUtf8("Erreur : %1 pour la requête %2")
+                        .arg(r.lastError().text())
+                        .arg(requete);
                 return false;
             }
         }
         else
         {
-            qDebug() << Q_FUNC_INFO
-                     << QString::fromUtf8("Erreur : requête %1 non autorisée !").arg(requete);
+
+            QString::fromUtf8("Erreur : requête %1 non autorisée !").arg(requete);
             return false;
         }
     }
@@ -275,7 +267,7 @@ bool BaseDeDonnees::recuperer(QString requete, QVector<QStringList>& donnees)
     {
         if(requete.contains("SELECT"))
         {
-            qDebug() << Q_FUNC_INFO << QString::fromUtf8("requête : %1").arg(requete);
+            QString::fromUtf8("requête : %1").arg(requete);
             retour = r.exec(requete);
             if(retour)
             {
@@ -290,17 +282,17 @@ bool BaseDeDonnees::recuperer(QString requete, QVector<QStringList>& donnees)
             }
             else
             {
-                qDebug() << Q_FUNC_INFO
-                         << QString::fromUtf8("Erreur : %1 pour la requête %2")
-                              .arg(r.lastError().text())
-                              .arg(requete);
+
+                QString::fromUtf8("Erreur : %1 pour la requête %2")
+                        .arg(r.lastError().text())
+                        .arg(requete);
                 return false;
             }
         }
         else
         {
-            qDebug() << Q_FUNC_INFO
-                     << QString::fromUtf8("Erreur : requête %1 non autorisée !").arg(requete);
+
+            QString::fromUtf8("Erreur : requête %1 non autorisée !").arg(requete);
             return false;
         }
     }
