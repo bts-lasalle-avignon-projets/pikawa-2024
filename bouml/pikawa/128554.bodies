@@ -67,7 +67,7 @@ class IhmPikawa
             this,
             &IhmPikawa::changerEcranAccueil);
 !!!159530.cpp!!!	initialiserListeCapsules() : void
-    QVector<QStringList> listeCapsules = gestionMachine->getListeCapsules();
+    QVector<QStringList> listeCapsules = gestionMagasin->getListeCapsules();
     for(int i = 0; i < listesDeroulantesCapsules.size(); ++i)
     {
         listesDeroulantesCapsules[i]->clear();
@@ -77,7 +77,7 @@ class IhmPikawa
             formatFont.setCapitalization(QFont::Capitalize);
             listesDeroulantesCapsules[i]->setFont(formatFont);
             listesDeroulantesCapsules[i]->addItem(
-              listeCapsules[j].at(GestionMachine::TableCapsule::DESIGNATION));
+              listeCapsules[j].at(GestionMagasin::TableCapsule::DESIGNATION));
         }
         listesDeroulantesCapsules[i]->addItem("Vide");
         listesDeroulantesCapsules[i]->addItem("Aucune");

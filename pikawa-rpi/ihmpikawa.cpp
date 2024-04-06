@@ -1,6 +1,6 @@
 #include "ihmpikawa.h"
 #include "ui_ihmpikawa.h"
-#include "GestionMachine.h"
+#include "GestionMagasin.h"
 #include "BaseDeDonnees.h"
 
 /**
@@ -19,7 +19,7 @@
  * fenêtre principale de l'application
  */
 IhmPikawa::IhmPikawa(QWidget* parent) :
-    QMainWindow(parent), ui(new Ui::IhmPikawa), gestionMachine(new GestionMachine(this)),
+    QMainWindow(parent), ui(new Ui::IhmPikawa), gestionMagasin(new GestionMagasin(this)),
     bdd(BaseDeDonnees::getInstance())
 {
     ui->setupUi(this);
@@ -144,7 +144,7 @@ void IhmPikawa::gererEvenements()
 
 void IhmPikawa::initialiserListeCapsules()
 {
-    QVector<QStringList> listeCapsules = gestionMachine->getListeCapsules();
+    QVector<QStringList> listeCapsules = gestionMagasin->getListeCapsules();
     for(int i = 0; i < listesDeroulantesCapsules.size(); ++i)
     {
         listesDeroulantesCapsules[i]->clear();
@@ -154,7 +154,7 @@ void IhmPikawa::initialiserListeCapsules()
             formatFont.setCapitalization(QFont::Capitalize);
             listesDeroulantesCapsules[i]->setFont(formatFont);
             listesDeroulantesCapsules[i]->addItem(
-                        listeCapsules[j].at(GestionMachine::TableCapsule::DESIGNATION));
+              listeCapsules[j].at(GestionMagasin::TableCapsule::DESIGNATION));
         }
         listesDeroulantesCapsules[i]->addItem("Vide");
         listesDeroulantesCapsules[i]->addItem("Aucune");
@@ -176,8 +176,8 @@ void IhmPikawa::initialiserBoutonsCapsules()
     for(int i = 0; i < listesDeroulantesCapsules.size(); ++i)
     {
         if(listesDeroulantesCapsules[i]->currentText() != "Vide" &&
-                listesDeroulantesCapsules[i]->currentText() != "Aucune" &&
-                stocksRangeesCapsules[i]->value() > 0)
+           listesDeroulantesCapsules[i]->currentText() != "Aucune" &&
+           stocksRangeesCapsules[i]->value() > 0)
         {
             QFont formatFont = boutonsChoixCapsules[i]->font();
             formatFont.setCapitalization(QFont::Capitalize);
@@ -192,7 +192,3 @@ void IhmPikawa::initialiserBoutonsCapsules()
         }
     }
 }
-
-// TODO : ajouter un bouton café récent, revoir l'organisation de l'ihm page d'accueil
-// TODO : afficher le nombre de capsule max restants
-// TODO : revoir les noms des boutons café et machine

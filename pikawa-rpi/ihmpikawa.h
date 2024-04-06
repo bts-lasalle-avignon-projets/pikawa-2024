@@ -35,7 +35,7 @@ namespace Ui
 class IhmPikawa;
 }
 
-class GestionMachine;
+class GestionMagasin;
 class BaseDeDonnees;
 
 /**
@@ -53,11 +53,15 @@ class IhmPikawa : public QMainWindow
 
   private:
     Ui::IhmPikawa*        ui;             //!< la GUI de cette classe
-    GestionMachine*       gestionMachine; //!< l'association vers la classe GestionMachine
+    GestionMagasin*       gestionMagasin; //!< l'association vers la classe GestionMachine
     BaseDeDonnees*        bdd;            //!< l'association vers la classe BaseDeDonnees
     QVector<QComboBox*>   listesDeroulantesCapsules;
     QVector<QSpinBox*>    stocksRangeesCapsules;
     QVector<QPushButton*> boutonsChoixCapsules;
+
+    // @todo modifier les noms des boutons dans l'écran d'acceuil
+    // @todo ajouter un bouton pour sélectionner le dernier café effectué
+    // @todo afficher le nombre total de capsules restantes dans le magasin
 
     enum Ecran
     {
