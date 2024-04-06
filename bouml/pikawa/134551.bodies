@@ -1,0 +1,23 @@
+class GestionMagasin
+!!!134551.cpp!!!	GestionMagasin(inout parent : QObject = nullptr)
+    qDebug() << Q_FUNC_INFO;
+    chargerListeCapsules();
+!!!134679.cpp!!!	~GestionMagasin()
+    BaseDeDonnees::detruireInstance();
+    qDebug() << Q_FUNC_INFO;
+!!!134807.cpp!!!	getChoixCapsule() : int
+    return choixCapsule;
+!!!134935.cpp!!!	setChoixCapsule(in choixCapsule : int) : void
+    if(choixCapsule != CHOIX_CAPSULE_NON_DEFINI && choixCapsule < listeCapsules.size())
+        this->choixCapsule = choixCapsule;
+!!!135063.cpp!!!	chargerListeCapsules() : void
+    QString requeteSQL = "SELECT * FROM Capsule";
+    bdd->recuperer(requeteSQL, listeCapsules);
+    qDebug() << Q_FUNC_INFO << "listeCapsules" << listeCapsules;
+!!!135191.cpp!!!	getListeCapsules() : QVector<QStringList>
+    return listeCapsules;
+!!!135319.cpp!!!	getCapsule() : QStringList
+    if(choixCapsule != CHOIX_CAPSULE_NON_DEFINI && choixCapsule < listeCapsules.size())
+        return listeCapsules[choixCapsule];
+    else
+        return QStringList();
