@@ -59,6 +59,10 @@ class IhmPikawa : public QMainWindow
     QVector<QSpinBox*>    stocksRangeesCapsules;
     QVector<QPushButton*> boutonsChoixCapsules;
 
+    // @todo modifier les noms des boutons dans l'écran d'acceuil
+    // @todo ajouter un bouton pour sélectionner le dernier café effectué
+    // @todo afficher le nombre total de capsules restantes dans le magasin
+
     enum Ecran
     {
         EcranAccueil = 0,
