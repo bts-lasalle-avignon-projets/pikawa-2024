@@ -2,6 +2,7 @@
 #include "ui_ihmpikawa.h"
 #include "GestionMagasin.h"
 #include "BaseDeDonnees.h"
+#include <QDebug>
 
 /**
  * @file ihmpikawa.cpp
@@ -22,6 +23,7 @@ IhmPikawa::IhmPikawa(QWidget* parent) :
     QMainWindow(parent), ui(new Ui::IhmPikawa), gestionMagasin(new GestionMagasin(this)),
     bdd(BaseDeDonnees::getInstance())
 {
+    qDebug() << Q_FUNC_INFO;
     ui->setupUi(this);
 
     initialiserRessourcesGUI();
@@ -37,6 +39,7 @@ IhmPikawa::~IhmPikawa()
 {
     delete ui;
     BaseDeDonnees::detruireInstance();
+    qDebug() << Q_FUNC_INFO;
 }
 
 void IhmPikawa::fermerApplication()
@@ -46,6 +49,7 @@ void IhmPikawa::fermerApplication()
 
 void IhmPikawa::afficherEcran(IhmPikawa::Ecran ecran)
 {
+    qDebug() << Q_FUNC_INFO << "ecran" << ecran;
     ui->ecrans->setCurrentIndex(ecran);
 }
 
@@ -173,6 +177,7 @@ void IhmPikawa::initialiserStocksRangeeCapsules()
 
 void IhmPikawa::initialiserBoutonsCapsules()
 {
+    qDebug() << Q_FUNC_INFO;
     for(int i = 0; i < listesDeroulantesCapsules.size(); ++i)
     {
         if(listesDeroulantesCapsules[i]->currentText() != "Vide" &&
