@@ -1,16 +1,11 @@
 #ifndef UTILISATEUR_H
 #define UTILISATEUR_H
 
-#include <QObject>
-#include <QVector>
+#include <QString>
 #include <QStringList>
 
-class BaseDeDonnees;
-
-class Utilisateur : public QObject
+class Utilisateur
 {
-    Q_OBJECT
-
   public:
     /**
      * @enum TableUtilisateur
@@ -20,26 +15,39 @@ class Utilisateur : public QObject
     enum TableUtilisateur
     {
         ID_UTILISATEUR = 0,
-        PRENOM         = 1,
-        NOM            = 2,
+        NOM            = 1,
+        PRENOM         = 2,
         CODE           = 3,
         BADGE          = 4,
-        EMAIL          = 5,
-        UNIQUE         = 6
+        EMAIL          = 5
     };
 
   private:
-    QStringList          clientIdentifie;
-    QStringList          saisieClient;
-    QVector<QStringList> listeUtilisateur;
-    BaseDeDonnees*       maBdd;
+    QString idUtilisateur;
+    QString nom;
+    QString prenom;
+    QString code;
+    QString badge;
+    QString email;
+    bool    authentifie;
 
   public:
-    Utilisateur(QObject* parent = nullptr);
-    virtual ~Utilisateur();
-    void                 chargerListeUtilisateur();
-    QVector<QStringList> getListeUtilisateur() const;
-    bool                 estAuthentifiee(QStringList saisieClient, QStringList clientIdentifie);
+    Utilisateur(QString idUtilisateur,
+                QString nom,
+                QString prenom,
+                QString code,
+                QString badge,
+                QString email);
+    Utilisateur(QStringList utilisateur);
+    ~Utilisateur();
+
+    QString getIdUtilisateur() const;
+    QString getNom() const;
+    QString getPrenom() const;
+    QString getCode() const;
+    QString getBadge() const;
+    QString getEmail() const;
+    bool    estAuthentifie();
 };
 
 #endif // UTILISATEUR_H

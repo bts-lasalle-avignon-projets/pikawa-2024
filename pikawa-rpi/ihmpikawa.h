@@ -13,16 +13,16 @@
 #include <QVector>
 
 /**
- * @def NOM
+ * @def NOM_APPLICATION
  * @brief Le nom de l'application
  */
-#define NOM "Pikawa"
+#define NOM_APPLICATION "Pikawa"
 
 /**
- * @def VERSION
+ * @def VERSION_APPLICATION
  * @brief La version de l'application
  */
-#define VERSION "0.2"
+#define VERSION_APPLICATION "0.2"
 
 /**
  * @def PLEIN_ECRAN_PI
@@ -37,6 +37,7 @@ class IhmPikawa;
 
 class GestionMagasin;
 class BaseDeDonnees;
+class Utilisateur;
 
 /**
  * @class IhmPikawa
@@ -58,6 +59,7 @@ class IhmPikawa : public QMainWindow
     QVector<QComboBox*>   listesDeroulantesCapsules;
     QVector<QSpinBox*>    stocksRangeesCapsules;
     QVector<QPushButton*> boutonsChoixCapsules;
+    QVector<Utilisateur*> listeUtilisateurs;
 
     // @todo modifier les noms des boutons dans l'écran d'acceuil
     // @todo ajouter un bouton pour sélectionner le dernier café effectué
@@ -77,6 +79,7 @@ class IhmPikawa : public QMainWindow
     void initialiserListeCapsules();
     void initialiserStocksRangeeCapsules();
     void initialiserBoutonsCapsules();
+    void chargerListeUtilisateurs();
 
   signals:
 

@@ -2,6 +2,7 @@
 #include "ui_ihmpikawa.h"
 #include "GestionMagasin.h"
 #include "BaseDeDonnees.h"
+#include "Utilisateur.h"
 #include <QDebug>
 
 /**
@@ -29,6 +30,8 @@ IhmPikawa::IhmPikawa(QWidget* parent) :
     initialiserRessourcesGUI();
     fixerRaccourcisClavier();
     gererEvenements();
+
+    chargerListeUtilisateurs();
 
     initialiserListeCapsules();
     initialiserStocksRangeeCapsules();
@@ -195,5 +198,17 @@ void IhmPikawa::initialiserBoutonsCapsules()
             boutonsChoixCapsules[i]->setText("");
             boutonsChoixCapsules[i]->setEnabled(false);
         }
+    }
+}
+
+void IhmPikawa::chargerListeUtilisateurs()
+{
+    QVector<QStringList> listeUtilisateursBDD;
+    QString              requeteSQL = "SELECT * FROM Utilisateur";
+    bdd->recuperer(requeteSQL, listeUtilisateursBDD);
+    qDebug() << Q_FUNC_INFO << "listeUtilisateurs" << listeUtilisateursBDD;
+    for(int i = 0; i < listeUtilisateursBDD.size(); ++i)
+    {
+        listeUtilisateurs.push_back(new Utilisateur(listeUtilisateursBDD.at(i)));
     }
 }

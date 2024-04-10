@@ -1,29 +1,65 @@
 #include "Utilisateur.h"
-#include "BaseDeDonnees.h"
+#include <QDebug>
 
-Utilisateur::Utilisateur(QObject* parent) : QObject(parent), maBdd(BaseDeDonnees::getInstance())
+Utilisateur::Utilisateur(QString idUtilisateur,
+                         QString nom,
+                         QString prenom,
+                         QString code,
+                         QString badge,
+                         QString email) :
+    idUtilisateur(idUtilisateur),
+    nom(nom), prenom(prenom), code(code), badge(badge), email(email), authentifie(false)
 {
-    chargerListeUtilisateur();
+    qDebug() << Q_FUNC_INFO << "idUtilisateur" << idUtilisateur << "nom" << nom << "prenom"
+             << prenom << "code" << code << "badge" << badge << "email" << email;
 }
+
+Utilisateur::Utilisateur(QStringList utilisateur) :
+    idUtilisateur(utilisateur.at(TableUtilisateur::ID_UTILISATEUR)),
+    nom(utilisateur.at(TableUtilisateur::NOM)), prenom(utilisateur.at(TableUtilisateur::PRENOM)),
+    code(utilisateur.at(TableUtilisateur::CODE)), badge(utilisateur.at(TableUtilisateur::BADGE)),
+    email(utilisateur.at(TableUtilisateur::EMAIL)), authentifie(false)
+{
+    qDebug() << Q_FUNC_INFO << "idUtilisateur" << idUtilisateur << "nom" << nom << "prenom"
+             << prenom << "code" << code << "badge" << badge << "email" << email;
+}
+
 Utilisateur::~Utilisateur()
 {
-    BaseDeDonnees::detruireInstance();
+    qDebug() << Q_FUNC_INFO;
 }
 
-bool Utilisateur::estAuthentifiee(QStringList saisieClient, QStringList clientIdentifie)
+QString Utilisateur::getIdUtilisateur() const
 {
-    bool authentifiee = false;
-    for(int i = 0; i > listeUtilisateur.size(); i++)
-    {
-        if(saisieClient == clientIdentifie)
-        {
-            authentifiee = true;
-        }
-    }
+    return idUtilisateur;
 }
-void Utilisateur::chargerListeUtilisateur()
+
+QString Utilisateur::getNom() const
 {
-    QString requeteSQL = "SELECT * FROM Utilisateur";
-    maBdd->recuperer(requeteSQL, listeUtilisateur);
+    return nom;
 }
-// TODO : identifier l'utilisateur
+
+QString Utilisateur::getPrenom() const
+{
+    return prenom;
+}
+
+QString Utilisateur::getCode() const
+{
+    return code;
+}
+
+QString Utilisateur::getBadge() const
+{
+    return badge;
+}
+
+QString Utilisateur::getEmail() const
+{
+    return email;
+}
+
+bool Utilisateur::estAuthentifie()
+{
+    return authentifie;
+}
