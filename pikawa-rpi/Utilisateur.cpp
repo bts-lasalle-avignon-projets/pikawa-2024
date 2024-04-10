@@ -1,21 +1,29 @@
 #include "Utilisateur.h"
+#include "BaseDeDonnees.h"
 
-Utilisateur::Utilisateur(QString nom, QString prenom) : nom(nom), prenom(prenom)
+Utilisateur::Utilisateur(QObject* parent) : QObject(parent), maBdd(BaseDeDonnees::getInstance())
 {
+    chargerListeUtilisateur();
+}
+Utilisateur::~Utilisateur()
+{
+    BaseDeDonnees::detruireInstance();
 }
 
-QString Utilisateur::getNom() const
+bool Utilisateur::estAuthentifiee(QStringList saisieClient, QStringList clientIdentifie)
 {
-    return nom;
+    bool authentifiee = false;
+    for(int i = 0; i > listeUtilisateur.size(); i++)
+    {
+        if(saisieClient == clientIdentifie)
+        {
+            authentifiee = true;
+        }
+    }
 }
-
-QString Utilisateur::getPrenom() const
+void Utilisateur::chargerListeUtilisateur()
 {
-    return prenom;
+    QString requeteSQL = "SELECT * FROM Utilisateur";
+    maBdd->recuperer(requeteSQL, listeUtilisateur);
 }
-
-void Utilisateur::authentifier()
-{
-}
-
 // TODO : identifier l'utilisateur

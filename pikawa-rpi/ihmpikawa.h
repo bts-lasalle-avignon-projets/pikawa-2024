@@ -6,7 +6,7 @@
  *
  * @brief Déclaration de la classe IhmPikawa
  * @author MDOIOUHOMA Nakib
- * @version 0.1
+ * @version 0.2
  */
 
 #include <QtWidgets>
@@ -22,7 +22,7 @@
  * @def VERSION
  * @brief La version de l'application
  */
-#define VERSION "0.1"
+#define VERSION "0.2"
 
 /**
  * @def PLEIN_ECRAN_PI
