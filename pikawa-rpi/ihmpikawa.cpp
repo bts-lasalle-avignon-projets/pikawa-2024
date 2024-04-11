@@ -3,6 +3,7 @@
 #include "GestionMagasin.h"
 #include "BaseDeDonnees.h"
 #include "Utilisateur.h"
+#include "Communication.h"
 #include <QDebug>
 
 /**
@@ -22,7 +23,7 @@
  */
 IhmPikawa::IhmPikawa(QWidget* parent) :
     QMainWindow(parent), ui(new Ui::IhmPikawa), gestionMagasin(new GestionMagasin(this)),
-    bdd(BaseDeDonnees::getInstance())
+    bdd(BaseDeDonnees::getInstance()), communicationBluetooth(new Communication(this))
 {
     qDebug() << Q_FUNC_INFO;
     ui->setupUi(this);

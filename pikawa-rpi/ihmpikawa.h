@@ -38,6 +38,7 @@ class IhmPikawa;
 class GestionMagasin;
 class BaseDeDonnees;
 class Utilisateur;
+class Communication;
 
 /**
  * @class IhmPikawa
@@ -53,9 +54,10 @@ class IhmPikawa : public QMainWindow
     ~IhmPikawa();
 
   private:
-    Ui::IhmPikawa*        ui;             //!< la GUI de cette classe
-    GestionMagasin*       gestionMagasin; //!< l'association vers la classe GestionMachine
-    BaseDeDonnees*        bdd;            //!< l'association vers la classe BaseDeDonnees
+    Ui::IhmPikawa*        ui;                     //!< la GUI de cette classe
+    GestionMagasin*       gestionMagasin;         //!< l'association vers la classe GestionMachine
+    BaseDeDonnees*        bdd;                    //!< l'association vers la classe BaseDeDonnees
+    Communication*        communicationBluetooth; //!< l'association vers la classe Communication
     QVector<QComboBox*>   listesDeroulantesCapsules;
     QVector<QSpinBox*>    stocksRangeesCapsules;
     QVector<QPushButton*> boutonsChoixCapsules;

@@ -4,20 +4,17 @@
 #include <QObject>
 #include <QtBluetooth>
 
-#define PREFIXE_NOM_CAFETIERE "PIKAWA"
+#define PREFIXE_NOM_CAFETIERE "pikawa"
 
 class Communication : public QObject
 {
     Q_OBJECT
   private:
-    QBluetoothLocalDevice interfaceLocale;
-    QBluetoothDeviceDiscoveryAgent*
-      agentDecouvreur;
-    QBluetoothDeviceInfo
-         pikawa;
-    bool pikawaDetecte;
-    QBluetoothSocket*
-      socketBluetoothPikawa;
+    QBluetoothLocalDevice           interfaceLocale;
+    QBluetoothDeviceDiscoveryAgent* agentDecouvreur;
+    QBluetoothDeviceInfo            pikawa;
+    bool                            pikawaDetecte;
+    QBluetoothSocket*               socketBluetoothPikawa;
 
     bool estBluetoothDisponible() const;
     void activerBluetooth();
@@ -34,6 +31,7 @@ class Communication : public QObject
 
   signals:
     void cafetiereDetectee(QString nom, QString adresse);
+    void rechercheTerminee(bool);
 };
 
 #endif // COMMUNICATION_H

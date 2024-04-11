@@ -1,4 +1,4 @@
-QT       += core gui sql
+QT += core gui sql
 QT += bluetooth
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -10,19 +10,19 @@ CONFIG += c++11
 SOURCES += \
     AnalyseSante.cpp \
     BaseDeDonnees.cpp \
+    Communication.cpp \
     GestionMagasin.cpp \
     Utilisateur.cpp \
     main.cpp \
-    ihmpikawa.cpp \
-    communication.cpp
+    ihmpikawa.cpp
 
 HEADERS += \
     AnalyseSante.h \
     BaseDeDonnees.h \
+    Communication.h \
     GestionMagasin.h \
     Utilisateur.h \
-    ihmpikawa.h \
-    communication.h
+    ihmpikawa.h
 
 FORMS += \
     ihmpikawa.ui
