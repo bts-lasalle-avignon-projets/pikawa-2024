@@ -19,6 +19,8 @@ class Communication : public QObject
     bool estBluetoothDisponible() const;
     void activerBluetooth();
 
+    QString trame;
+
   public:
     Communication(QObject* parent = nullptr);
     ~Communication();
@@ -27,11 +29,17 @@ class Communication : public QObject
 
   public slots:
     void activerLaDecouverte();
+    void AfficherErreurDecouverte(const QBluetoothDeviceInfo& pikawa);
+    void connecter(const QBluetoothDeviceInfo pikawa);
     void deconnecter();
+    void Connectersocket();
+    void deconnecterSocket();
 
   signals:
     void cafetiereDetectee(QString nom, QString adresse);
     void rechercheTerminee(bool);
+    void lireDonneesDisponnible();
+    void envoyerTrame(QString trame);
 };
 
 #endif // COMMUNICATION_H
