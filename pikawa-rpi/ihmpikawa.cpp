@@ -2,6 +2,8 @@
 #include "ui_ihmpikawa.h"
 #include "GestionMagasin.h"
 #include "BaseDeDonnees.h"
+#include "Utilisateur.h"
+#include "Communication.h"
 #include <QDebug>
 
 /**
@@ -21,7 +23,7 @@
  */
 IhmPikawa::IhmPikawa(QWidget* parent) :
     QMainWindow(parent), ui(new Ui::IhmPikawa), gestionMagasin(new GestionMagasin(this)),
-    bdd(BaseDeDonnees::getInstance())
+    bdd(BaseDeDonnees::getInstance()), communicationBluetooth(new Communication(this))
 {
     qDebug() << Q_FUNC_INFO;
     ui->setupUi(this);
@@ -29,6 +31,8 @@ IhmPikawa::IhmPikawa(QWidget* parent) :
     initialiserRessourcesGUI();
     fixerRaccourcisClavier();
     gererEvenements();
+
+    chargerListeUtilisateurs();
 
     initialiserListeCapsules();
     initialiserStocksRangeeCapsules();
@@ -85,6 +89,34 @@ void IhmPikawa::changerEcranMachine()
     afficherEcran(IhmPikawa::Ecran::EcranMachine);
 }
 
+void IhmPikawa::afficherCafetiereDetectee(QString nom, QString adresse)
+{
+    qDebug() << Q_FUNC_INFO << "nom" << nom << "adresse" << adresse;
+    // @todo prévoir une signalisation graphique
+    ui->labelEtatCafetiere->setText(QString("Cafetière ") + QString(nom) + QString(" détectée"));
+    if(!communicationBluetooth->estConnecte())
+    {
+        communicationBluetooth->desactiverLaDecouverte();
+        communicationBluetooth->connecter();
+    }
+}
+
+void IhmPikawa::afficherCafetiereConnectee(QString nom, QString adresse)
+{
+    qDebug() << Q_FUNC_INFO << "nom" << nom << "adresse" << adresse;
+    // @todo prévoir une signalisation graphique
+    ui->labelEtatCafetiere->setText(QString("Cafetière ") + QString(nom) + QString(" connectée"));
+    // Exemple : demande l'état du magasin
+    communicationBluetooth->envoyerTrame("#PIKAWA~M~");
+}
+
+void IhmPikawa::afficherCafetiereDeconnectee()
+{
+    qDebug() << Q_FUNC_INFO;
+    // @todo prévoir une signalisation graphique
+    ui->labelEtatCafetiere->setText(QString("Cafetière déconnectée"));
+}
+
 void IhmPikawa::initialiserRessourcesGUI()
 {
     listesDeroulantesCapsules.push_back(ui->listeCapsulesR1);
@@ -111,6 +143,7 @@ void IhmPikawa::initialiserRessourcesGUI()
     boutonsChoixCapsules.push_back(ui->boutonChoixCapsule6);
     boutonsChoixCapsules.push_back(ui->boutonChoixCapsule7);
     boutonsChoixCapsules.push_back(ui->boutonChoixCapsule8);
+    ui->labelEtatCafetiere->setText(QString("Cafetière déconnectée"));
 }
 
 void IhmPikawa::fixerRaccourcisClavier()
@@ -144,6 +177,19 @@ void IhmPikawa::gererEvenements()
             &QPushButton::clicked,
             this,
             &IhmPikawa::changerEcranAccueil);
+
+    connect(communicationBluetooth,
+            &Communication::cafetiereDetectee,
+            this,
+            &IhmPikawa::afficherCafetiereDetectee);
+    connect(communicationBluetooth,
+            &Communication::cafetiereConnectee,
+            this,
+            &IhmPikawa::afficherCafetiereConnectee);
+    connect(communicationBluetooth,
+            &Communication::cafetiereDeconnectee,
+            this,
+            &IhmPikawa::afficherCafetiereDeconnectee);
 }
 
 void IhmPikawa::initialiserListeCapsules()
@@ -195,5 +241,17 @@ void IhmPikawa::initialiserBoutonsCapsules()
             boutonsChoixCapsules[i]->setText("");
             boutonsChoixCapsules[i]->setEnabled(false);
         }
+    }
+}
+
+void IhmPikawa::chargerListeUtilisateurs()
+{
+    QVector<QStringList> listeUtilisateursBDD;
+    QString              requeteSQL = "SELECT * FROM Utilisateur";
+    bdd->recuperer(requeteSQL, listeUtilisateursBDD);
+    qDebug() << Q_FUNC_INFO << "listeUtilisateurs" << listeUtilisateursBDD;
+    for(int i = 0; i < listeUtilisateursBDD.size(); ++i)
+    {
+        listeUtilisateurs.push_back(new Utilisateur(listeUtilisateursBDD.at(i)));
     }
 }

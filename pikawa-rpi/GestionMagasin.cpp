@@ -10,7 +10,6 @@ GestionMagasin::GestionMagasin(QObject* parent) :
 GestionMagasin::~GestionMagasin()
 {
     BaseDeDonnees::detruireInstance();
-
 }
 
 int GestionMagasin::getChoixCapsule() const

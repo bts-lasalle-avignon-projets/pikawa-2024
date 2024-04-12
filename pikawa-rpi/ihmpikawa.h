@@ -6,23 +6,23 @@
  *
  * @brief Déclaration de la classe IhmPikawa
  * @author MDOIOUHOMA Nakib
- * @version 0.1
+ * @version 0.2
  */
 
 #include <QtWidgets>
 #include <QVector>
 
 /**
- * @def NOM
+ * @def NOM_APPLICATION
  * @brief Le nom de l'application
  */
-#define NOM "Pikawa"
+#define NOM_APPLICATION "Pikawa"
 
 /**
- * @def VERSION
+ * @def VERSION_APPLICATION
  * @brief La version de l'application
  */
-#define VERSION "0.1"
+#define VERSION_APPLICATION "0.2"
 
 /**
  * @def PLEIN_ECRAN_PI
@@ -37,6 +37,8 @@ class IhmPikawa;
 
 class GestionMagasin;
 class BaseDeDonnees;
+class Utilisateur;
+class Communication;
 
 /**
  * @class IhmPikawa
@@ -52,12 +54,14 @@ class IhmPikawa : public QMainWindow
     ~IhmPikawa();
 
   private:
-    Ui::IhmPikawa*        ui;             //!< la GUI de cette classe
-    GestionMagasin*       gestionMagasin; //!< l'association vers la classe GestionMachine
-    BaseDeDonnees*        bdd;            //!< l'association vers la classe BaseDeDonnees
+    Ui::IhmPikawa*        ui;                     //!< la GUI de cette classe
+    GestionMagasin*       gestionMagasin;         //!< l'association vers la classe GestionMachine
+    BaseDeDonnees*        bdd;                    //!< l'association vers la classe BaseDeDonnees
+    Communication*        communicationBluetooth; //!< l'association vers la classe Communication
     QVector<QComboBox*>   listesDeroulantesCapsules;
     QVector<QSpinBox*>    stocksRangeesCapsules;
     QVector<QPushButton*> boutonsChoixCapsules;
+    QVector<Utilisateur*> listeUtilisateurs;
 
     // @todo modifier les noms des boutons dans l'écran d'acceuil
     // @todo ajouter un bouton pour sélectionner le dernier café effectué
@@ -77,6 +81,7 @@ class IhmPikawa : public QMainWindow
     void initialiserListeCapsules();
     void initialiserStocksRangeeCapsules();
     void initialiserBoutonsCapsules();
+    void chargerListeUtilisateurs();
 
   signals:
 
@@ -88,6 +93,9 @@ class IhmPikawa : public QMainWindow
     void changerEcranAccueil();
     void changerEcranCafe();
     void changerEcranMachine();
+    void afficherCafetiereDetectee(QString nom, QString adresse);
+    void afficherCafetiereConnectee(QString nom, QString adresse);
+    void afficherCafetiereDeconnectee();
 };
 
 #endif // IHMPIKAWA_H
