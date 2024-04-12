@@ -15,31 +15,35 @@ class Communication : public QObject
     QBluetoothDeviceInfo            pikawa;
     bool                            pikawaDetecte;
     QBluetoothSocket*               socketBluetoothPikawa;
+    QString                         trame;
 
     bool estBluetoothDisponible() const;
     void activerBluetooth();
-
-    QString trame;
 
   public:
     Communication(QObject* parent = nullptr);
     ~Communication();
 
     bool estConnecte() const;
+    bool estDetecte() const;
 
   public slots:
     void activerLaDecouverte();
-    void AfficherErreurDecouverte(const QBluetoothDeviceInfo& pikawa);
-    void connecter(const QBluetoothDeviceInfo pikawa);
+    void desactiverLaDecouverte();
+    void connecter();
     void deconnecter();
-    void Connectersocket();
+    void connecterSocket();
     void deconnecterSocket();
+    void lireDonneesDisponnible();
+    void envoyerTrame(QString trame);
 
   signals:
     void cafetiereDetectee(QString nom, QString adresse);
     void rechercheTerminee(bool);
-    void lireDonneesDisponnible();
-    void envoyerTrame(QString trame);
+    void cafetiereConnectee(QString nom, QString adresse);
+    void cafetiereDeconnectee();
+    void etatMagasin(QStringList presenceCapsules); // R1 à R8
+    void cafeEnPreparation(int code);
 };
 
 #endif // COMMUNICATION_H

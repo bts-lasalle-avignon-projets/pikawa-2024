@@ -3,7 +3,7 @@
 #include <QString>
 
 Communication::Communication(QObject* parent) :
-    QObject(parent), pikawaDetecte(false), socketBluetoothPikawa(nullptr), trame(trame)
+    QObject(parent), agentDecouvreur(nullptr), pikawaDetecte(false), socketBluetoothPikawa(nullptr)
 {
     qDebug() << Q_FUNC_INFO;
     activerBluetooth();
@@ -16,79 +16,96 @@ Communication::~Communication()
     qDebug() << Q_FUNC_INFO;
 }
 
-bool Communication::estBluetoothDisponible() const
-{
-    return interfaceLocale.isValid();
-}
-
-void Communication::activerBluetooth()
-{
-    if(!estBluetoothDisponible())
-    {
-        qDebug() << Q_FUNC_INFO << interfaceLocale.name();
-        interfaceLocale.powerOn();
-    }
-}
-
 bool Communication::estConnecte() const
 {
-    return (socketBluetoothPikawa != nullptr);
+    if(!estBluetoothDisponible())
+        return false;
+    if(!pikawaDetecte)
+        return false;
+    if(socketBluetoothPikawa == nullptr)
+        return false;
+    if(!socketBluetoothPikawa->isOpen())
+        return false;
+    return true;
+}
+
+bool Communication::estDetecte() const
+{
+    qDebug() << Q_FUNC_INFO << "pikawaDetecte" << pikawaDetecte;
+    return pikawaDetecte;
 }
 
 void Communication::activerLaDecouverte()
 {
-    if(!estBluetoothDisponible())
+    if(estBluetoothDisponible())
     {
         agentDecouvreur = new QBluetoothDeviceDiscoveryAgent(this);
         connect(agentDecouvreur,
                 &QBluetoothDeviceDiscoveryAgent::deviceDiscovered,
                 this,
-                [this](const QBluetoothDeviceInfo& peripheriqueBluetooth) {
+                [this](const QBluetoothDeviceInfo& peripheriqueBluetooth)
+                {
                     if(peripheriqueBluetooth.name().startsWith(PREFIXE_NOM_CAFETIERE))
                     {
                         pikawa        = peripheriqueBluetooth;
                         pikawaDetecte = true;
-                        qDebug() << Q_FUNC_INFO << "pikawaDetecte" << pikawaDetecte;
+                        qDebug() << Q_FUNC_INFO << "cafetiereDetectee"
+                                 << peripheriqueBluetooth.name()
+                                 << peripheriqueBluetooth.address().toString();
                         emit cafetiereDetectee(peripheriqueBluetooth.name(),
                                                peripheriqueBluetooth.address().toString());
                     }
                 });
-        connect(agentDecouvreur, &QBluetoothDeviceDiscoveryAgent::finished, this, [this]() {
-            qDebug() << Q_FUNC_INFO << "pikawaDetecte" << pikawaDetecte;
-            emit rechercheTerminee(pikawaDetecte);
-        });
+        connect(agentDecouvreur,
+                &QBluetoothDeviceDiscoveryAgent::finished,
+                this,
+                [this]()
+                {
+                    qDebug() << Q_FUNC_INFO << "rechercheTerminee"
+                             << "pikawaDetecte" << pikawaDetecte;
+                    emit rechercheTerminee(pikawaDetecte);
+                });
+        qDebug() << Q_FUNC_INFO;
+        pikawaDetecte = false;
         agentDecouvreur->start();
     }
 }
-void Communication::AfficherErreurDecouverte(const QBluetoothDeviceInfo& pikawa)
+
+void Communication::desactiverLaDecouverte()
 {
-    qDebug() << "Erreur appareil non detecté" << pikawa.name() << '(' << pikawa.address().toString()
-             << ')';
+    if(estBluetoothDisponible() && agentDecouvreur->isActive())
+    {
+        qDebug() << Q_FUNC_INFO;
+        agentDecouvreur->stop();
+    }
 }
 
-void Communication::connecter(const QBluetoothDeviceInfo device)
+void Communication::connecter()
 {
-    socketBluetoothPikawa = new QBluetoothSocket(QBluetoothServiceInfo::RfcommProtocol);
-    connect(socketBluetoothPikawa, SIGNAL(connecter()), this, SLOT(Connectersocket()));
-    connect(socketBluetoothPikawa, SIGNAL(deconnecter()), this, SLOT(deconnecterSocket()));
-    connect(socketBluetoothPikawa,
-            SIGNAL(lireDonneesDisponnible()),
-            this,
-            SLOT(lireDonneesDisponnible()));
+    if(!estConnecte())
+    {
+        qDebug() << Q_FUNC_INFO << "pikawa" << pikawa.name() << pikawa.address().toString();
+        socketBluetoothPikawa = new QBluetoothSocket(QBluetoothServiceInfo::RfcommProtocol);
+        if(socketBluetoothPikawa != nullptr)
+        {
+            connect(socketBluetoothPikawa, SIGNAL(connected()), this, SLOT(connecterSocket()));
+            connect(socketBluetoothPikawa, SIGNAL(disconnected()), this, SLOT(deconnecterSocket()));
+            connect(socketBluetoothPikawa,
+                    SIGNAL(readyRead()),
+                    this,
+                    SLOT(lireDonneesDisponnible()));
 
-    QBluetoothAddress adresse = QBluetoothAddress(device.address());
-    QBluetoothUuid    uuid    = QBluetoothUuid(QBluetoothUuid::SerialPort);
-    socketBluetoothPikawa->connectToService(adresse, uuid);
-    socketBluetoothPikawa->open(QIODevice::ReadWrite);
+            QBluetoothAddress adresse = QBluetoothAddress(pikawa.address());
+            QBluetoothUuid    uuid    = QBluetoothUuid(QBluetoothUuid::SerialPort);
+            socketBluetoothPikawa->connectToService(adresse, uuid);
+            socketBluetoothPikawa->open(QIODevice::ReadWrite);
+        }
+    }
 }
 
 void Communication::deconnecter()
 {
-    if(!estBluetoothDisponible())
-        return;
-    if(socketBluetoothPikawa == nullptr)
-        return;
-    if(socketBluetoothPikawa->isOpen())
+    if(estConnecte())
     {
         qDebug() << Q_FUNC_INFO;
         socketBluetoothPikawa->close();
@@ -97,42 +114,53 @@ void Communication::deconnecter()
     }
 }
 
-void Communication::Connectersocket()
+void Communication::connecterSocket()
 {
-    qDebug() << Q_FUNC_INFO;
-    QString message = QString::fromUtf8("Périphérique connecté ") +
-                      socketBluetoothPikawa->peerName() + " [" +
-                      socketBluetoothPikawa->peerAddress().toString() + "]";
+    qDebug() << Q_FUNC_INFO << socketBluetoothPikawa->peerName()
+             << socketBluetoothPikawa->peerAddress().toString();
+
+    emit cafetiereConnectee(socketBluetoothPikawa->peerName(),
+                            socketBluetoothPikawa->peerAddress().toString());
 }
 
 void Communication::deconnecterSocket()
 {
     qDebug() << Q_FUNC_INFO;
-    QString message = QString::fromUtf8("Périphérique déconnecté");
-    qDebug() << message;
+    emit cafetiereDeconnectee();
 }
 
 void Communication::lireDonneesDisponnible()
 {
     qDebug() << Q_FUNC_INFO;
     QByteArray donnees;
-
-    while(socketBluetoothPikawa->bytesAvailable())
-    {
-        donnees += socketBluetoothPikawa->readAll();
-        usleep(150000); // cf. timeout
-    }
-
-    qDebug() << QString::fromUtf8("Données reçues : ") << QString(donnees);
+    donnees = socketBluetoothPikawa->readAll();
+    qDebug() << Q_FUNC_INFO << "donnees" << donnees;
+    trame += QString(donnees.data());
+    qDebug() << Q_FUNC_INFO << "trame" << trame;
 }
 
 void Communication::envoyerTrame(QString trame)
 {
-    qDebug() << Q_FUNC_INFO;
-    if(socketBluetoothPikawa == NULL || !socketBluetoothPikawa->isOpen())
+    if(estConnecte())
     {
-        return;
+        qDebug() << Q_FUNC_INFO << "trame" << trame;
+        trame += "\r\n";
+        socketBluetoothPikawa->write(trame.toLatin1());
     }
-    trame += "\r\n";
-    socketBluetoothPikawa->write(trame.toLatin1());
+}
+
+bool Communication::estBluetoothDisponible() const
+{
+    return interfaceLocale.isValid();
+}
+
+void Communication::activerBluetooth()
+{
+    if(estBluetoothDisponible())
+    {
+        qDebug() << Q_FUNC_INFO << interfaceLocale.name();
+        interfaceLocale.powerOn();
+    }
+    else
+        qDebug() << Q_FUNC_INFO << "pas de Bluetooth !";
 }
