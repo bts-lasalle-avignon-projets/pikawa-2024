@@ -136,7 +136,17 @@ void Communication::lireDonneesDisponnible()
     donnees = socketBluetoothPikawa->readAll();
     qDebug() << Q_FUNC_INFO << "donnees" << donnees;
     trame += QString(donnees.data());
-    qDebug() << Q_FUNC_INFO << "trame" << trame;
+
+    if(trame.startsWith("#PIKAWA") && trame.endsWith("\r\n"))
+    {
+        qDebug() << Q_FUNC_INFO << "trame" << trame;
+        // @todo identifier le type de la trame
+        // @todo puis extraire les données de la trame
+        // @todo ensuite emmetre les données avec des signals
+        // et ne pas oublier d'effacer le contenu de la trame
+        // pour pouvoir en recevoir une nouvelle
+        trame.clear();
+    }
 }
 
 void Communication::envoyerTrame(QString trame)

@@ -89,6 +89,34 @@ void IhmPikawa::changerEcranMachine()
     afficherEcran(IhmPikawa::Ecran::EcranMachine);
 }
 
+void IhmPikawa::afficherCafetiereDetectee(QString nom, QString adresse)
+{
+    qDebug() << Q_FUNC_INFO << "nom" << nom << "adresse" << adresse;
+    // @todo prévoir une signalisation graphique
+    ui->labelEtatCafetiere->setText(QString("Cafetière ") + QString(nom) + QString(" détectée"));
+    if(!communicationBluetooth->estConnecte())
+    {
+        communicationBluetooth->desactiverLaDecouverte();
+        communicationBluetooth->connecter();
+    }
+}
+
+void IhmPikawa::afficherCafetiereConnectee(QString nom, QString adresse)
+{
+    qDebug() << Q_FUNC_INFO << "nom" << nom << "adresse" << adresse;
+    // @todo prévoir une signalisation graphique
+    ui->labelEtatCafetiere->setText(QString("Cafetière ") + QString(nom) + QString(" connectée"));
+    // Exemple : demande l'état du magasin
+    communicationBluetooth->envoyerTrame("#PIKAWA~M~");
+}
+
+void IhmPikawa::afficherCafetiereDeconnectee()
+{
+    qDebug() << Q_FUNC_INFO;
+    // @todo prévoir une signalisation graphique
+    ui->labelEtatCafetiere->setText(QString("Cafetière déconnectée"));
+}
+
 void IhmPikawa::initialiserRessourcesGUI()
 {
     listesDeroulantesCapsules.push_back(ui->listeCapsulesR1);
@@ -115,6 +143,7 @@ void IhmPikawa::initialiserRessourcesGUI()
     boutonsChoixCapsules.push_back(ui->boutonChoixCapsule6);
     boutonsChoixCapsules.push_back(ui->boutonChoixCapsule7);
     boutonsChoixCapsules.push_back(ui->boutonChoixCapsule8);
+    ui->labelEtatCafetiere->setText(QString("Cafetière déconnectée"));
 }
 
 void IhmPikawa::fixerRaccourcisClavier()
@@ -148,6 +177,19 @@ void IhmPikawa::gererEvenements()
             &QPushButton::clicked,
             this,
             &IhmPikawa::changerEcranAccueil);
+
+    connect(communicationBluetooth,
+            &Communication::cafetiereDetectee,
+            this,
+            &IhmPikawa::afficherCafetiereDetectee);
+    connect(communicationBluetooth,
+            &Communication::cafetiereConnectee,
+            this,
+            &IhmPikawa::afficherCafetiereConnectee);
+    connect(communicationBluetooth,
+            &Communication::cafetiereDeconnectee,
+            this,
+            &IhmPikawa::afficherCafetiereDeconnectee);
 }
 
 void IhmPikawa::initialiserListeCapsules()

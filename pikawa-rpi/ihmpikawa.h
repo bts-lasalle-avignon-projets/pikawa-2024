@@ -93,6 +93,9 @@ class IhmPikawa : public QMainWindow
     void changerEcranAccueil();
     void changerEcranCafe();
     void changerEcranMachine();
+    void afficherCafetiereDetectee(QString nom, QString adresse);
+    void afficherCafetiereConnectee(QString nom, QString adresse);
+    void afficherCafetiereDeconnectee();
 };
 
 #endif // IHMPIKAWA_H
