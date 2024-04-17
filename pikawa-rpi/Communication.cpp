@@ -7,7 +7,6 @@ Communication::Communication(QObject* parent) :
 {
     qDebug() << Q_FUNC_INFO;
     activerBluetooth();
-    activerLaDecouverte();
 }
 
 Communication::~Communication()
@@ -43,8 +42,7 @@ void Communication::activerLaDecouverte()
         connect(agentDecouvreur,
                 &QBluetoothDeviceDiscoveryAgent::deviceDiscovered,
                 this,
-                [this](const QBluetoothDeviceInfo& peripheriqueBluetooth)
-                {
+                [this](const QBluetoothDeviceInfo& peripheriqueBluetooth) {
                     if(peripheriqueBluetooth.name().startsWith(PREFIXE_NOM_CAFETIERE))
                     {
                         pikawa        = peripheriqueBluetooth;
@@ -56,15 +54,11 @@ void Communication::activerLaDecouverte()
                                                peripheriqueBluetooth.address().toString());
                     }
                 });
-        connect(agentDecouvreur,
-                &QBluetoothDeviceDiscoveryAgent::finished,
-                this,
-                [this]()
-                {
-                    qDebug() << Q_FUNC_INFO << "rechercheTerminee"
-                             << "pikawaDetecte" << pikawaDetecte;
-                    emit rechercheTerminee(pikawaDetecte);
-                });
+        connect(agentDecouvreur, &QBluetoothDeviceDiscoveryAgent::finished, this, [this]() {
+            qDebug() << Q_FUNC_INFO << "rechercheTerminee"
+                     << "pikawaDetecte" << pikawaDetecte;
+            emit rechercheTerminee(pikawaDetecte);
+        });
         qDebug() << Q_FUNC_INFO;
         pikawaDetecte = false;
         agentDecouvreur->start();
@@ -131,22 +125,53 @@ void Communication::deconnecterSocket()
 
 void Communication::lireDonneesDisponnible()
 {
-    qDebug() << Q_FUNC_INFO;
     QByteArray donnees;
     donnees = socketBluetoothPikawa->readAll();
     qDebug() << Q_FUNC_INFO << "donnees" << donnees;
     trame += QString(donnees.data());
 
-    if(trame.startsWith("#PIKAWA") && trame.endsWith("\r\n"))
+    if(trame.startsWith(DEBUT_TRAME) && trame.endsWith(FIN_TRAME))
     {
         qDebug() << Q_FUNC_INFO << "trame" << trame;
-        // @todo identifier le type de la trame
-        // @todo puis extraire les données de la trame
-        // @todo ensuite emmetre les données avec des signals
-        // et ne pas oublier d'effacer le contenu de la trame
-        // pour pouvoir en recevoir une nouvelle
-        trame.clear();
+        if(trame.contains(TRAME_ETAT_MAGASIN))
+        {
+            traiterTrameEtatMagasin(trame);
+            trame.clear();
+        }
+        else if(trame.contains(TRAME_PREPARATION_CAFE))
+        {
+            traiterTrameEtatPreparation(trame);
+            trame.clear();
+        }
+        else
+        {
+            qDebug() << Q_FUNC_INFO << "Erreur trame invalide !" << trame;
+        }
     }
+}
+
+void Communication::traiterTrameEtatMagasin(QString trame)
+{
+    // @todo extraire les données de la trame
+    // Exemple de trame : "#PIKAWA~M~1~1~1~1~1~1~1~1~\r\n"
+
+    // trame nettoyée : "1~1~1~1~1~1~1~1"
+
+    QStringList presenceCapsules;
+    presenceCapsules = trame.split(TRAME_SEPARATEUR);
+    qDebug() << Q_FUNC_INFO << "presenceCapsules" << presenceCapsules;
+
+    // @todo emmetre les données avec un signal
+    emit etatMagasin(presenceCapsules);
+}
+
+void Communication::traiterTrameEtatPreparation(QString trame)
+{
+    // @todo extraire les données de la trame
+    int code;
+
+    // @todo emmetre les données avec un signal
+    emit cafeEnPreparation(code);
 }
 
 void Communication::envoyerTrame(QString trame)
@@ -154,7 +179,7 @@ void Communication::envoyerTrame(QString trame)
     if(estConnecte())
     {
         qDebug() << Q_FUNC_INFO << "trame" << trame;
-        trame += "\r\n";
+        trame += FIN_TRAME;
         socketBluetoothPikawa->write(trame.toLatin1());
     }
 }
@@ -168,7 +193,7 @@ void Communication::activerBluetooth()
 {
     if(estBluetoothDisponible())
     {
-        qDebug() << Q_FUNC_INFO << interfaceLocale.name();
+        qDebug() << Q_FUNC_INFO << interfaceLocale.name() << interfaceLocale.address().toString();
         interfaceLocale.powerOn();
     }
     else

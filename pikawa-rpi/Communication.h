@@ -4,7 +4,12 @@
 #include <QObject>
 #include <QtBluetooth>
 
-#define PREFIXE_NOM_CAFETIERE "pikawa"
+#define PREFIXE_NOM_CAFETIERE  "pikawa"
+#define TRAME_PREPARATION_CAFE 'P'
+#define TRAME_ETAT_MAGASIN     'M'
+#define DEBUT_TRAME            "#PIKAWA"
+#define FIN_TRAME              "/r/n"
+#define TRAME_SEPARATEUR       '~'
 
 class Communication : public QObject
 {
@@ -27,6 +32,38 @@ class Communication : public QObject
     bool estConnecte() const;
     bool estDetecte() const;
 
+    /**
+     * @enum TableEtatMagasin
+     * @brief Définit les champs de la table EtatMagasin
+     *
+     */
+
+    enum TableEtatMagasin
+    {
+        VIVALTO   = 0,
+        CAPRICCIO = 1,
+        ROMA      = 2,
+        LIVANTO   = 3,
+        FINEZZIO  = 4,
+        VOLLUTO   = 5,
+        INDRIYA   = 6,
+        FORTISSIO = 7
+    };
+
+    /**
+     * @enum TableEtatPreparation
+     * @brief Définit les champs de la table EtatPreparation
+     *
+     */
+
+    enum TableEtatPreparation
+    {
+        LONGUEUR_BOISSON = 0,
+        NUMERO_RANGE     = 1,
+        PREPARATION_CAFE = 2,
+        ERREUR_TRAME     = 3
+    };
+
   public slots:
     void activerLaDecouverte();
     void desactiverLaDecouverte();
@@ -36,6 +73,8 @@ class Communication : public QObject
     void deconnecterSocket();
     void lireDonneesDisponnible();
     void envoyerTrame(QString trame);
+    void traiterTrameEtatMagasin(QString trame);
+    void traiterTrameEtatPreparation(QString trame);
 
   signals:
     void cafetiereDetectee(QString nom, QString adresse);

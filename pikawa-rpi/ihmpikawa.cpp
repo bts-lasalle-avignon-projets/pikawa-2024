@@ -37,6 +37,8 @@ IhmPikawa::IhmPikawa(QWidget* parent) :
     initialiserListeCapsules();
     initialiserStocksRangeeCapsules();
     changerEcranAccueil();
+
+    rechercherCafetiere();
 }
 
 IhmPikawa::~IhmPikawa()
@@ -94,11 +96,6 @@ void IhmPikawa::afficherCafetiereDetectee(QString nom, QString adresse)
     qDebug() << Q_FUNC_INFO << "nom" << nom << "adresse" << adresse;
     // @todo prévoir une signalisation graphique
     ui->labelEtatCafetiere->setText(QString("Cafetière ") + QString(nom) + QString(" détectée"));
-    if(!communicationBluetooth->estConnecte())
-    {
-        communicationBluetooth->desactiverLaDecouverte();
-        communicationBluetooth->connecter();
-    }
 }
 
 void IhmPikawa::afficherCafetiereConnectee(QString nom, QString adresse)
@@ -106,8 +103,6 @@ void IhmPikawa::afficherCafetiereConnectee(QString nom, QString adresse)
     qDebug() << Q_FUNC_INFO << "nom" << nom << "adresse" << adresse;
     // @todo prévoir une signalisation graphique
     ui->labelEtatCafetiere->setText(QString("Cafetière ") + QString(nom) + QString(" connectée"));
-    // Exemple : demande l'état du magasin
-    communicationBluetooth->envoyerTrame("#PIKAWA~M~");
 }
 
 void IhmPikawa::afficherCafetiereDeconnectee()
@@ -115,6 +110,40 @@ void IhmPikawa::afficherCafetiereDeconnectee()
     qDebug() << Q_FUNC_INFO;
     // @todo prévoir une signalisation graphique
     ui->labelEtatCafetiere->setText(QString("Cafetière déconnectée"));
+}
+
+void IhmPikawa::demarrerCommunication(QString nom, QString adresse)
+{
+    Q_UNUSED(nom)
+    Q_UNUSED(adresse)
+
+    if(!communicationBluetooth->estConnecte())
+    {
+        qDebug() << Q_FUNC_INFO;
+        communicationBluetooth->desactiverLaDecouverte();
+        communicationBluetooth->connecter();
+    }
+}
+
+void IhmPikawa::demanderEtatMagasin(QString nom, QString adresse)
+{
+    Q_UNUSED(nom)
+    Q_UNUSED(adresse)
+
+    qDebug() << Q_FUNC_INFO;
+    communicationBluetooth->envoyerTrame("#PIKAWA~M~");
+}
+
+void IhmPikawa::slot1(QStringList presenceCapsules)
+{
+    qDebug() << Q_FUNC_INFO;
+    // @todo gérer l'état du magasin
+}
+
+void IhmPikawa::slot2(int code)
+{
+    qDebug() << Q_FUNC_INFO;
+    // @todo gérer l'état de préparation
 }
 
 void IhmPikawa::initialiserRessourcesGUI()
@@ -167,6 +196,7 @@ void IhmPikawa::fixerRaccourcisClavier()
 void IhmPikawa::gererEvenements()
 {
     qDebug() << Q_FUNC_INFO;
+    // signaux/slot de l'IHM
     connect(ui->selectionEcranCafe, &QPushButton::clicked, this, &IhmPikawa::changerEcranCafe);
     connect(ui->retourAccueilDeCafe, &QPushButton::clicked, this, &IhmPikawa::changerEcranAccueil);
     connect(ui->selectionEcranMachine,
@@ -178,10 +208,19 @@ void IhmPikawa::gererEvenements()
             this,
             &IhmPikawa::changerEcranAccueil);
 
+    // signaux/slot de la communication
+    connect(communicationBluetooth,
+            &Communication::cafetiereDetectee,
+            this,
+            &IhmPikawa::demarrerCommunication);
     connect(communicationBluetooth,
             &Communication::cafetiereDetectee,
             this,
             &IhmPikawa::afficherCafetiereDetectee);
+    connect(communicationBluetooth,
+            &Communication::cafetiereConnectee,
+            this,
+            &IhmPikawa::demanderEtatMagasin);
     connect(communicationBluetooth,
             &Communication::cafetiereConnectee,
             this,
@@ -190,6 +229,8 @@ void IhmPikawa::gererEvenements()
             &Communication::cafetiereDeconnectee,
             this,
             &IhmPikawa::afficherCafetiereDeconnectee);
+    // @todo connecter le signal etatMagasin() au slot slot1()
+    // @todo connecter le signal cafeEnPreparation() au slot slot2()
 }
 
 void IhmPikawa::initialiserListeCapsules()
@@ -254,4 +295,9 @@ void IhmPikawa::chargerListeUtilisateurs()
     {
         listeUtilisateurs.push_back(new Utilisateur(listeUtilisateursBDD.at(i)));
     }
+}
+
+void IhmPikawa::rechercherCafetiere()
+{
+    communicationBluetooth->activerLaDecouverte();
 }
