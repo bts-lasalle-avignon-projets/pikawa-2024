@@ -127,7 +127,9 @@ void Communication::lireDonneesDisponnible()
 {
     QByteArray donnees;
     donnees = socketBluetoothPikawa->readAll();
+
     qDebug() << Q_FUNC_INFO << "donnees" << donnees;
+
     trame += QString(donnees.data());
 
     if(trame.startsWith(DEBUT_TRAME) && trame.endsWith(FIN_TRAME))
@@ -150,17 +152,19 @@ void Communication::lireDonneesDisponnible()
     }
 }
 
-void Communication::traiterTrameEtatMagasin(QString trame)
+void Communication::traiterTrameEtatMagasin(QString& trame)
 {
     // @todo extraire les données de la trame
     // Exemple de trame : "#PIKAWA~M~1~1~1~1~1~1~1~1~\r\n"
 
     // trame nettoyée : "1~1~1~1~1~1~1~1"
 
+    trame.remove(DEBUT_TRAME).remove(FIN_TRAME);
+
     QStringList presenceCapsules;
     presenceCapsules = trame.split(TRAME_SEPARATEUR);
-    qDebug() << Q_FUNC_INFO << "presenceCapsules" << presenceCapsules;
 
+    qDebug() << Q_FUNC_INFO << "presenceCapsules" << presenceCapsules;
     // @todo emmetre les données avec un signal
     emit etatMagasin(presenceCapsules);
 }
@@ -169,6 +173,11 @@ void Communication::traiterTrameEtatPreparation(QString trame)
 {
     // @todo extraire les données de la trame
     int code;
+
+    trame.split(TRAME_SEPARATEUR);
+    trame.remove(DEBUT_TRAME).remove(FIN_TRAME);
+
+    qDebug() << Q_FUNC_INFO << "preparationCafe" << trame;
 
     // @todo emmetre les données avec un signal
     emit cafeEnPreparation(code);

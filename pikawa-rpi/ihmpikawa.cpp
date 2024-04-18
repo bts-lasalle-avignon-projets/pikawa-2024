@@ -134,13 +134,14 @@ void IhmPikawa::demanderEtatMagasin(QString nom, QString adresse)
     communicationBluetooth->envoyerTrame("#PIKAWA~M~");
 }
 
-void IhmPikawa::slot1(QStringList presenceCapsules)
+void IhmPikawa::afficherEtatMagasin(QStringList presenceCapsules)
 {
     qDebug() << Q_FUNC_INFO;
+    communicationBluetooth->lireDonneesDisponnible();
     // @todo gérer l'état du magasin
 }
 
-void IhmPikawa::slot2(int code)
+void IhmPikawa::afficherEtatPreparation(int code)
 {
     qDebug() << Q_FUNC_INFO;
     // @todo gérer l'état de préparation
@@ -229,6 +230,7 @@ void IhmPikawa::gererEvenements()
             &Communication::cafetiereDeconnectee,
             this,
             &IhmPikawa::afficherCafetiereDeconnectee);
+
     // @todo connecter le signal etatMagasin() au slot slot1()
     // @todo connecter le signal cafeEnPreparation() au slot slot2()
 }

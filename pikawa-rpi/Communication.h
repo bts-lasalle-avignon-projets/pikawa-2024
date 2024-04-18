@@ -73,7 +73,7 @@ class Communication : public QObject
     void deconnecterSocket();
     void lireDonneesDisponnible();
     void envoyerTrame(QString trame);
-    void traiterTrameEtatMagasin(QString trame);
+    void traiterTrameEtatMagasin(QString& trame);
     void traiterTrameEtatPreparation(QString trame);
 
   signals:
