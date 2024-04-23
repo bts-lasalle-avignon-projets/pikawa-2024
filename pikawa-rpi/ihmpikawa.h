@@ -62,8 +62,8 @@ class IhmPikawa : public QMainWindow
     QVector<QSpinBox*>    stocksRangeesCapsules;
     QVector<QPushButton*> boutonsChoixCapsules;
     QVector<Utilisateur*> listeUtilisateurs;
-    QVector<QLCDNumber*>  quantiteRestantes;
-
+    QVector<QLCDNumber*> listeLCDNumberCapsules;
+    
     // @todo modifier les noms des boutons dans l'écran d'acceuil
     // @todo ajouter un bouton pour sélectionner le dernier café effectué
     // @todo afficher le nombre total de capsules restantes dans le magasin
@@ -84,6 +84,7 @@ class IhmPikawa : public QMainWindow
     void initialiserBoutonsCapsules();
     void chargerListeUtilisateurs();
     void rechercherCafetiere();
+    void initialiserCapsuleRestantes(int valeurParDefaut);
 
   signals:
 
@@ -100,8 +101,8 @@ class IhmPikawa : public QMainWindow
     void afficherCafetiereDeconnectee();
     void demarrerCommunication(QString nom, QString adresse);
     void demanderEtatMagasin(QString nom, QString adresse);
-    void afficherEtatMagasin(QStringList presenceCapsules); // slot du signal etatMagasin()
-    void afficherEtatPreparation(int code);                 // slot du signal cafeEnPreparation()
+    void gererEtatMagasin(QStringList presenceCapsules); // slot du signal etatMagasin()
+    void gererEtatPreparation(int code);                 // slot du signal cafeEnPreparation()
 };
 
 #endif // IHMPIKAWA_H

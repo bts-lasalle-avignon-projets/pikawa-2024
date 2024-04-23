@@ -32,38 +32,7 @@ class Communication : public QObject
     bool estConnecte() const;
     bool estDetecte() const;
 
-    /**
-     * @enum TableEtatMagasin
-     * @brief Définit les champs de la table EtatMagasin
-     *
-     */
-
-    enum TableEtatMagasin
-    {
-        VIVALTO   = 0,
-        CAPRICCIO = 1,
-        ROMA      = 2,
-        LIVANTO   = 3,
-        FINEZZIO  = 4,
-        VOLLUTO   = 5,
-        INDRIYA   = 6,
-        FORTISSIO = 7
-    };
-
-    /**
-     * @enum TableEtatPreparation
-     * @brief Définit les champs de la table EtatPreparation
-     *
-     */
-
-    enum TableEtatPreparation
-    {
-        LONGUEUR_BOISSON = 0,
-        NUMERO_RANGE     = 1,
-        PREPARATION_CAFE = 2,
-        ERREUR_TRAME     = 3
-    };
-
+   
   public slots:
     void activerLaDecouverte();
     void desactiverLaDecouverte();
@@ -73,7 +42,7 @@ class Communication : public QObject
     void deconnecterSocket();
     void lireDonneesDisponnible();
     void envoyerTrame(QString trame);
-    void traiterTrameEtatMagasin(QString& trame);
+    void traiterTrameEtatMagasin(const QString& trame);
     void traiterTrameEtatPreparation(QString trame);
 
   signals:

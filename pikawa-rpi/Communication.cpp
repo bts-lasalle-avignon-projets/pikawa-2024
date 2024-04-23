@@ -43,17 +43,17 @@ void Communication::activerLaDecouverte()
                 &QBluetoothDeviceDiscoveryAgent::deviceDiscovered,
                 this,
                 [this](const QBluetoothDeviceInfo& peripheriqueBluetooth) {
-                    if(peripheriqueBluetooth.name().startsWith(PREFIXE_NOM_CAFETIERE))
-                    {
-                        pikawa        = peripheriqueBluetooth;
-                        pikawaDetecte = true;
-                        qDebug() << Q_FUNC_INFO << "cafetiereDetectee"
-                                 << peripheriqueBluetooth.name()
-                                 << peripheriqueBluetooth.address().toString();
-                        emit cafetiereDetectee(peripheriqueBluetooth.name(),
-                                               peripheriqueBluetooth.address().toString());
-                    }
-                });
+            if(peripheriqueBluetooth.name().startsWith(PREFIXE_NOM_CAFETIERE))
+            {
+                pikawa        = peripheriqueBluetooth;
+                pikawaDetecte = true;
+                qDebug() << Q_FUNC_INFO << "cafetiereDetectee"
+                         << peripheriqueBluetooth.name()
+                         << peripheriqueBluetooth.address().toString();
+                emit cafetiereDetectee(peripheriqueBluetooth.name(),
+                                       peripheriqueBluetooth.address().toString());
+            }
+        });
         connect(agentDecouvreur, &QBluetoothDeviceDiscoveryAgent::finished, this, [this]() {
             qDebug() << Q_FUNC_INFO << "rechercheTerminee"
                      << "pikawaDetecte" << pikawaDetecte;
@@ -151,32 +151,27 @@ void Communication::lireDonneesDisponnible()
         }
     }
 }
-
-void Communication::traiterTrameEtatMagasin(QString& trame)
+void Communication::traiterTrameEtatMagasin(const QString& trame)
 {
-    // @todo extraire les données de la trame
     // Exemple de trame : "#PIKAWA~M~1~1~1~1~1~1~1~1~\r\n"
-
     // trame nettoyée : "1~1~1~1~1~1~1~1"
 
-    trame.remove(DEBUT_TRAME).remove(FIN_TRAME);
+    QString trameModifiable = trame.trimmed(); // Créer une copie modifiable de trame
+
+    trameModifiable.remove(DEBUT_TRAME).remove(FIN_TRAME);
 
     QStringList presenceCapsules;
-    presenceCapsules = trame.split(TRAME_SEPARATEUR);
+    presenceCapsules = trameModifiable.split(TRAME_SEPARATEUR);
 
     qDebug() << Q_FUNC_INFO << "presenceCapsules" << presenceCapsules;
     // @todo emmetre les données avec un signal
     emit etatMagasin(presenceCapsules);
 }
 
+
 void Communication::traiterTrameEtatPreparation(QString trame)
 {
-    // @todo extraire les données de la trame
     int code;
-
-    trame.split(TRAME_SEPARATEUR);
-    trame.remove(DEBUT_TRAME).remove(FIN_TRAME);
-
     qDebug() << Q_FUNC_INFO << "preparationCafe" << trame;
 
     // @todo emmetre les données avec un signal

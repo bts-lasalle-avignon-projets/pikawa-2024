@@ -31,11 +31,11 @@ IhmPikawa::IhmPikawa(QWidget* parent) :
     initialiserRessourcesGUI();
     fixerRaccourcisClavier();
     gererEvenements();
-
     chargerListeUtilisateurs();
 
     initialiserListeCapsules();
     initialiserStocksRangeeCapsules();
+    initialiserCapsuleRestantes(0);
     changerEcranAccueil();
 
     rechercherCafetiere();
@@ -134,14 +134,13 @@ void IhmPikawa::demanderEtatMagasin(QString nom, QString adresse)
     communicationBluetooth->envoyerTrame("#PIKAWA~M~");
 }
 
-void IhmPikawa::afficherEtatMagasin(QStringList presenceCapsules)
+void IhmPikawa::gererEtatMagasin(QStringList presenceCapsules)
 {
     qDebug() << Q_FUNC_INFO;
-    communicationBluetooth->lireDonneesDisponnible();
-    // @todo gérer l'état du magasin
+    communicationBluetooth->traiterTrameEtatMagasin(presenceCapsules.join("~"));
 }
 
-void IhmPikawa::afficherEtatPreparation(int code)
+void IhmPikawa::gererEtatPreparation(int code)
 {
     qDebug() << Q_FUNC_INFO;
     // @todo gérer l'état de préparation
@@ -149,6 +148,7 @@ void IhmPikawa::afficherEtatPreparation(int code)
 
 void IhmPikawa::initialiserRessourcesGUI()
 {
+    // Initialisation des listes déroulantes capsules
     listesDeroulantesCapsules.push_back(ui->listeCapsulesR1);
     listesDeroulantesCapsules.push_back(ui->listeCapsulesR2);
     listesDeroulantesCapsules.push_back(ui->listeCapsulesR3);
@@ -157,6 +157,8 @@ void IhmPikawa::initialiserRessourcesGUI()
     listesDeroulantesCapsules.push_back(ui->listeCapsulesR6);
     listesDeroulantesCapsules.push_back(ui->listeCapsulesR7);
     listesDeroulantesCapsules.push_back(ui->listeCapsulesR8);
+
+    // Initialisation des stocks de rangees capsules
     stocksRangeesCapsules.push_back(ui->stockR1);
     stocksRangeesCapsules.push_back(ui->stockR2);
     stocksRangeesCapsules.push_back(ui->stockR3);
@@ -165,6 +167,8 @@ void IhmPikawa::initialiserRessourcesGUI()
     stocksRangeesCapsules.push_back(ui->stockR6);
     stocksRangeesCapsules.push_back(ui->stockR7);
     stocksRangeesCapsules.push_back(ui->stockR8);
+
+    // Initialisation des boutons de choix de capsules
     boutonsChoixCapsules.push_back(ui->boutonChoixCapsule1);
     boutonsChoixCapsules.push_back(ui->boutonChoixCapsule2);
     boutonsChoixCapsules.push_back(ui->boutonChoixCapsule3);
@@ -173,8 +177,21 @@ void IhmPikawa::initialiserRessourcesGUI()
     boutonsChoixCapsules.push_back(ui->boutonChoixCapsule6);
     boutonsChoixCapsules.push_back(ui->boutonChoixCapsule7);
     boutonsChoixCapsules.push_back(ui->boutonChoixCapsule8);
+
+    // Initialisation des LCDNumber capsules
+    listeLCDNumberCapsules.push_back(ui->capsuleRestantesR1);
+    listeLCDNumberCapsules.push_back(ui->capsuleRestantesR2);
+    listeLCDNumberCapsules.push_back(ui->capsuleRestantesR3);
+    listeLCDNumberCapsules.push_back(ui->capsuleRestantesR4);
+    listeLCDNumberCapsules.push_back(ui->capsuleRestantesR5);
+    listeLCDNumberCapsules.push_back(ui->capsuleRestantesR6);
+    listeLCDNumberCapsules.push_back(ui->capsuleRestantesR7);
+    listeLCDNumberCapsules.push_back(ui->capsuleRestantesR8);
+
+    // Définition du texte du label de l'état de la cafetière
     ui->labelEtatCafetiere->setText(QString("Cafetière déconnectée"));
 }
+
 
 void IhmPikawa::fixerRaccourcisClavier()
 {
@@ -247,7 +264,7 @@ void IhmPikawa::initialiserListeCapsules()
             formatFont.setCapitalization(QFont::Capitalize);
             listesDeroulantesCapsules[i]->setFont(formatFont);
             listesDeroulantesCapsules[i]->addItem(
-              listeCapsules[j].at(GestionMagasin::TableCapsule::DESIGNATION));
+                        listeCapsules[j].at(GestionMagasin::TableCapsule::DESIGNATION));
         }
         listesDeroulantesCapsules[i]->addItem("Vide");
         listesDeroulantesCapsules[i]->addItem("Aucune");
@@ -270,8 +287,8 @@ void IhmPikawa::initialiserBoutonsCapsules()
     for(int i = 0; i < listesDeroulantesCapsules.size(); ++i)
     {
         if(listesDeroulantesCapsules[i]->currentText() != "Vide" &&
-           listesDeroulantesCapsules[i]->currentText() != "Aucune" &&
-           stocksRangeesCapsules[i]->value() > 0)
+                listesDeroulantesCapsules[i]->currentText() != "Aucune" &&
+                stocksRangeesCapsules[i]->value() > 0)
         {
             QFont formatFont = boutonsChoixCapsules[i]->font();
             formatFont.setCapitalization(QFont::Capitalize);
@@ -284,6 +301,17 @@ void IhmPikawa::initialiserBoutonsCapsules()
             boutonsChoixCapsules[i]->setText("");
             boutonsChoixCapsules[i]->setEnabled(false);
         }
+    }
+}
+
+void IhmPikawa::initialiserCapsuleRestantes(int valeurParDefaut)
+{
+    if (listeLCDNumberCapsules.size() != valeurParDefaut) {
+        qDebug() << "Erreur : le nombre de capsules ne correspond pas à la taille !";
+        return;
+    }
+    for (int i = 0; i < listeLCDNumberCapsules.size(); ++i) {
+        listeLCDNumberCapsules[i]->display(valeurParDefaut);
     }
 }
 
