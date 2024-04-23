@@ -30,12 +30,13 @@ IhmPikawa::IhmPikawa(QWidget* parent) :
 
     initialiserRessourcesGUI();
     fixerRaccourcisClavier();
-    gererEvenements();
-    chargerListeUtilisateurs();
 
+    chargerListeUtilisateurs();
     initialiserListeCapsules();
     initialiserStocksRangeeCapsules();
-    initialiserCapsuleRestantes(0);
+    initialiserCapsulesRestantes();
+
+    gererEvenements();
     changerEcranAccueil();
 
     rechercherCafetiere();
@@ -146,6 +147,52 @@ void IhmPikawa::gererEtatPreparation(int etat)
     // @todo gérer l'état de préparation
 }
 
+void IhmPikawa::selectionnerCapsule()
+{
+    QPushButton* boutonChoixCapsule = qobject_cast<QPushButton*>(sender());
+    int          rangee             = rechercherRangee(boutonChoixCapsule);
+
+    qDebug() << Q_FUNC_INFO << "bouton" << boutonChoixCapsule->text();
+    qDebug() << Q_FUNC_INFO << "checked" << boutonChoixCapsule->isChecked();
+    qDebug() << Q_FUNC_INFO << "rangee" << rangee;
+
+    // Bouton sélectionné ?
+    if(boutonChoixCapsule->isChecked())
+    {
+        // déselectionner les autres
+        deselectionnerRangee(boutonChoixCapsule);
+    }
+
+    // Aucune rangée sélectionnée ?
+    if(rechercherRangeeSelectionnee() == 0)
+    {
+        ui->boutonCafeCourt->setEnabled(false);
+        ui->boutonCafeLong->setEnabled(false);
+    }
+    else
+    {
+        ui->boutonCafeCourt->setEnabled(true);
+        ui->boutonCafeLong->setEnabled(true);
+    }
+}
+
+void IhmPikawa::preparerCafeCourt()
+{
+    qDebug() << Q_FUNC_INFO;
+    // @todo Récupérer le numéro de rangée correspondant à la capsule sélectionnée
+
+    // @todo Envoyer une trame de préparation de café court
+}
+
+void IhmPikawa::preparerCafeLong()
+{
+    qDebug() << Q_FUNC_INFO;
+    // @todo Récupérer le numéro de rangée correspondant à la capsule sélectionnée
+
+    // @todo Envoyer une trame de préparation de café long
+}
+
+// Méthodes privées
 void IhmPikawa::initialiserRessourcesGUI()
 {
     // Initialisation des listes déroulantes capsules
@@ -190,6 +237,9 @@ void IhmPikawa::initialiserRessourcesGUI()
 
     // Définition du texte du label de l'état de la cafetière
     ui->labelEtatCafetiere->setText(QString("Cafetière déconnectée"));
+
+    // @todo gérer le café préféré
+    ui->boutonCafePrefere->setEnabled(false);
 }
 
 void IhmPikawa::fixerRaccourcisClavier()
@@ -213,7 +263,7 @@ void IhmPikawa::fixerRaccourcisClavier()
 void IhmPikawa::gererEvenements()
 {
     qDebug() << Q_FUNC_INFO;
-    // signaux/slot de l'IHM
+    // Navigation dans l'IHM
     connect(ui->selectionEcranCafe, &QPushButton::clicked, this, &IhmPikawa::changerEcranCafe);
     connect(ui->retourAccueilDeCafe, &QPushButton::clicked, this, &IhmPikawa::changerEcranAccueil);
     connect(ui->selectionEcranMachine,
@@ -224,6 +274,19 @@ void IhmPikawa::gererEvenements()
             &QPushButton::clicked,
             this,
             &IhmPikawa::changerEcranAccueil);
+
+    // Les boutons de sélection de capsules
+    for(int i = 0; i < boutonsChoixCapsules.size(); ++i)
+    {
+        connect(boutonsChoixCapsules[i],
+                &QPushButton::clicked,
+                this,
+                &IhmPikawa::selectionnerCapsule);
+    }
+
+    // Les boutons de préparation de café
+    connect(ui->boutonCafeCourt, &QPushButton::clicked, this, &IhmPikawa::preparerCafeCourt);
+    connect(ui->boutonCafeLong, &QPushButton::clicked, this, &IhmPikawa::preparerCafeLong);
 
     // signaux/slot de la communication
     connect(communicationBluetooth,
@@ -308,19 +371,6 @@ void IhmPikawa::initialiserBoutonsCapsules()
     }
 }
 
-void IhmPikawa::initialiserCapsuleRestantes(int valeurParDefaut)
-{
-    if(listeLCDNumberCapsules.size() != valeurParDefaut)
-    {
-        qDebug() << "Erreur : le nombre de capsules ne correspond pas à la taille !";
-        return;
-    }
-    for(int i = 0; i < listeLCDNumberCapsules.size(); ++i)
-    {
-        listeLCDNumberCapsules[i]->display(valeurParDefaut);
-    }
-}
-
 void IhmPikawa::chargerListeUtilisateurs()
 {
     QVector<QStringList> listeUtilisateursBDD;
@@ -336,4 +386,47 @@ void IhmPikawa::chargerListeUtilisateurs()
 void IhmPikawa::rechercherCafetiere()
 {
     communicationBluetooth->activerLaDecouverte();
+}
+
+void IhmPikawa::initialiserCapsulesRestantes()
+{
+    for(int i = 0; i < listeLCDNumberCapsules.size(); ++i)
+    {
+        listeLCDNumberCapsules[i]->display(0);
+    }
+}
+
+int IhmPikawa::rechercherRangee(QPushButton* bouton)
+{
+    if(bouton == nullptr)
+        return 0;
+
+    for(int i = 0; i < boutonsChoixCapsules.size(); ++i)
+    {
+        if(bouton == boutonsChoixCapsules[i])
+            return i + 1;
+    }
+    return 0;
+}
+
+int IhmPikawa::rechercherRangeeSelectionnee()
+{
+    for(int i = 0; i < boutonsChoixCapsules.size(); ++i)
+    {
+        if(boutonsChoixCapsules[i]->isChecked())
+            return i + 1; // de 1 à 8
+    }
+    return 0;
+}
+
+void IhmPikawa::deselectionnerRangee(QPushButton* bouton)
+{
+    if(bouton == nullptr)
+        return;
+
+    for(int i = 0; i < boutonsChoixCapsules.size(); ++i)
+    {
+        if(bouton != boutonsChoixCapsules[i])
+            boutonsChoixCapsules[i]->setChecked(false);
+    }
 }

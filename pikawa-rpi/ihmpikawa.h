@@ -84,7 +84,10 @@ class IhmPikawa : public QMainWindow
     void initialiserBoutonsCapsules();
     void chargerListeUtilisateurs();
     void rechercherCafetiere();
-    void initialiserCapsuleRestantes(int valeurParDefaut);
+    void initialiserCapsulesRestantes();
+    int  rechercherRangee(QPushButton* bouton);
+    int  rechercherRangeeSelectionnee();
+    void deselectionnerRangee(QPushButton* bouton);
 
   signals:
 
@@ -103,6 +106,9 @@ class IhmPikawa : public QMainWindow
     void demanderEtatMagasin(QString nom, QString adresse);
     void gererEtatMagasin(QStringList presenceCapsules); // slot du signal etatMagasin()
     void gererEtatPreparation(int etat);                 // slot du signal cafeEnPreparation()
+    void selectionnerCapsule();
+    void preparerCafeCourt();
+    void preparerCafeLong();
 };
 
 #endif // IHMPIKAWA_H
