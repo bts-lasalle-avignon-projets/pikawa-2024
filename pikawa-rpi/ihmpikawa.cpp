@@ -136,13 +136,13 @@ void IhmPikawa::demanderEtatMagasin(QString nom, QString adresse)
 
 void IhmPikawa::gererEtatMagasin(QStringList presenceCapsules)
 {
-    qDebug() << Q_FUNC_INFO;
-    communicationBluetooth->traiterTrameEtatMagasin(presenceCapsules.join("~"));
+    qDebug() << Q_FUNC_INFO << "presenceCapsules" << presenceCapsules;
+    // @todo gérer l'état du magasin
 }
 
-void IhmPikawa::gererEtatPreparation(int code)
+void IhmPikawa::gererEtatPreparation(int etat)
 {
-    qDebug() << Q_FUNC_INFO;
+    qDebug() << Q_FUNC_INFO << "etat" << etat;
     // @todo gérer l'état de préparation
 }
 
@@ -191,7 +191,6 @@ void IhmPikawa::initialiserRessourcesGUI()
     // Définition du texte du label de l'état de la cafetière
     ui->labelEtatCafetiere->setText(QString("Cafetière déconnectée"));
 }
-
 
 void IhmPikawa::fixerRaccourcisClavier()
 {
@@ -247,9 +246,14 @@ void IhmPikawa::gererEvenements()
             &Communication::cafetiereDeconnectee,
             this,
             &IhmPikawa::afficherCafetiereDeconnectee);
-
-    // @todo connecter le signal etatMagasin() au slot slot1()
-    // @todo connecter le signal cafeEnPreparation() au slot slot2()
+    connect(communicationBluetooth,
+            &Communication::etatMagasin,
+            this,
+            &IhmPikawa::gererEtatMagasin);
+    connect(communicationBluetooth,
+            &Communication::cafeEnPreparation,
+            this,
+            &IhmPikawa::gererEtatPreparation);
 }
 
 void IhmPikawa::initialiserListeCapsules()
@@ -264,7 +268,7 @@ void IhmPikawa::initialiserListeCapsules()
             formatFont.setCapitalization(QFont::Capitalize);
             listesDeroulantesCapsules[i]->setFont(formatFont);
             listesDeroulantesCapsules[i]->addItem(
-                        listeCapsules[j].at(GestionMagasin::TableCapsule::DESIGNATION));
+              listeCapsules[j].at(GestionMagasin::TableCapsule::DESIGNATION));
         }
         listesDeroulantesCapsules[i]->addItem("Vide");
         listesDeroulantesCapsules[i]->addItem("Aucune");
@@ -287,8 +291,8 @@ void IhmPikawa::initialiserBoutonsCapsules()
     for(int i = 0; i < listesDeroulantesCapsules.size(); ++i)
     {
         if(listesDeroulantesCapsules[i]->currentText() != "Vide" &&
-                listesDeroulantesCapsules[i]->currentText() != "Aucune" &&
-                stocksRangeesCapsules[i]->value() > 0)
+           listesDeroulantesCapsules[i]->currentText() != "Aucune" &&
+           stocksRangeesCapsules[i]->value() > 0)
         {
             QFont formatFont = boutonsChoixCapsules[i]->font();
             formatFont.setCapitalization(QFont::Capitalize);
@@ -306,11 +310,13 @@ void IhmPikawa::initialiserBoutonsCapsules()
 
 void IhmPikawa::initialiserCapsuleRestantes(int valeurParDefaut)
 {
-    if (listeLCDNumberCapsules.size() != valeurParDefaut) {
+    if(listeLCDNumberCapsules.size() != valeurParDefaut)
+    {
         qDebug() << "Erreur : le nombre de capsules ne correspond pas à la taille !";
         return;
     }
-    for (int i = 0; i < listeLCDNumberCapsules.size(); ++i) {
+    for(int i = 0; i < listeLCDNumberCapsules.size(); ++i)
+    {
         listeLCDNumberCapsules[i]->display(valeurParDefaut);
     }
 }

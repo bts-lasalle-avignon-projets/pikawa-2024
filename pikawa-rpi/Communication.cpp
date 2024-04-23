@@ -42,23 +42,28 @@ void Communication::activerLaDecouverte()
         connect(agentDecouvreur,
                 &QBluetoothDeviceDiscoveryAgent::deviceDiscovered,
                 this,
-                [this](const QBluetoothDeviceInfo& peripheriqueBluetooth) {
-            if(peripheriqueBluetooth.name().startsWith(PREFIXE_NOM_CAFETIERE))
-            {
-                pikawa        = peripheriqueBluetooth;
-                pikawaDetecte = true;
-                qDebug() << Q_FUNC_INFO << "cafetiereDetectee"
-                         << peripheriqueBluetooth.name()
-                         << peripheriqueBluetooth.address().toString();
-                emit cafetiereDetectee(peripheriqueBluetooth.name(),
-                                       peripheriqueBluetooth.address().toString());
-            }
-        });
-        connect(agentDecouvreur, &QBluetoothDeviceDiscoveryAgent::finished, this, [this]() {
-            qDebug() << Q_FUNC_INFO << "rechercheTerminee"
-                     << "pikawaDetecte" << pikawaDetecte;
-            emit rechercheTerminee(pikawaDetecte);
-        });
+                [this](const QBluetoothDeviceInfo& peripheriqueBluetooth)
+                {
+                    if(peripheriqueBluetooth.name().startsWith(PREFIXE_NOM_CAFETIERE))
+                    {
+                        pikawa        = peripheriqueBluetooth;
+                        pikawaDetecte = true;
+                        qDebug() << Q_FUNC_INFO << "cafetiereDetectee"
+                                 << peripheriqueBluetooth.name()
+                                 << peripheriqueBluetooth.address().toString();
+                        emit cafetiereDetectee(peripheriqueBluetooth.name(),
+                                               peripheriqueBluetooth.address().toString());
+                    }
+                });
+        connect(agentDecouvreur,
+                &QBluetoothDeviceDiscoveryAgent::finished,
+                this,
+                [this]()
+                {
+                    qDebug() << Q_FUNC_INFO << "rechercheTerminee"
+                             << "pikawaDetecte" << pikawaDetecte;
+                    emit rechercheTerminee(pikawaDetecte);
+                });
         qDebug() << Q_FUNC_INFO;
         pikawaDetecte = false;
         agentDecouvreur->start();
@@ -135,12 +140,12 @@ void Communication::lireDonneesDisponnible()
     if(trame.startsWith(DEBUT_TRAME) && trame.endsWith(FIN_TRAME))
     {
         qDebug() << Q_FUNC_INFO << "trame" << trame;
-        if(trame.contains(TRAME_ETAT_MAGASIN))
+        if(trame.contains(QString(TRAME_SEPARATEUR) + QString(TRAME_ETAT_MAGASIN)))
         {
             traiterTrameEtatMagasin(trame);
             trame.clear();
         }
-        else if(trame.contains(TRAME_PREPARATION_CAFE))
+        else if(trame.contains(QString(TRAME_SEPARATEUR) + QString(TRAME_PREPARATION_CAFE)))
         {
             traiterTrameEtatPreparation(trame);
             trame.clear();
@@ -151,31 +156,36 @@ void Communication::lireDonneesDisponnible()
         }
     }
 }
-void Communication::traiterTrameEtatMagasin(const QString& trame)
+void Communication::traiterTrameEtatMagasin(QString trame)
 {
     // Exemple de trame : "#PIKAWA~M~1~1~1~1~1~1~1~1~\r\n"
-    // trame nettoyée : "1~1~1~1~1~1~1~1"
 
-    QString trameModifiable = trame.trimmed(); // Créer une copie modifiable de trame
-
-    trameModifiable.remove(DEBUT_TRAME).remove(FIN_TRAME);
+    // nettoyage
+    trame.remove(DEBUT_TRAME).remove(FIN_TRAME); // -> "~M~1~1~1~1~1~1~1~1~"
+    trame.remove(0, 3);                          // -> "1~1~1~1~1~1~1~1~"
+    trame.remove(trame.size() - 1, 1);           // -> "1~1~1~1~1~1~1~1"
 
     QStringList presenceCapsules;
-    presenceCapsules = trameModifiable.split(TRAME_SEPARATEUR);
-
+    presenceCapsules = trame.split(TRAME_SEPARATEUR);
     qDebug() << Q_FUNC_INFO << "presenceCapsules" << presenceCapsules;
-    // @todo emmetre les données avec un signal
+
     emit etatMagasin(presenceCapsules);
 }
 
-
 void Communication::traiterTrameEtatPreparation(QString trame)
 {
-    int code;
-    qDebug() << Q_FUNC_INFO << "preparationCafe" << trame;
+    // Exemple de trame : "#PIKAWA~P~ETAT~\r\n"
+    int etat = 0;
 
-    // @todo emmetre les données avec un signal
-    emit cafeEnPreparation(code);
+    // nettoyage
+    trame.remove(DEBUT_TRAME).remove(FIN_TRAME); // -> "~P~ETAT~"
+    trame.remove(0, 3);                          // -> "ETAT~"
+    trame.remove(trame.size() - 1, 1);           // -> "ETAT"
+
+    etat = trame.toInt();
+    qDebug() << Q_FUNC_INFO << "etat" << etat;
+
+    emit cafeEnPreparation(etat);
 }
 
 void Communication::envoyerTrame(QString trame)
