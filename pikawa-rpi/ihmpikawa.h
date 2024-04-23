@@ -62,6 +62,7 @@ class IhmPikawa : public QMainWindow
     QVector<QSpinBox*>    stocksRangeesCapsules;
     QVector<QPushButton*> boutonsChoixCapsules;
     QVector<Utilisateur*> listeUtilisateurs;
+    QVector<QLCDNumber*>  listeLCDNumberCapsules;
 
     // @todo modifier les noms des boutons dans l'écran d'acceuil
     // @todo ajouter un bouton pour sélectionner le dernier café effectué
@@ -82,6 +83,11 @@ class IhmPikawa : public QMainWindow
     void initialiserStocksRangeeCapsules();
     void initialiserBoutonsCapsules();
     void chargerListeUtilisateurs();
+    void rechercherCafetiere();
+    void initialiserCapsulesRestantes();
+    int  rechercherRangee(QPushButton* bouton);
+    int  rechercherRangeeSelectionnee();
+    void deselectionnerRangee(QPushButton* bouton);
 
   signals:
 
@@ -96,6 +102,13 @@ class IhmPikawa : public QMainWindow
     void afficherCafetiereDetectee(QString nom, QString adresse);
     void afficherCafetiereConnectee(QString nom, QString adresse);
     void afficherCafetiereDeconnectee();
+    void demarrerCommunication(QString nom, QString adresse);
+    void demanderEtatMagasin(QString nom, QString adresse);
+    void gererEtatMagasin(QStringList presenceCapsules); // slot du signal etatMagasin()
+    void gererEtatPreparation(int etat);                 // slot du signal cafeEnPreparation()
+    void selectionnerCapsule();
+    void preparerCafeCourt();
+    void preparerCafeLong();
 };
 
 #endif // IHMPIKAWA_H

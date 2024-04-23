@@ -71,6 +71,19 @@ bool BaseDeDonnees::ouvrir(QString fichierBase)
         return true;
 }
 
+QVector<int> BaseDeDonnees::recupererNbCapsulesPresentes()
+{
+    QVector<int> nombreCapsulesPresentes;
+    QString requete = "SELECT SUM(quantite) FROM StockMagasin GROUP BY rangee";
+
+    if (recuperer(requete, nombreCapsulesPresentes)) {
+        return nombreCapsulesPresentes;
+    } else {
+        qDebug() << "Erreur lors de la récupération du nombre de capsules présentes !";
+        return QVector<int>(); 
+    }
+}
+
 bool BaseDeDonnees::fermer()
 {
     QMutexLocker verrou(&mutex);
@@ -300,4 +313,18 @@ bool BaseDeDonnees::recuperer(QString requete, QVector<QStringList>& donnees)
     }
     else
         return false;
+}
+
+bool BaseDeDonnees::recuperer(QString requete, QVector<int>& donnees) {
+    QSqlQuery query;
+    if (!query.exec(requete)) {
+        qDebug() << "Erreur lors de l'exécution de la requête :" << query.lastError().text();
+        return false;
+    }
+
+    while (query.next()) {
+        donnees.append(query.value(0).toInt());
+    }
+
+    return true;
 }

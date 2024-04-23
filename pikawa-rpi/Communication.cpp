@@ -7,7 +7,6 @@ Communication::Communication(QObject* parent) :
 {
     qDebug() << Q_FUNC_INFO;
     activerBluetooth();
-    activerLaDecouverte();
 }
 
 Communication::~Communication()
@@ -131,22 +130,62 @@ void Communication::deconnecterSocket()
 
 void Communication::lireDonneesDisponnible()
 {
-    qDebug() << Q_FUNC_INFO;
     QByteArray donnees;
     donnees = socketBluetoothPikawa->readAll();
+
     qDebug() << Q_FUNC_INFO << "donnees" << donnees;
+
     trame += QString(donnees.data());
 
-    if(trame.startsWith("#PIKAWA") && trame.endsWith("\r\n"))
+    if(trame.startsWith(DEBUT_TRAME) && trame.endsWith(FIN_TRAME))
     {
         qDebug() << Q_FUNC_INFO << "trame" << trame;
-        // @todo identifier le type de la trame
-        // @todo puis extraire les données de la trame
-        // @todo ensuite emmetre les données avec des signals
-        // et ne pas oublier d'effacer le contenu de la trame
-        // pour pouvoir en recevoir une nouvelle
-        trame.clear();
+        if(trame.contains(QString(TRAME_SEPARATEUR) + QString(TRAME_ETAT_MAGASIN)))
+        {
+            traiterTrameEtatMagasin(trame);
+            trame.clear();
+        }
+        else if(trame.contains(QString(TRAME_SEPARATEUR) + QString(TRAME_PREPARATION_CAFE)))
+        {
+            traiterTrameEtatPreparation(trame);
+            trame.clear();
+        }
+        else
+        {
+            qDebug() << Q_FUNC_INFO << "Erreur trame invalide !" << trame;
+        }
     }
+}
+void Communication::traiterTrameEtatMagasin(QString trame)
+{
+    // Exemple de trame : "#PIKAWA~M~1~1~1~1~1~1~1~1~\r\n"
+
+    // nettoyage
+    trame.remove(DEBUT_TRAME).remove(FIN_TRAME); // -> "~M~1~1~1~1~1~1~1~1~"
+    trame.remove(0, 3);                          // -> "1~1~1~1~1~1~1~1~"
+    trame.remove(trame.size() - 1, 1);           // -> "1~1~1~1~1~1~1~1"
+
+    QStringList presenceCapsules;
+    presenceCapsules = trame.split(TRAME_SEPARATEUR);
+    qDebug() << Q_FUNC_INFO << "presenceCapsules" << presenceCapsules;
+
+    emit etatMagasin(presenceCapsules);
+}
+
+void Communication::traiterTrameEtatPreparation(QString trame)
+{
+    // Exemple de trame : "#PIKAWA~P~ETAT~\r\n"
+    int etat = 0;
+
+    // nettoyage
+    trame.remove(DEBUT_TRAME).remove(FIN_TRAME); // -> "~P~ETAT~"
+    trame.remove(0, 3);                          // -> "ETAT~"
+    trame.remove(trame.size() - 1, 1);           // -> "ETAT"
+
+    etat = trame.toInt();
+    qDebug() << Q_FUNC_INFO << "etat" << etat;
+
+    emit cafeEnPreparation(etat);
 }
 
 void Communication::envoyerTrame(QString trame)
@@ -154,7 +193,7 @@ void Communication::envoyerTrame(QString trame)
     if(estConnecte())
     {
         qDebug() << Q_FUNC_INFO << "trame" << trame;
-        trame += "\r\n";
+        trame += FIN_TRAME;
         socketBluetoothPikawa->write(trame.toLatin1());
     }
 }
@@ -168,7 +207,7 @@ void Communication::activerBluetooth()
 {
     if(estBluetoothDisponible())
     {
-        qDebug() << Q_FUNC_INFO << interfaceLocale.name();
+        qDebug() << Q_FUNC_INFO << interfaceLocale.name() << interfaceLocale.address().toString();
         interfaceLocale.powerOn();
     }
     else

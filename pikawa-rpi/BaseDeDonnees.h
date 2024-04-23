@@ -131,7 +131,9 @@ class BaseDeDonnees : public QObject
      * @return bool
      */
     bool recuperer(QString requete, QVector<QStringList>& donnees);
-
+    bool recuperer(QString requete, QVector<int>& donnees);
+    QVector<int> recupererNbCapsulesPresentes();
+    
   signals:
 
   public slots:
