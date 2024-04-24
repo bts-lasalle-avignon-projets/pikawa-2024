@@ -138,14 +138,42 @@ void IhmPikawa::demanderEtatMagasin(QString nom, QString adresse)
 void IhmPikawa::gererEtatMagasin(QStringList presenceCapsules)
 {
     qDebug() << Q_FUNC_INFO << "presenceCapsules" << presenceCapsules;
-    // @todo gérer l'état du magasin
+    for(int i = 0; i < presenceCapsules.size(); i++)
+    {
+        if(presenceCapsules.at(i) == "1")
+        {
+            boutonsChoixCapsules.at(i)->setEnabled(true);
+        }
+        else
+        {
+            boutonsChoixCapsules.at(i)->setEnabled(false);
+        }
+    }
+    qDebug() << "Mise à jour de l'état du magasin";
 }
 
 void IhmPikawa::gererEtatPreparation(int etat)
 {
     qDebug() << Q_FUNC_INFO << "etat" << etat;
-    // @todo gérer l'état de préparation
+
+    QString trameReponse;
+    switch (etat) {
+        case 0:
+            trameReponse = "#PIKAWA~P~0~\r\n"; // Café prêt ou au repos
+            break;
+        case 1:
+            trameReponse = "#PIKAWA~P~1~\r\n"; // Café en cours de préparation
+            break;
+        case 2:
+            trameReponse = "#PIKAWA~P~2~\r\n"; // Impossible
+            break;
+        case 3:
+            trameReponse = "#PIKAWA~P~3~\r\n"; // Erreur capsule
+            break;
+    }
+    communicationBluetooth->envoyerTrame(trameReponse);
 }
+
 
 void IhmPikawa::selectionnerCapsule()
 {
@@ -179,17 +207,25 @@ void IhmPikawa::selectionnerCapsule()
 void IhmPikawa::preparerCafeCourt()
 {
     qDebug() << Q_FUNC_INFO;
-    // @todo Récupérer le numéro de rangée correspondant à la capsule sélectionnée
-
-    // @todo Envoyer une trame de préparation de café court
+    int rangeeSelectionnee = rechercherRangeeSelectionnee();
+    if (rangeeSelectionnee != 0) {
+        QString trame = "#PIKAWA~P~1" + QString::number(rangeeSelectionnee);
+        communicationBluetooth->envoyerTrame(trame);
+    } else {
+        qDebug() << "Aucune rangée sélectionnée pour préparer le café court.";
+    }
 }
 
 void IhmPikawa::preparerCafeLong()
 {
     qDebug() << Q_FUNC_INFO;
-    // @todo Récupérer le numéro de rangée correspondant à la capsule sélectionnée
-
-    // @todo Envoyer une trame de préparation de café long
+      int rangeeSelectionnee = rechercherRangeeSelectionnee();
+      if (rangeeSelectionnee != 0) {
+          QString trame = "#PIKAWA~P~3" + QString::number(rangeeSelectionnee);
+          communicationBluetooth->envoyerTrame(trame);
+      } else {
+          qDebug() << "Aucune rangée sélectionnée pour préparer le café long.";
+      }
 }
 
 // Méthodes privées
@@ -331,7 +367,7 @@ void IhmPikawa::initialiserListeCapsules()
             formatFont.setCapitalization(QFont::Capitalize);
             listesDeroulantesCapsules[i]->setFont(formatFont);
             listesDeroulantesCapsules[i]->addItem(
-              listeCapsules[j].at(GestionMagasin::TableCapsule::DESIGNATION));
+                        listeCapsules[j].at(GestionMagasin::TableCapsule::DESIGNATION));
         }
         listesDeroulantesCapsules[i]->addItem("Vide");
         listesDeroulantesCapsules[i]->addItem("Aucune");
@@ -354,8 +390,8 @@ void IhmPikawa::initialiserBoutonsCapsules()
     for(int i = 0; i < listesDeroulantesCapsules.size(); ++i)
     {
         if(listesDeroulantesCapsules[i]->currentText() != "Vide" &&
-           listesDeroulantesCapsules[i]->currentText() != "Aucune" &&
-           stocksRangeesCapsules[i]->value() > 0)
+                listesDeroulantesCapsules[i]->currentText() != "Aucune" &&
+                stocksRangeesCapsules[i]->value() > 0)
         {
             QFont formatFont = boutonsChoixCapsules[i]->font();
             formatFont.setCapitalization(QFont::Capitalize);
