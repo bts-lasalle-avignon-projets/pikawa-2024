@@ -23,7 +23,8 @@
  */
 IhmPikawa::IhmPikawa(QWidget* parent) :
     QMainWindow(parent), ui(new Ui::IhmPikawa), gestionMagasin(new GestionMagasin(this)),
-    bdd(BaseDeDonnees::getInstance()), communicationBluetooth(new Communication(this))
+    bdd(BaseDeDonnees::getInstance()), communicationBluetooth(new Communication(this)),
+    minuteurPreparationCafe(new QTimer(this))
 {
     qDebug() << Q_FUNC_INFO;
     ui->setupUi(this);
@@ -81,19 +82,19 @@ void IhmPikawa::changerEcranAccueil()
     afficherEcran(IhmPikawa::Ecran::EcranAccueil);
 }
 
-void IhmPikawa::changerEcranCafe()
+void IhmPikawa::changerMagasinCapsules()
 {
-    afficherEcran(IhmPikawa::Ecran::EcranCafe);
+    afficherEcran(IhmPikawa::Ecran::EcranMagasinCapsules);
 }
 
-void IhmPikawa::changerEcranMachine()
+void IhmPikawa::changerPreparationCafe()
 {
     initialiserBoutonsCapsules();
-    afficherEcran(IhmPikawa::Ecran::EcranMachine);
+    afficherEcran(IhmPikawa::Ecran::EcranPreprationCafe);
 }
-void IhmPikawa::changerEcranEtatCafetiere()
+void IhmPikawa::changerEcranEtatPreparation()
 {
-    afficherEcran(IhmPikawa::Ecran::EcranEtatCafetiere);
+    afficherEcran(IhmPikawa::Ecran::EcranEtatPreparation);
 }
 
 void IhmPikawa::afficherCafetiereDetectee(QString nom, QString adresse)
@@ -160,32 +161,33 @@ void IhmPikawa::gererEtatPreparation(int etat)
 {
     qDebug() << Q_FUNC_INFO << "etat" << etat;
 
-    if (etat == 0)
+    changerEcranEtatPreparation();
+    if(etat == EtatPreparation::Repos)
     {
         // Café prêt ou au repos
-        afficherpreparationCafePret();
+        afficherPreparationCafePret();
+        // @todo Décrémenter le nombre de capsules du magasin pour la capsule choisie
     }
-    else if (etat == 1)
+    else if(etat == EtatPreparation::EnCours)
     {
-        afficherpreparationCafeEncours();
+        afficherPreparationCafeEncours();
     }
-    else if (etat == 2)
+    else if(etat == EtatPreparation::PreparationImpossible)
     {
-        // Impossible (bac plein)
-        afficherEtatBacACapsulePlein();
+        // Impossible (bac plein, ...)
+        afficherPreparationImpossible();
     }
-    else if (etat == 3)
+    else if(etat == EtatPreparation::ErreurCapsule)
     {
         // Erreur capsule
-        ui->etatCapsulenonPresente->setVisible(true);
-        ui->etatCapsulePresente->setVisible(false);
+        afficherErreurCapsule();
     }
     else
     {
-        qDebug() << Q_FUNC_INFO << "Erreur de preparation" << etat;
+        qDebug() << Q_FUNC_INFO << "Erreur : état inconnu !" << etat;
+        changerEcranAccueil();
     }
 }
-
 
 void IhmPikawa::selectionnerCapsule()
 {
@@ -220,11 +222,15 @@ void IhmPikawa::preparerCafeCourt()
 {
     qDebug() << Q_FUNC_INFO;
     int rangeeSelectionnee = rechercherRangeeSelectionnee();
-    if (rangeeSelectionnee != 0) {
-        QString trame = "#PIKAWA~P~1" + QString::number(rangeeSelectionnee);
+    if(rangeeSelectionnee != 0 && communicationBluetooth->estConnecte())
+    {
+        QString trame = "#PIKAWA~P~1~" + QString::number(rangeeSelectionnee);
         communicationBluetooth->envoyerTrame(trame);
-    } else {
-        qDebug() << "Aucune rangée sélectionnée pour préparer le café court.";
+        // @todo désélectionner la capsule et le bouton boutonCafeCourt
+    }
+    else
+    {
+        qDebug() << "Impossible de préparer ce café court !";
     }
 }
 
@@ -232,12 +238,65 @@ void IhmPikawa::preparerCafeLong()
 {
     qDebug() << Q_FUNC_INFO;
     int rangeeSelectionnee = rechercherRangeeSelectionnee();
-    if (rangeeSelectionnee != 0) {
-        QString trame = "#PIKAWA~P~3" + QString::number(rangeeSelectionnee);
+    if(rangeeSelectionnee != 0 && communicationBluetooth->estConnecte())
+    {
+        QString trame = "#PIKAWA~P~3~" + QString::number(rangeeSelectionnee);
         communicationBluetooth->envoyerTrame(trame);
-    } else {
-        qDebug() << "Aucune rangée sélectionnée pour préparer le café long.";
+        // @todo désélectionner la capsule et le bouton boutonCafeLong
     }
+    else
+    {
+        qDebug() << "Impossible de préparer ce café long !";
+    }
+}
+
+void IhmPikawa::afficherPreparationCafeEncours()
+{
+    ui->progressionCafe->setVisible(true);
+    ui->progressionCafe->setValue(0);
+    ui->etatCafePreparation->setPixmap(
+      QPixmap(QString::fromUtf8("../images/iconeCafetiereVierge.png")));
+    minuteurPreparationCafe->start(1000); // 1000 ms = 1 seconde
+}
+
+void IhmPikawa::afficherPreparationCafePret()
+{
+    ui->etatCafePreparation->setPixmap(
+      QPixmap(QString::fromUtf8("../images/iconeCafetiereFonctionnel.png")));
+    ui->progressionCafe->setValue(100);
+    QTimer::singleShot(2000, this, &IhmPikawa::changerEcranAccueil);
+}
+
+void IhmPikawa::mettreAJourBarreProgression()
+{
+    static int progression = 0;
+
+    // Incrémentez la progression de 20% toutes les secondes
+    progression += 20;
+
+    // Mettez à jour la valeur de la barre de progression
+    ui->progressionCafe->setValue(progression);
+
+    if(progression >= 100)
+    {
+        minuteurPreparationCafe->stop();
+    }
+}
+
+void IhmPikawa::afficherErreurCapsule()
+{
+    ui->etatCafePreparation->setPixmap(
+      QPixmap(QString::fromUtf8("../images/iconeCafetiereNonFonctionnel.png")));
+    // @todo A remplacer par un bouton retour à l'accueil
+    QTimer::singleShot(2000, this, &IhmPikawa::changerEcranAccueil);
+}
+
+void IhmPikawa::afficherPreparationImpossible()
+{
+    ui->etatCafePreparation->setPixmap(
+      QPixmap(QString::fromUtf8("../images/iconeCafetiereNonFonctionnel.png")));
+    // @todo A remplacer par un bouton retour à l'accueil
+    QTimer::singleShot(2000, this, &IhmPikawa::changerEcranAccueil);
 }
 
 // Méthodes privées
@@ -288,8 +347,6 @@ void IhmPikawa::initialiserRessourcesGUI()
 
     // @todo gérer le café préféré
     ui->boutonCafePrefere->setEnabled(false);
-
-    tempsPreparationCafe = new QTimer(this);
 }
 
 void IhmPikawa::fixerRaccourcisClavier()
@@ -314,18 +371,19 @@ void IhmPikawa::gererEvenements()
 {
     qDebug() << Q_FUNC_INFO;
     // Navigation dans l'IHM
-    connect(ui->selectionEcranCafe, &QPushButton::clicked, this, &IhmPikawa::changerEcranCafe);
-    connect(ui->retourAccueilDeCafe, &QPushButton::clicked, this, &IhmPikawa::changerEcranAccueil);
-    connect(ui->selectionEcranMachine,
+    connect(ui->selectionMagasinCapsules,
             &QPushButton::clicked,
             this,
-            &IhmPikawa::changerEcranMachine);
+            &IhmPikawa::changerMagasinCapsules);
+    connect(ui->retourAccueilDeCafe, &QPushButton::clicked, this, &IhmPikawa::changerEcranAccueil);
+    connect(ui->selectionPreparationCafe,
+            &QPushButton::clicked,
+            this,
+            &IhmPikawa::changerPreparationCafe);
     connect(ui->retourAccueilDeMachine,
             &QPushButton::clicked,
             this,
             &IhmPikawa::changerEcranAccueil);
-    connect(ui->selectionEtatCafetiere, &QPushButton::clicked, this, &IhmPikawa::changerEcranEtatCafetiere);
-
 
     // Les boutons de sélection de capsules
     for(int i = 0; i < boutonsChoixCapsules.size(); ++i)
@@ -370,8 +428,10 @@ void IhmPikawa::gererEvenements()
             this,
             &IhmPikawa::gererEtatPreparation);
 
-    connect(tempsPreparationCafe, &QTimer::timeout, this, &IhmPikawa::miseAJourBarreProgression);
-
+    connect(minuteurPreparationCafe,
+            &QTimer::timeout,
+            this,
+            &IhmPikawa::mettreAJourBarreProgression);
 }
 
 void IhmPikawa::initialiserListeCapsules()
@@ -386,7 +446,7 @@ void IhmPikawa::initialiserListeCapsules()
             formatFont.setCapitalization(QFont::Capitalize);
             listesDeroulantesCapsules[i]->setFont(formatFont);
             listesDeroulantesCapsules[i]->addItem(
-                        listeCapsules[j].at(GestionMagasin::TableCapsule::DESIGNATION));
+              listeCapsules[j].at(GestionMagasin::TableCapsule::DESIGNATION));
         }
         listesDeroulantesCapsules[i]->addItem("Vide");
         listesDeroulantesCapsules[i]->addItem("Aucune");
@@ -409,8 +469,8 @@ void IhmPikawa::initialiserBoutonsCapsules()
     for(int i = 0; i < listesDeroulantesCapsules.size(); ++i)
     {
         if(listesDeroulantesCapsules[i]->currentText() != "Vide" &&
-                listesDeroulantesCapsules[i]->currentText() != "Aucune" &&
-                stocksRangeesCapsules[i]->value() > 0)
+           listesDeroulantesCapsules[i]->currentText() != "Aucune" &&
+           stocksRangeesCapsules[i]->value() > 0)
         {
             QFont formatFont = boutonsChoixCapsules[i]->font();
             formatFont.setCapitalization(QFont::Capitalize);
@@ -484,44 +544,4 @@ void IhmPikawa::deselectionnerRangee(QPushButton* bouton)
         if(bouton != boutonsChoixCapsules[i])
             boutonsChoixCapsules[i]->setChecked(false);
     }
-}
-
-void IhmPikawa::afficherpreparationCafeEncours()
-{
-    ui->progressionCafe->setVisible(true);
-    ui->etatCafePasPret->setVisible(true);
-    tempsPreparationCafe->start(1000); // 1000 ms = 1 seconde
-    ui->progressionCafe->setValue(0);
-}
-
-void IhmPikawa::miseAJourBarreProgression() {
-    static int progression = 0;
-    // Incrémentez la progression de 20% toutes les secondes
-    progression += 20;
-
-    // Mettez à jour la valeur de la barre de progression
-    ui->progressionCafe->setValue(progression);
-
-    if (progression >= 100) {
-        tempsPreparationCafe->stop();
-    }
-}
-
-void IhmPikawa::afficherpreparationCafePret()
-{
-    ui->etatCafePasPret->setVisible(false);
-    ui->etatCafePret->setVisible(true);
-    ui->progressionCafe->setValue(100);
-}
-
-void IhmPikawa::afficherEtatBacACapsulePlein()
-{
-    ui->etatBacPlein->setVisible(true);
-    ui->etatBacVide->setVisible(false);
-}
-
-void IhmPikawa::afficherEtatBacACapsulevide()
-{
-    ui->etatBacPlein->setVisible(false);
-    ui->etatBacVide->setVisible(true);
 }

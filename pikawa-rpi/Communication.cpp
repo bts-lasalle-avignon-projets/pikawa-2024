@@ -154,6 +154,7 @@ void Communication::lireDonneesDisponnible()
         {
             qDebug() << Q_FUNC_INFO << "Erreur trame invalide !" << trame;
         }
+        trame.clear();
     }
 }
 void Communication::traiterTrameEtatMagasin(QString trame)
