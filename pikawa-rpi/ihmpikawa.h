@@ -49,11 +49,11 @@ class IhmPikawa : public QMainWindow
 {
     Q_OBJECT
 
-  public:
+public:
     IhmPikawa(QWidget* parent = nullptr);
     ~IhmPikawa();
 
-  private:
+private:
     Ui::IhmPikawa*        ui;                     //!< la GUI de cette classe
     GestionMagasin*       gestionMagasin;         //!< l'association vers la classe GestionMachine
     BaseDeDonnees*        bdd;                    //!< l'association vers la classe BaseDeDonnees
@@ -63,8 +63,8 @@ class IhmPikawa : public QMainWindow
     QVector<QPushButton*> boutonsChoixCapsules;
     QVector<Utilisateur*> listeUtilisateurs;
     QVector<QLCDNumber*>  listeLCDNumberCapsules;
+    QTimer*               tempsPreparationCafe; // Minuterie pour contrôler la durée de la préparation du café
 
-    // @todo modifier les noms des boutons dans l'écran d'acceuil
     // @todo ajouter un bouton pour sélectionner le dernier café effectué
     // @todo afficher le nombre total de capsules restantes dans le magasin
 
@@ -73,6 +73,7 @@ class IhmPikawa : public QMainWindow
         EcranAccueil = 0,
         EcranCafe,
         EcranMachine,
+        EcranEtatCafetiere,
         NbEcrans
     };
 
@@ -89,9 +90,9 @@ class IhmPikawa : public QMainWindow
     int  rechercherRangeeSelectionnee();
     void deselectionnerRangee(QPushButton* bouton);
 
-  signals:
+signals:
 
-  public slots:
+public slots:
     void fermerApplication();
     void afficherEcran(IhmPikawa::Ecran ecran);
     void afficherEcranSuivant();
@@ -99,6 +100,7 @@ class IhmPikawa : public QMainWindow
     void changerEcranAccueil();
     void changerEcranCafe();
     void changerEcranMachine();
+    void changerEcranEtatCafetiere();
     void afficherCafetiereDetectee(QString nom, QString adresse);
     void afficherCafetiereConnectee(QString nom, QString adresse);
     void afficherCafetiereDeconnectee();
@@ -109,6 +111,11 @@ class IhmPikawa : public QMainWindow
     void selectionnerCapsule();
     void preparerCafeCourt();
     void preparerCafeLong();
+    void afficherpreparationCafeEncours();
+    void afficherpreparationCafePret();
+    void miseAJourBarreProgression();
+    void afficherEtatBacACapsulePlein();
+    void afficherEtatBacACapsulevide();
 };
 
 #endif // IHMPIKAWA_H
