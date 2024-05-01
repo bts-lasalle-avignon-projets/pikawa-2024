@@ -68,6 +68,7 @@ class IhmPikawa : public QMainWindow
 
     // @todo ajouter un bouton pour sélectionner le dernier café effectué
     // @todo afficher le nombre total de capsules restantes dans le magasin
+    // @todo initialiser le nombre de capsules restantes avec la base de donnée
 
     enum Ecran
     {
@@ -99,6 +100,7 @@ class IhmPikawa : public QMainWindow
     int  rechercherRangee(QPushButton* bouton);
     int  rechercherRangeeSelectionnee();
     void deselectionnerRangee(QPushButton* bouton);
+    void decrementerNbCapsules();
 
   signals:
 

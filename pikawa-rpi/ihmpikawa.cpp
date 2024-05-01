@@ -166,7 +166,7 @@ void IhmPikawa::gererEtatPreparation(int etat)
     {
         // Café prêt ou au repos
         afficherPreparationCafePret();
-        // @todo Décrémenter le nombre de capsules du magasin pour la capsule choisie
+        decrementerNbCapsules();
     }
     else if(etat == EtatPreparation::EnCours)
     {
@@ -224,9 +224,11 @@ void IhmPikawa::preparerCafeCourt()
     int rangeeSelectionnee = rechercherRangeeSelectionnee();
     if(rangeeSelectionnee != 0 && communicationBluetooth->estConnecte())
     {
-        QString trame = "#PIKAWA~P~1~" + QString::number(rangeeSelectionnee);
+        QString trame = "#PIKAWA~P~" + QString::number(rangeeSelectionnee) + "~1~\r\n";
         communicationBluetooth->envoyerTrame(trame);
-        // @todo désélectionner la capsule et le bouton boutonCafeCourt
+        ui->boutonCafeCourt->setChecked(false);
+        QPushButton* boutonRangee = boutonsChoixCapsules[rangeeSelectionnee - 1]; // Trouver le bouton de la rangée sélectionnée
+        deselectionnerRangee(boutonRangee);
     }
     else
     {
@@ -240,9 +242,12 @@ void IhmPikawa::preparerCafeLong()
     int rangeeSelectionnee = rechercherRangeeSelectionnee();
     if(rangeeSelectionnee != 0 && communicationBluetooth->estConnecte())
     {
-        QString trame = "#PIKAWA~P~3~" + QString::number(rangeeSelectionnee);
+        QString trame = "#PIKAWA~P~" + QString::number(rangeeSelectionnee) + "~3~\r\n";
+
         communicationBluetooth->envoyerTrame(trame);
-        // @todo désélectionner la capsule et le bouton boutonCafeLong
+        ui->boutonCafeLong->setChecked(false);
+        QPushButton* boutonRangee = boutonsChoixCapsules[rangeeSelectionnee - 1];
+        deselectionnerRangee(boutonRangee);
     }
     else
     {
@@ -255,14 +260,14 @@ void IhmPikawa::afficherPreparationCafeEncours()
     ui->progressionCafe->setVisible(true);
     ui->progressionCafe->setValue(0);
     ui->etatCafePreparation->setPixmap(
-      QPixmap(QString::fromUtf8("../images/iconeCafetiereVierge.png")));
+                QPixmap(QString::fromUtf8("../images/iconeCafetiereVierge.png")));
     minuteurPreparationCafe->start(1000); // 1000 ms = 1 seconde
 }
 
 void IhmPikawa::afficherPreparationCafePret()
 {
     ui->etatCafePreparation->setPixmap(
-      QPixmap(QString::fromUtf8("../images/iconeCafetiereFonctionnel.png")));
+                QPixmap(QString::fromUtf8("../images/iconeCafetiereFonctionnel.png")));
     ui->progressionCafe->setValue(100);
     QTimer::singleShot(2000, this, &IhmPikawa::changerEcranAccueil);
 }
@@ -286,7 +291,7 @@ void IhmPikawa::mettreAJourBarreProgression()
 void IhmPikawa::afficherErreurCapsule()
 {
     ui->etatCafePreparation->setPixmap(
-      QPixmap(QString::fromUtf8("../images/iconeCafetiereNonFonctionnel.png")));
+                QPixmap(QString::fromUtf8("../images/iconeCafetiereNonFonctionnel.png")));
     // @todo A remplacer par un bouton retour à l'accueil
     QTimer::singleShot(2000, this, &IhmPikawa::changerEcranAccueil);
 }
@@ -294,7 +299,7 @@ void IhmPikawa::afficherErreurCapsule()
 void IhmPikawa::afficherPreparationImpossible()
 {
     ui->etatCafePreparation->setPixmap(
-      QPixmap(QString::fromUtf8("../images/iconeCafetiereNonFonctionnel.png")));
+                QPixmap(QString::fromUtf8("../images/iconeCafetiereNonFonctionnel.png")));
     // @todo A remplacer par un bouton retour à l'accueil
     QTimer::singleShot(2000, this, &IhmPikawa::changerEcranAccueil);
 }
@@ -446,7 +451,7 @@ void IhmPikawa::initialiserListeCapsules()
             formatFont.setCapitalization(QFont::Capitalize);
             listesDeroulantesCapsules[i]->setFont(formatFont);
             listesDeroulantesCapsules[i]->addItem(
-              listeCapsules[j].at(GestionMagasin::TableCapsule::DESIGNATION));
+                        listeCapsules[j].at(GestionMagasin::TableCapsule::DESIGNATION));
         }
         listesDeroulantesCapsules[i]->addItem("Vide");
         listesDeroulantesCapsules[i]->addItem("Aucune");
@@ -469,8 +474,8 @@ void IhmPikawa::initialiserBoutonsCapsules()
     for(int i = 0; i < listesDeroulantesCapsules.size(); ++i)
     {
         if(listesDeroulantesCapsules[i]->currentText() != "Vide" &&
-           listesDeroulantesCapsules[i]->currentText() != "Aucune" &&
-           stocksRangeesCapsules[i]->value() > 0)
+                listesDeroulantesCapsules[i]->currentText() != "Aucune" &&
+                stocksRangeesCapsules[i]->value() > 0)
         {
             QFont formatFont = boutonsChoixCapsules[i]->font();
             formatFont.setCapitalization(QFont::Capitalize);
@@ -543,5 +548,19 @@ void IhmPikawa::deselectionnerRangee(QPushButton* bouton)
     {
         if(bouton != boutonsChoixCapsules[i])
             boutonsChoixCapsules[i]->setChecked(false);
+    }
+}
+void IhmPikawa::decrementerNbCapsules()
+{
+    int rangeeSelectionnee = rechercherRangeeSelectionnee();
+    if (rangeeSelectionnee >= 1 && rangeeSelectionnee <= listeLCDNumberCapsules.size()) // Vérifier que la rangée est valide
+    {
+        int capsulesRestantes = listeLCDNumberCapsules[rangeeSelectionnee - 1]->value(); // Récupérer le nombre de capsules restantes
+        if (capsulesRestantes > 0)
+        {
+            capsulesRestantes--; // Décrémenter le nombre de capsules
+
+            listeLCDNumberCapsules[rangeeSelectionnee - 1]->display(capsulesRestantes); // Mettre à jour l'affichage du nombre de capsules
+        }
     }
 }
