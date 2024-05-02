@@ -102,6 +102,8 @@ class IhmPikawa : public QMainWindow
     void rechercherCafetiere();
     void initialiserCapsulesRestantes();
     int  rechercherRangee(QPushButton* bouton);
+    int  rechercherRangee(QSpinBox* stockRangee);
+    int  rechercherRangee(QComboBox* listeDeroulanteCapsules);
     int  rechercherRangeeSelectionnee();
     void deselectionnerAutresRangees(QPushButton* bouton);
     void deselectionnerRangee(int rangee);
@@ -133,6 +135,8 @@ class IhmPikawa : public QMainWindow
     void mettreAJourBarreProgression();
     void afficherErreurCapsule();
     void afficherPreparationImpossible();
+    void modifierStock(int nbCapsules);
+    void choisirCapsuleStock(int idCapsule);
 };
 
 #endif // IHMPIKAWA_H

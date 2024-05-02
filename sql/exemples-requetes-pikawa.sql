@@ -28,6 +28,20 @@ SELECT * FROM Magasin;
 
 SELECT * FROM StockMagasin;
 
+SELECT Capsule.*, StockMagasin.rangee, StockMagasin.quantite, Magasin.quantiteMaxRangee FROM StockMagasin
+INNER JOIN Magasin ON Magasin.idMagasin=StockMagasin.idMagasin
+INNER JOIN Capsule ON Capsule.idCapsule=StockMagasin.idCapsule;
+
+idCapsule   marque      designation description intensite   rangee  quantite    quantiteMaxRangee
+1	        Nespresso	colombia	...	        6	        1	    0	        4
+1	        Nespresso	colombia	...	        6	        2	    0	        4
+2	        Nespresso	indonesia	...	        8	        3	    0	        4
+2	        Nespresso	indonesia	...	        8	        4	    0	        4
+3	        Nespresso	ethiopia	...	        4	        5	    0	        4
+4	        Nespresso	volluto	    ...	        4	        6	    0	        4
+5	        Nespresso	capriccio	...	        5	        7	    0	        4
+6	        Nespresso	cosi	    ...	        4	        8	    0	        4
+
 SELECT Magasin.nbRangees,Magasin.quantiteMaxRangee,StockMagasin.rangee,Capsule.designation,Capsule.intensite,StockMagasin.quantite FROM StockMagasin
 INNER JOIN Magasin ON Magasin.idMagasin=StockMagasin.idMagasin
 INNER JOIN Capsule ON Capsule.idCapsule=StockMagasin.idCapsule;

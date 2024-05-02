@@ -30,10 +30,24 @@ class GestionMagasin : public QObject
         DESCRIPTION = 3,
         INTENSITE   = 4
     };
+    /**
+     * @enum StockMagasin
+     * @brief Définit les différents champs
+     *
+     */
+    enum StockMagasin
+    {
+        ID_CAPSULE_STOCK           = 0,
+        DESIGNATION_CAPSULE_STOCK  = 1,
+        RANGEE_CAPSULE_STOCK       = 2,
+        QUANTITE_CAPSULE_STOCK     = 3,
+        QUANTITE_MAX_CAPSULE_STOCK = 4
+    };
 
   private:
     BaseDeDonnees*       bdd; //!< association vers la classe BaseDeDonnees
     QVector<QStringList> listeCapsules;
+    QVector<QStringList> stock;
     int                  choixCapsule;
 
   public:
@@ -44,6 +58,12 @@ class GestionMagasin : public QObject
     void                 chargerListeCapsules();
     QVector<QStringList> getListeCapsules() const;
     QStringList          getCapsule() const;
+    void                 chargerStockMagasin();
+    QVector<QStringList> getStock() const;
+    int                  getQuantite(int rangee) const;
+    QString              getDesignationCapsule(int rangee) const;
+    QString              getIdCapsule(int rangee) const;
+    int                  getQuantiteMax(int rangee) const;
 };
 
 #endif // GESTIONMAGASIN_H

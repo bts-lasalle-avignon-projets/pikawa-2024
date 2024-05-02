@@ -154,7 +154,6 @@ void IhmPikawa::gererEtatMagasin(QStringList presenceCapsules)
             boutonsChoixCapsules.at(i)->setEnabled(false);
         }
     }
-    qDebug() << "Mise à jour de l'état du magasin";
 }
 
 void IhmPikawa::gererEtatPreparation(int etat)
@@ -194,9 +193,8 @@ void IhmPikawa::selectionnerCapsule()
     QPushButton* boutonChoixCapsule = qobject_cast<QPushButton*>(sender());
     int          rangee             = rechercherRangee(boutonChoixCapsule);
 
-    qDebug() << Q_FUNC_INFO << "bouton" << boutonChoixCapsule->text();
-    qDebug() << Q_FUNC_INFO << "checked" << boutonChoixCapsule->isChecked();
-    qDebug() << Q_FUNC_INFO << "rangee" << rangee;
+    qDebug() << Q_FUNC_INFO << "bouton" << boutonChoixCapsule->text() << "rangee" << rangee
+             << "checked" << boutonChoixCapsule->isChecked();
 
     // Bouton sélectionné ?
     if(boutonChoixCapsule->isChecked())
@@ -321,6 +319,29 @@ void IhmPikawa::afficherPreparationImpossible()
     QTimer::singleShot(DUREE_AFFICHAGE, this, &IhmPikawa::changerEcranAccueil);
 }
 
+void IhmPikawa::modifierStock(int nbCapsules)
+{
+    QSpinBox* modificationStock = qobject_cast<QSpinBox*>(sender());
+    int       rangee            = rechercherRangee(modificationStock);
+
+    qDebug() << Q_FUNC_INFO << "rangee" << rangee << "nbCapsules" << nbCapsules;
+    qDebug() << Q_FUNC_INFO << "capsule" << listesDeroulantesCapsules[rangee - 1]->currentText();
+
+    // @todo Modifier le stock du magasin de nbCapsules seulement si une capsule a été sélectionnée
+    // dans la liste déroulante
+}
+
+void IhmPikawa::choisirCapsuleStock(int idCapsule)
+{
+    QComboBox* listeDeroulanteCapsules = qobject_cast<QComboBox*>(sender());
+    int        rangee                  = rechercherRangee(listeDeroulanteCapsules);
+
+    qDebug() << Q_FUNC_INFO << "rangee" << rangee << "idCapsule" << idCapsule;
+    qDebug() << Q_FUNC_INFO << "capsule" << listesDeroulantesCapsules[rangee - 1]->currentText();
+
+    // @todo Si le choix est "Vide" ou "Aucune" alors désactiver les QSpinBox sinon les activer
+}
+
 // Méthodes privées
 void IhmPikawa::initialiserRessourcesGUI()
 {
@@ -416,6 +437,24 @@ void IhmPikawa::gererEvenements()
                 &IhmPikawa::selectionnerCapsule);
     }
 
+    // La gestion du choix de capsules pour le stock
+    for(int i = 0; i < listesDeroulantesCapsules.size(); ++i)
+    {
+        connect(listesDeroulantesCapsules[i],
+                SIGNAL(currentIndexChanged(int)),
+                this,
+                SLOT(choisirCapsuleStock(int)));
+    }
+
+    // La gestion du stock
+    for(int i = 0; i < stocksRangeesCapsules.size(); ++i)
+    {
+        connect(stocksRangeesCapsules[i],
+                SIGNAL(valueChanged(int)),
+                this,
+                SLOT(modifierStock(int)));
+    }
+
     // Les boutons de préparation de café
     connect(ui->boutonCafeCourt, &QPushButton::clicked, this, &IhmPikawa::preparerCafeCourt);
     connect(ui->boutonCafeLong, &QPushButton::clicked, this, &IhmPikawa::preparerCafeLong);
@@ -472,7 +511,12 @@ void IhmPikawa::initialiserListeCapsules()
         }
         listesDeroulantesCapsules[i]->addItem("Vide");
         listesDeroulantesCapsules[i]->addItem("Aucune");
+
+        // @todo séléctionner la désignation de capsule actuellement dans le stock
+        stocksRangeesCapsules[i]->setEnabled(true);
+        // sinon mettre "Aucune" et désactiver le spinBox
         listesDeroulantesCapsules[i]->setCurrentIndex(listesDeroulantesCapsules[i]->count() - 1);
+        stocksRangeesCapsules[i]->setEnabled(false);
     }
 }
 
@@ -527,6 +571,7 @@ void IhmPikawa::rechercherCafetiere()
 
 void IhmPikawa::initialiserCapsulesRestantes()
 {
+    // @todo Récupérer le stock de gestionMagasin et mettre à jour l'affichage
     for(int i = 0; i < listeLCDNumberCapsules.size(); ++i)
     {
         listeLCDNumberCapsules[i]->display(0);
@@ -541,6 +586,32 @@ int IhmPikawa::rechercherRangee(QPushButton* bouton)
     for(int i = 0; i < boutonsChoixCapsules.size(); ++i)
     {
         if(bouton == boutonsChoixCapsules[i])
+            return i + 1;
+    }
+    return 0;
+}
+
+int IhmPikawa::rechercherRangee(QSpinBox* stockRangee)
+{
+    if(stockRangee == nullptr)
+        return 0;
+
+    for(int i = 0; i < stocksRangeesCapsules.size(); ++i)
+    {
+        if(stockRangee == stocksRangeesCapsules[i])
+            return i + 1;
+    }
+    return 0;
+}
+
+int IhmPikawa::rechercherRangee(QComboBox* listeDeroulanteCapsules)
+{
+    if(listeDeroulanteCapsules == nullptr)
+        return 0;
+
+    for(int i = 0; i < listesDeroulantesCapsules.size(); ++i)
+    {
+        if(listeDeroulanteCapsules == listesDeroulantesCapsules[i])
             return i + 1;
     }
     return 0;
