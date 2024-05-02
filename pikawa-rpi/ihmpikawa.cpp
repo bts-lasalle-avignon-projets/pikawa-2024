@@ -202,7 +202,7 @@ void IhmPikawa::selectionnerCapsule()
     if(boutonChoixCapsule->isChecked())
     {
         // déselectionner les autres
-        deselectionnerRangee(boutonChoixCapsule);
+        deselectionnerAutresRangees(boutonChoixCapsule);
     }
 
     // Aucune rangée sélectionnée ?
@@ -224,7 +224,7 @@ void IhmPikawa::preparerCafeCourt()
     if(rangeeSelectionnee != 0 && communicationBluetooth->estConnecte())
     {
         qDebug() << Q_FUNC_INFO << "rangeeSelectionnee" << rangeeSelectionnee;
-#ifdef VERSION_SIMULATEUR == "0.1"
+#if VERSION_SIMULATEUR == 1
         QString trame = QString(DEBUT_TRAME) + QString(TRAME_SEPARATEUR) +
                         QString(TRAME_PREPARATION_CAFE) + QString(TRAME_SEPARATEUR) +
                         QString::number(rangeeSelectionnee) + QString(TRAME_SEPARATEUR) +
@@ -248,7 +248,7 @@ void IhmPikawa::preparerCafeLong()
     if(rangeeSelectionnee != 0 && communicationBluetooth->estConnecte())
     {
         qDebug() << Q_FUNC_INFO << "rangeeSelectionnee" << rangeeSelectionnee;
-#ifdef VERSION_SIMULATEUR == "0.1"
+#if VERSION_SIMULATEUR == 1
         QString trame = QString(DEBUT_TRAME) + QString(TRAME_SEPARATEUR) +
                         QString(TRAME_PREPARATION_CAFE) + QString(TRAME_SEPARATEUR) +
                         QString::number(rangeeSelectionnee) + QString(TRAME_SEPARATEUR) +
@@ -556,7 +556,7 @@ int IhmPikawa::rechercherRangeeSelectionnee()
     return 0;
 }
 
-void IhmPikawa::deselectionnerRangee(QPushButton* bouton)
+void IhmPikawa::deselectionnerAutresRangees(QPushButton* bouton)
 {
     if(bouton == nullptr)
         return;

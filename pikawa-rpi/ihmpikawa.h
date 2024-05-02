@@ -103,7 +103,7 @@ class IhmPikawa : public QMainWindow
     void initialiserCapsulesRestantes();
     int  rechercherRangee(QPushButton* bouton);
     int  rechercherRangeeSelectionnee();
-    void deselectionnerRangee(QPushButton* bouton);
+    void deselectionnerAutresRangees(QPushButton* bouton);
     void deselectionnerRangee(int rangee);
     void decrementerNbCapsules();
 
