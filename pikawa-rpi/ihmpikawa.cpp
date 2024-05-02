@@ -224,10 +224,17 @@ void IhmPikawa::preparerCafeCourt()
     if(rangeeSelectionnee != 0 && communicationBluetooth->estConnecte())
     {
         qDebug() << Q_FUNC_INFO << "rangeeSelectionnee" << rangeeSelectionnee;
+#ifdef VERSION_SIMULATEUR == "0.1"
+        QString trame = QString(DEBUT_TRAME) + QString(TRAME_SEPARATEUR) +
+                        QString(TRAME_PREPARATION_CAFE) + QString(TRAME_SEPARATEUR) +
+                        QString::number(rangeeSelectionnee) + QString(TRAME_SEPARATEUR) +
+                        QString(CAFE_RISTRETTO);
+#else
         QString trame = QString(DEBUT_TRAME) + QString(TRAME_SEPARATEUR) +
                         QString(TRAME_PREPARATION_CAFE) + QString(TRAME_SEPARATEUR) +
                         QString::number(rangeeSelectionnee) + QString(TRAME_SEPARATEUR) +
                         QString(CAFE_RISTRETTO) + QString(TRAME_SEPARATEUR);
+#endif
         communicationBluetooth->envoyerTrame(trame);
         ui->boutonCafeCourt->setChecked(false);
         rangeeSelectionneePreparation = rangeeSelectionnee;
@@ -241,10 +248,18 @@ void IhmPikawa::preparerCafeLong()
     if(rangeeSelectionnee != 0 && communicationBluetooth->estConnecte())
     {
         qDebug() << Q_FUNC_INFO << "rangeeSelectionnee" << rangeeSelectionnee;
+#ifdef VERSION_SIMULATEUR == "0.1"
+        QString trame = QString(DEBUT_TRAME) + QString(TRAME_SEPARATEUR) +
+                        QString(TRAME_PREPARATION_CAFE) + QString(TRAME_SEPARATEUR) +
+                        QString::number(rangeeSelectionnee) + QString(TRAME_SEPARATEUR) +
+                        QString(CAFE_LUNGO);
+#else
         QString trame = QString(DEBUT_TRAME) + QString(TRAME_SEPARATEUR) +
                         QString(TRAME_PREPARATION_CAFE) + QString(TRAME_SEPARATEUR) +
                         QString::number(rangeeSelectionnee) + QString(TRAME_SEPARATEUR) +
                         QString(CAFE_LUNGO) + QString(TRAME_SEPARATEUR);
+#endif
+
         communicationBluetooth->envoyerTrame(trame);
         ui->boutonCafeLong->setChecked(false);
         rangeeSelectionneePreparation = rangeeSelectionnee;
