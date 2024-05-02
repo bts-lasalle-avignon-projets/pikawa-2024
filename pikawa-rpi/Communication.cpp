@@ -157,6 +157,7 @@ void Communication::lireDonneesDisponnible()
         trame.clear();
     }
 }
+
 void Communication::traiterTrameEtatMagasin(QString trame)
 {
     // Exemple de trame : "#PIKAWA~M~1~1~1~1~1~1~1~1~\r\n"

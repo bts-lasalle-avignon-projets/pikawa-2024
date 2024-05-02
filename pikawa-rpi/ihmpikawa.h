@@ -30,6 +30,9 @@
  */
 #define PLEIN_ECRAN_PI
 
+#define DUREE_PROGRESSION 1000 // en millisecondes
+#define DUREE_AFFICHAGE   2000 // en millisecondes
+
 namespace Ui
 {
 class IhmPikawa;
@@ -60,6 +63,7 @@ class IhmPikawa : public QMainWindow
     Communication*  communicationBluetooth; //!< l'association vers la classe Communication
     QTimer*
       minuteurPreparationCafe; //!< minuterie pour contrôler la durée de la préparation du café
+    int                   rangeeSelectionneePreparation;
     QVector<QComboBox*>   listesDeroulantesCapsules;
     QVector<QSpinBox*>    stocksRangeesCapsules;
     QVector<QPushButton*> boutonsChoixCapsules;
@@ -100,6 +104,7 @@ class IhmPikawa : public QMainWindow
     int  rechercherRangee(QPushButton* bouton);
     int  rechercherRangeeSelectionnee();
     void deselectionnerRangee(QPushButton* bouton);
+    void deselectionnerRangee(int rangee);
     void decrementerNbCapsules();
 
   signals:

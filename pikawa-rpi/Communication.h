@@ -2,6 +2,7 @@
 #define COMMUNICATION_H
 
 #include <QObject>
+#include <QString>
 #include <QtBluetooth>
 
 #define PREFIXE_NOM_CAFETIERE  "pikawa"
@@ -10,6 +11,10 @@
 #define DEBUT_TRAME            "#PIKAWA"
 #define FIN_TRAME              "\r\n"
 #define TRAME_SEPARATEUR       '~'
+
+#define CAFE_RISTRETTO '1'
+#define CAFE_ESPRESSO  '2'
+#define CAFE_LUNGO     '3'
 
 class Communication : public QObject
 {
