@@ -154,8 +154,10 @@ void Communication::lireDonneesDisponnible()
         {
             qDebug() << Q_FUNC_INFO << "Erreur trame invalide !" << trame;
         }
+        trame.clear();
     }
 }
+
 void Communication::traiterTrameEtatMagasin(QString trame)
 {
     // Exemple de trame : "#PIKAWA~M~1~1~1~1~1~1~1~1~\r\n"

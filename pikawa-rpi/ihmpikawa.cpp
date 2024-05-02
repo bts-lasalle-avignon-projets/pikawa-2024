@@ -11,7 +11,7 @@
  *
  * @brief Définition de la classe IhmPikawa
  * @author MDOIOUHOMA Nakib
- * @version 0.1
+ * @version 0.2
  */
 
 /**
@@ -23,7 +23,8 @@
  */
 IhmPikawa::IhmPikawa(QWidget* parent) :
     QMainWindow(parent), ui(new Ui::IhmPikawa), gestionMagasin(new GestionMagasin(this)),
-    bdd(BaseDeDonnees::getInstance()), communicationBluetooth(new Communication(this))
+    bdd(BaseDeDonnees::getInstance()), communicationBluetooth(new Communication(this)),
+    minuteurPreparationCafe(new QTimer(this)), rangeeSelectionneePreparation(0)
 {
     qDebug() << Q_FUNC_INFO;
     ui->setupUi(this);
@@ -81,15 +82,19 @@ void IhmPikawa::changerEcranAccueil()
     afficherEcran(IhmPikawa::Ecran::EcranAccueil);
 }
 
-void IhmPikawa::changerEcranCafe()
+void IhmPikawa::changerMagasinCapsules()
 {
-    afficherEcran(IhmPikawa::Ecran::EcranCafe);
+    afficherEcran(IhmPikawa::Ecran::EcranMagasinCapsules);
 }
 
-void IhmPikawa::changerEcranMachine()
+void IhmPikawa::changerPreparationCafe()
 {
     initialiserBoutonsCapsules();
-    afficherEcran(IhmPikawa::Ecran::EcranMachine);
+    afficherEcran(IhmPikawa::Ecran::EcranPreprationCafe);
+}
+void IhmPikawa::changerEcranEtatPreparation()
+{
+    afficherEcran(IhmPikawa::Ecran::EcranEtatPreparation);
 }
 
 void IhmPikawa::afficherCafetiereDetectee(QString nom, QString adresse)
@@ -138,13 +143,49 @@ void IhmPikawa::demanderEtatMagasin(QString nom, QString adresse)
 void IhmPikawa::gererEtatMagasin(QStringList presenceCapsules)
 {
     qDebug() << Q_FUNC_INFO << "presenceCapsules" << presenceCapsules;
-    // @todo gérer l'état du magasin
+    for(int i = 0; i < presenceCapsules.size(); i++)
+    {
+        if(presenceCapsules.at(i) == "1")
+        {
+            boutonsChoixCapsules.at(i)->setEnabled(true);
+        }
+        else
+        {
+            boutonsChoixCapsules.at(i)->setEnabled(false);
+        }
+    }
 }
 
 void IhmPikawa::gererEtatPreparation(int etat)
 {
     qDebug() << Q_FUNC_INFO << "etat" << etat;
-    // @todo gérer l'état de préparation
+
+    changerEcranEtatPreparation();
+    if(etat == EtatPreparation::Repos)
+    {
+        // Café prêt ou au repos
+        afficherPreparationCafePret();
+        decrementerNbCapsules();
+    }
+    else if(etat == EtatPreparation::EnCours)
+    {
+        afficherPreparationCafeEncours();
+    }
+    else if(etat == EtatPreparation::PreparationImpossible)
+    {
+        // Impossible (bac plein, ...)
+        afficherPreparationImpossible();
+    }
+    else if(etat == EtatPreparation::ErreurCapsule)
+    {
+        // Erreur capsule
+        afficherErreurCapsule();
+    }
+    else
+    {
+        qDebug() << Q_FUNC_INFO << "Erreur : état inconnu !" << etat;
+        changerEcranAccueil();
+    }
 }
 
 void IhmPikawa::selectionnerCapsule()
@@ -152,15 +193,14 @@ void IhmPikawa::selectionnerCapsule()
     QPushButton* boutonChoixCapsule = qobject_cast<QPushButton*>(sender());
     int          rangee             = rechercherRangee(boutonChoixCapsule);
 
-    qDebug() << Q_FUNC_INFO << "bouton" << boutonChoixCapsule->text();
-    qDebug() << Q_FUNC_INFO << "checked" << boutonChoixCapsule->isChecked();
-    qDebug() << Q_FUNC_INFO << "rangee" << rangee;
+    qDebug() << Q_FUNC_INFO << "bouton" << boutonChoixCapsule->text() << "rangee" << rangee
+             << "checked" << boutonChoixCapsule->isChecked();
 
     // Bouton sélectionné ?
     if(boutonChoixCapsule->isChecked())
     {
         // déselectionner les autres
-        deselectionnerRangee(boutonChoixCapsule);
+        deselectionnerAutresRangees(boutonChoixCapsule);
     }
 
     // Aucune rangée sélectionnée ?
@@ -178,18 +218,128 @@ void IhmPikawa::selectionnerCapsule()
 
 void IhmPikawa::preparerCafeCourt()
 {
-    qDebug() << Q_FUNC_INFO;
-    // @todo Récupérer le numéro de rangée correspondant à la capsule sélectionnée
-
-    // @todo Envoyer une trame de préparation de café court
+    int rangeeSelectionnee = rechercherRangeeSelectionnee();
+    if(rangeeSelectionnee != 0 && communicationBluetooth->estConnecte())
+    {
+        qDebug() << Q_FUNC_INFO << "rangeeSelectionnee" << rangeeSelectionnee;
+#if VERSION_SIMULATEUR == 1
+        QString trame = QString(DEBUT_TRAME) + QString(TRAME_SEPARATEUR) +
+                        QString(TRAME_PREPARATION_CAFE) + QString(TRAME_SEPARATEUR) +
+                        QString::number(rangeeSelectionnee) + QString(TRAME_SEPARATEUR) +
+                        QString(CAFE_RISTRETTO);
+#else
+        QString trame = QString(DEBUT_TRAME) + QString(TRAME_SEPARATEUR) +
+                        QString(TRAME_PREPARATION_CAFE) + QString(TRAME_SEPARATEUR) +
+                        QString::number(rangeeSelectionnee) + QString(TRAME_SEPARATEUR) +
+                        QString(CAFE_RISTRETTO) + QString(TRAME_SEPARATEUR);
+#endif
+        communicationBluetooth->envoyerTrame(trame);
+        ui->boutonCafeCourt->setChecked(false);
+        rangeeSelectionneePreparation = rangeeSelectionnee;
+        deselectionnerRangee(rangeeSelectionnee);
+    }
 }
 
 void IhmPikawa::preparerCafeLong()
 {
-    qDebug() << Q_FUNC_INFO;
-    // @todo Récupérer le numéro de rangée correspondant à la capsule sélectionnée
+    int rangeeSelectionnee = rechercherRangeeSelectionnee();
+    if(rangeeSelectionnee != 0 && communicationBluetooth->estConnecte())
+    {
+        qDebug() << Q_FUNC_INFO << "rangeeSelectionnee" << rangeeSelectionnee;
+#if VERSION_SIMULATEUR == 1
+        QString trame = QString(DEBUT_TRAME) + QString(TRAME_SEPARATEUR) +
+                        QString(TRAME_PREPARATION_CAFE) + QString(TRAME_SEPARATEUR) +
+                        QString::number(rangeeSelectionnee) + QString(TRAME_SEPARATEUR) +
+                        QString(CAFE_LUNGO);
+#else
+        QString trame = QString(DEBUT_TRAME) + QString(TRAME_SEPARATEUR) +
+                        QString(TRAME_PREPARATION_CAFE) + QString(TRAME_SEPARATEUR) +
+                        QString::number(rangeeSelectionnee) + QString(TRAME_SEPARATEUR) +
+                        QString(CAFE_LUNGO) + QString(TRAME_SEPARATEUR);
+#endif
 
-    // @todo Envoyer une trame de préparation de café long
+        communicationBluetooth->envoyerTrame(trame);
+        ui->boutonCafeLong->setChecked(false);
+        rangeeSelectionneePreparation = rangeeSelectionnee;
+        deselectionnerRangee(rangeeSelectionnee);
+    }
+}
+
+void IhmPikawa::afficherPreparationCafeEncours()
+{
+    qDebug() << Q_FUNC_INFO;
+    ui->progressionCafe->setVisible(true);
+    ui->progressionCafe->setValue(0);
+    ui->etatCafePreparation->setPixmap(
+      QPixmap(QString::fromUtf8("../images/iconeCafetiereVierge.png")));
+    minuteurPreparationCafe->start(DUREE_PROGRESSION); // en ms
+}
+
+void IhmPikawa::afficherPreparationCafePret()
+{
+    qDebug() << Q_FUNC_INFO;
+    ui->etatCafePreparation->setPixmap(
+      QPixmap(QString::fromUtf8("../images/iconeCafetiereFonctionnel.png")));
+    ui->progressionCafe->setValue(100);
+    QTimer::singleShot(DUREE_AFFICHAGE, this, &IhmPikawa::changerEcranAccueil);
+}
+
+void IhmPikawa::mettreAJourBarreProgression()
+{
+    static int progression = 0;
+
+    // Incrémentez la progression de 20% toutes les secondes
+    progression += 20;
+
+    // Mettez à jour la valeur de la barre de progression
+    ui->progressionCafe->setValue(progression);
+
+    if(progression >= 100)
+    {
+        minuteurPreparationCafe->stop();
+        progression = 0;
+    }
+}
+
+void IhmPikawa::afficherErreurCapsule()
+{
+    ui->progressionCafe->setVisible(false);
+    ui->etatCafePreparation->setPixmap(
+      QPixmap(QString::fromUtf8("../images/iconeCafetiereNonFonctionnel.png")));
+    // @todo A remplacer par un bouton retour à l'accueil
+    QTimer::singleShot(DUREE_AFFICHAGE, this, &IhmPikawa::changerEcranAccueil);
+}
+
+void IhmPikawa::afficherPreparationImpossible()
+{
+    ui->progressionCafe->setVisible(false);
+    ui->etatCafePreparation->setPixmap(
+      QPixmap(QString::fromUtf8("../images/iconeCafetiereNonFonctionnel.png")));
+    // @todo A remplacer par un bouton retour à l'accueil
+    QTimer::singleShot(DUREE_AFFICHAGE, this, &IhmPikawa::changerEcranAccueil);
+}
+
+void IhmPikawa::modifierStock(int nbCapsules)
+{
+    QSpinBox* modificationStock = qobject_cast<QSpinBox*>(sender());
+    int       rangee            = rechercherRangee(modificationStock);
+
+    qDebug() << Q_FUNC_INFO << "rangee" << rangee << "nbCapsules" << nbCapsules;
+    qDebug() << Q_FUNC_INFO << "capsule" << listesDeroulantesCapsules[rangee - 1]->currentText();
+
+    // @todo Modifier le stock du magasin de nbCapsules seulement si une capsule a été sélectionnée
+    // dans la liste déroulante
+}
+
+void IhmPikawa::choisirCapsuleStock(int idCapsule)
+{
+    QComboBox* listeDeroulanteCapsules = qobject_cast<QComboBox*>(sender());
+    int        rangee                  = rechercherRangee(listeDeroulanteCapsules);
+
+    qDebug() << Q_FUNC_INFO << "rangee" << rangee << "idCapsule" << idCapsule;
+    qDebug() << Q_FUNC_INFO << "capsule" << listesDeroulantesCapsules[rangee - 1]->currentText();
+
+    // @todo Si le choix est "Vide" ou "Aucune" alors désactiver les QSpinBox sinon les activer
 }
 
 // Méthodes privées
@@ -264,12 +414,15 @@ void IhmPikawa::gererEvenements()
 {
     qDebug() << Q_FUNC_INFO;
     // Navigation dans l'IHM
-    connect(ui->selectionEcranCafe, &QPushButton::clicked, this, &IhmPikawa::changerEcranCafe);
-    connect(ui->retourAccueilDeCafe, &QPushButton::clicked, this, &IhmPikawa::changerEcranAccueil);
-    connect(ui->selectionEcranMachine,
+    connect(ui->selectionMagasinCapsules,
             &QPushButton::clicked,
             this,
-            &IhmPikawa::changerEcranMachine);
+            &IhmPikawa::changerMagasinCapsules);
+    connect(ui->retourAccueilDeCafe, &QPushButton::clicked, this, &IhmPikawa::changerEcranAccueil);
+    connect(ui->selectionPreparationCafe,
+            &QPushButton::clicked,
+            this,
+            &IhmPikawa::changerPreparationCafe);
     connect(ui->retourAccueilDeMachine,
             &QPushButton::clicked,
             this,
@@ -282,6 +435,24 @@ void IhmPikawa::gererEvenements()
                 &QPushButton::clicked,
                 this,
                 &IhmPikawa::selectionnerCapsule);
+    }
+
+    // La gestion du choix de capsules pour le stock
+    for(int i = 0; i < listesDeroulantesCapsules.size(); ++i)
+    {
+        connect(listesDeroulantesCapsules[i],
+                SIGNAL(currentIndexChanged(int)),
+                this,
+                SLOT(choisirCapsuleStock(int)));
+    }
+
+    // La gestion du stock
+    for(int i = 0; i < stocksRangeesCapsules.size(); ++i)
+    {
+        connect(stocksRangeesCapsules[i],
+                SIGNAL(valueChanged(int)),
+                this,
+                SLOT(modifierStock(int)));
     }
 
     // Les boutons de préparation de café
@@ -317,6 +488,11 @@ void IhmPikawa::gererEvenements()
             &Communication::cafeEnPreparation,
             this,
             &IhmPikawa::gererEtatPreparation);
+
+    connect(minuteurPreparationCafe,
+            &QTimer::timeout,
+            this,
+            &IhmPikawa::mettreAJourBarreProgression);
 }
 
 void IhmPikawa::initialiserListeCapsules()
@@ -335,7 +511,12 @@ void IhmPikawa::initialiserListeCapsules()
         }
         listesDeroulantesCapsules[i]->addItem("Vide");
         listesDeroulantesCapsules[i]->addItem("Aucune");
+
+        // @todo séléctionner la désignation de capsule actuellement dans le stock
+        stocksRangeesCapsules[i]->setEnabled(true);
+        // sinon mettre "Aucune" et désactiver le spinBox
         listesDeroulantesCapsules[i]->setCurrentIndex(listesDeroulantesCapsules[i]->count() - 1);
+        stocksRangeesCapsules[i]->setEnabled(false);
     }
 }
 
@@ -390,6 +571,7 @@ void IhmPikawa::rechercherCafetiere()
 
 void IhmPikawa::initialiserCapsulesRestantes()
 {
+    // @todo Récupérer le stock de gestionMagasin et mettre à jour l'affichage
     for(int i = 0; i < listeLCDNumberCapsules.size(); ++i)
     {
         listeLCDNumberCapsules[i]->display(0);
@@ -409,6 +591,32 @@ int IhmPikawa::rechercherRangee(QPushButton* bouton)
     return 0;
 }
 
+int IhmPikawa::rechercherRangee(QSpinBox* stockRangee)
+{
+    if(stockRangee == nullptr)
+        return 0;
+
+    for(int i = 0; i < stocksRangeesCapsules.size(); ++i)
+    {
+        if(stockRangee == stocksRangeesCapsules[i])
+            return i + 1;
+    }
+    return 0;
+}
+
+int IhmPikawa::rechercherRangee(QComboBox* listeDeroulanteCapsules)
+{
+    if(listeDeroulanteCapsules == nullptr)
+        return 0;
+
+    for(int i = 0; i < listesDeroulantesCapsules.size(); ++i)
+    {
+        if(listeDeroulanteCapsules == listesDeroulantesCapsules[i])
+            return i + 1;
+    }
+    return 0;
+}
+
 int IhmPikawa::rechercherRangeeSelectionnee()
 {
     for(int i = 0; i < boutonsChoixCapsules.size(); ++i)
@@ -419,7 +627,7 @@ int IhmPikawa::rechercherRangeeSelectionnee()
     return 0;
 }
 
-void IhmPikawa::deselectionnerRangee(QPushButton* bouton)
+void IhmPikawa::deselectionnerAutresRangees(QPushButton* bouton)
 {
     if(bouton == nullptr)
         return;
@@ -428,5 +636,35 @@ void IhmPikawa::deselectionnerRangee(QPushButton* bouton)
     {
         if(bouton != boutonsChoixCapsules[i])
             boutonsChoixCapsules[i]->setChecked(false);
+    }
+}
+
+void IhmPikawa::deselectionnerRangee(int rangee)
+{
+    if(rangee >= 1 && rangee <= boutonsChoixCapsules.size()) // Vérifier que la rangée est valide
+    {
+        boutonsChoixCapsules[rangee - 1]->setChecked(false);
+    }
+}
+
+void IhmPikawa::decrementerNbCapsules()
+{
+    if(rangeeSelectionneePreparation >= 1 &&
+       rangeeSelectionneePreparation <=
+         listeLCDNumberCapsules.size()) // Vérifier que la rangée est valide
+    {
+        int capsulesRestantes = listeLCDNumberCapsules[rangeeSelectionneePreparation - 1]
+                                  ->value(); // Récupérer le nombre de capsules restantes
+        qDebug() << Q_FUNC_INFO << "rangeeSelectionneePreparation" << rangeeSelectionneePreparation
+                 << "capsulesRestantes" << capsulesRestantes;
+        if(capsulesRestantes > 0)
+        {
+            capsulesRestantes--; // Décrémenter le nombre de capsules
+
+            listeLCDNumberCapsules[rangeeSelectionneePreparation - 1]->display(
+              capsulesRestantes); // Mettre à jour l'affichage du nombre de capsules
+            // @todo Mettre à jour la base de données
+            rangeeSelectionneePreparation = 0;
+        }
     }
 }

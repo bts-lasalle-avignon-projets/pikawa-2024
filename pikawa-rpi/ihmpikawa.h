@@ -30,6 +30,9 @@
  */
 #define PLEIN_ECRAN_PI
 
+#define DUREE_PROGRESSION 1000 // en millisecondes
+#define DUREE_AFFICHAGE   2000 // en millisecondes
+
 namespace Ui
 {
 class IhmPikawa;
@@ -54,26 +57,39 @@ class IhmPikawa : public QMainWindow
     ~IhmPikawa();
 
   private:
-    Ui::IhmPikawa*        ui;                     //!< la GUI de cette classe
-    GestionMagasin*       gestionMagasin;         //!< l'association vers la classe GestionMachine
-    BaseDeDonnees*        bdd;                    //!< l'association vers la classe BaseDeDonnees
-    Communication*        communicationBluetooth; //!< l'association vers la classe Communication
+    Ui::IhmPikawa*  ui;                     //!< la GUI de cette classe
+    GestionMagasin* gestionMagasin;         //!< l'association vers la classe GestionMachine
+    BaseDeDonnees*  bdd;                    //!< l'association vers la classe BaseDeDonnees
+    Communication*  communicationBluetooth; //!< l'association vers la classe Communication
+    QTimer*
+      minuteurPreparationCafe; //!< minuterie pour contrôler la durée de la préparation du café
+    int                   rangeeSelectionneePreparation;
     QVector<QComboBox*>   listesDeroulantesCapsules;
     QVector<QSpinBox*>    stocksRangeesCapsules;
     QVector<QPushButton*> boutonsChoixCapsules;
     QVector<Utilisateur*> listeUtilisateurs;
     QVector<QLCDNumber*>  listeLCDNumberCapsules;
 
-    // @todo modifier les noms des boutons dans l'écran d'acceuil
     // @todo ajouter un bouton pour sélectionner le dernier café effectué
     // @todo afficher le nombre total de capsules restantes dans le magasin
+    // @todo initialiser le nombre de capsules restantes avec la base de donnée
 
     enum Ecran
     {
         EcranAccueil = 0,
-        EcranCafe,
-        EcranMachine,
+        EcranMagasinCapsules,
+        EcranPreprationCafe,
+        EcranEtatPreparation,
         NbEcrans
+    };
+
+    enum EtatPreparation
+    {
+        Repos = 0,
+        EnCours,
+        PreparationImpossible,
+        ErreurCapsule,
+        NbEtats
     };
 
     void initialiserRessourcesGUI();
@@ -86,8 +102,12 @@ class IhmPikawa : public QMainWindow
     void rechercherCafetiere();
     void initialiserCapsulesRestantes();
     int  rechercherRangee(QPushButton* bouton);
+    int  rechercherRangee(QSpinBox* stockRangee);
+    int  rechercherRangee(QComboBox* listeDeroulanteCapsules);
     int  rechercherRangeeSelectionnee();
-    void deselectionnerRangee(QPushButton* bouton);
+    void deselectionnerAutresRangees(QPushButton* bouton);
+    void deselectionnerRangee(int rangee);
+    void decrementerNbCapsules();
 
   signals:
 
@@ -97,18 +117,26 @@ class IhmPikawa : public QMainWindow
     void afficherEcranSuivant();
     void afficherEcranPrecedent();
     void changerEcranAccueil();
-    void changerEcranCafe();
-    void changerEcranMachine();
+    void changerMagasinCapsules();
+    void changerPreparationCafe();
+    void changerEcranEtatPreparation();
     void afficherCafetiereDetectee(QString nom, QString adresse);
     void afficherCafetiereConnectee(QString nom, QString adresse);
     void afficherCafetiereDeconnectee();
     void demarrerCommunication(QString nom, QString adresse);
     void demanderEtatMagasin(QString nom, QString adresse);
-    void gererEtatMagasin(QStringList presenceCapsules); // slot du signal etatMagasin()
-    void gererEtatPreparation(int etat);                 // slot du signal cafeEnPreparation()
+    void gererEtatMagasin(QStringList presenceCapsules);
+    void gererEtatPreparation(int etat);
     void selectionnerCapsule();
     void preparerCafeCourt();
     void preparerCafeLong();
+    void afficherPreparationCafeEncours();
+    void afficherPreparationCafePret();
+    void mettreAJourBarreProgression();
+    void afficherErreurCapsule();
+    void afficherPreparationImpossible();
+    void modifierStock(int nbCapsules);
+    void choisirCapsuleStock(int idCapsule);
 };
 
 #endif // IHMPIKAWA_H

@@ -14,7 +14,7 @@ BluetoothSerial SerialBT;                            //!< objet pour la communic
 static bool     connecte                    = false; //!< état de la connexion Bluetooth
 static int      rssi                        = 0;     //!< le niveau RSSI du Bluetooth
 static uint8_t  adresseMAC[ESP_BD_ADDR_LEN] = {
-    0, 0, 0, 0, 0, 0
+     0, 0, 0, 0, 0, 0
 }; //!< l'adresse MAC du Bluetooth connecté
 SSD1306Wire display(ADRESSE_I2C_OLED, I2C_SDA_OLED,
                     I2C_SCL_OLED);                               //!< l'objet OLED
@@ -387,6 +387,8 @@ String verifierTrame(String& trame)
             return String(TRAME_COMMANDE_PREPARATION);
         else
         {
+            Serial.print(compterParametres(trame));
+            Serial.println();
             erreurTrame = ERREUR_NB_PARAMETRES;
             return String(TRAME_ERREUR);
         }
