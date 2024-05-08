@@ -64,7 +64,8 @@ int GestionMagasin::getQuantite(int rangee) const
 {
     if(rangee >= 1 && rangee <= stock.size())
     {
-        return stock[rangee - 1][QUANTITE_CAPSULE_STOCK]; //rangee - 1 car l'indice du QVector commence à 0
+        return stock[rangee - 1][QUANTITE_CAPSULE_STOCK]
+          .toInt(); // rangee - 1 car l'indice du QVector commence à 0
     }
     return 0;
 }
@@ -91,7 +92,7 @@ int GestionMagasin::getQuantiteMax(int rangee) const
 {
     if(rangee >= 1 && rangee <= stock.size())
     {
-        return stock[rangee - 1][QUANTITE_MAX_CAPSULE_STOCK];
+        return stock[rangee - 1][QUANTITE_MAX_CAPSULE_STOCK].toInt();
     }
     return NB_CAPSULE_PAR_COLONNE;
 }
