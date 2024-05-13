@@ -28,6 +28,7 @@ void GestionMagasin::chargerListeCapsules()
 {
     QString requeteSQL = "SELECT * FROM Capsule";
     bdd->recuperer(requeteSQL, listeCapsules);
+    qDebug() << Q_FUNC_INFO << "listeCapsules" << listeCapsules;
 }
 
 QVector<QStringList> GestionMagasin::getListeCapsules() const
@@ -53,6 +54,7 @@ void GestionMagasin::chargerStockMagasin()
                          "INNER JOIN Capsule ON Capsule.idCapsule = StockMagasin.idCapsule";
 
     bdd->recuperer(requeteSQL, stock);
+    qDebug() << Q_FUNC_INFO << "stock" << stock;
 }
 
 QVector<QStringList> GestionMagasin::getStock() const

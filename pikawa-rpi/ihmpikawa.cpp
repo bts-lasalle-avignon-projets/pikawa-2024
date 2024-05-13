@@ -321,24 +321,16 @@ void IhmPikawa::afficherPreparationImpossible()
 
 void IhmPikawa::modifierStock(int nbCapsules)
 {
-    QSpinBox* modificationStock = qobject_cast<QSpinBox*>(sender());
-    int rangee = rechercherRangee(modificationStock);
+    QSpinBox* modificationStock   = qobject_cast<QSpinBox*>(sender());
+    int       rangee              = rechercherRangee(modificationStock);
+    QString   capsuleSelectionnee = listesDeroulantesCapsules[rangee - 1]->currentText();
+    qDebug() << Q_FUNC_INFO << "rangee" << rangee << "nbCapsules" << nbCapsules
+             << "capsuleSelectionnee" << capsuleSelectionnee;
 
-    qDebug() << Q_FUNC_INFO << "rangee" << rangee << "nbCapsules" << nbCapsules;
-    qDebug() << Q_FUNC_INFO << "capsule" << listesDeroulantesCapsules[rangee - 1]->currentText();
-
-    // Vérifie si une capsule a été sélectionnée dans la liste déroulante
-    QString capsuleSelectionnee = listesDeroulantesCapsules[rangee - 1]->currentText();
-    if (!capsuleSelectionnee.isEmpty())
+    if(capsuleSelectionnee != "aucune")
     {
-        for (QSpinBox* spinBox : qAsConst(stocksRangeesCapsules)) // Une capsule a été sélectionnée, activer les QSpinBox
-        {
-            spinBox->setEnabled(true);
-        }
-    }
-    else
-    {
-        qDebug() << "Aucune capsule sélectionnée.";
+        // @todo Mettre à jour la base de données (StockMagasin.quantite)
+        // @todo Mettre à jour le listeLCDNumberCapsules correspondant à la rangée
     }
 }
 
@@ -346,20 +338,18 @@ void IhmPikawa::choisirCapsuleStock(int idCapsule)
 {
     QComboBox* listeDeroulanteCapsules = qobject_cast<QComboBox*>(sender());
     int        rangee                  = rechercherRangee(listeDeroulanteCapsules);
+    QString    capsuleSelectionnee     = listesDeroulantesCapsules[rangee - 1]->currentText();
+    qDebug() << Q_FUNC_INFO << "rangee" << rangee << "idCapsule" << idCapsule
+             << "capsuleSelectionnee" << capsuleSelectionnee;
 
-    qDebug() << Q_FUNC_INFO << "rangee" << rangee << "idCapsule" << idCapsule;
-    qDebug() << Q_FUNC_INFO << "capsule" << listesDeroulantesCapsules[rangee - 1]->currentText();
-
-    QString choix = listeDeroulanteCapsules->currentText();
-
-    // Vérifier si le choix est "Vide" ou "Aucune", et désactiver les QSpinBox correspondantes
-    if (idCapsule == CHOIX_CAPSULE_VIDE || idCapsule == CHOIX_CAPSULE_AUCUNE)
+    if(capsuleSelectionnee != "aucune")
     {
-        stocksRangeesCapsules[rangee -1]->setEnabled(false);
+        // @todo Mettre à jour la base de données (StockMagasin.idCapsule)
+        stocksRangeesCapsules[rangee - 1]->setEnabled(true);
     }
     else
     {
-        stocksRangeesCapsules[rangee -1]->setEnabled(true);
+        stocksRangeesCapsules[rangee - 1]->setEnabled(false);
     }
 }
 
@@ -519,6 +509,7 @@ void IhmPikawa::gererEvenements()
 void IhmPikawa::initialiserListeCapsules()
 {
     QVector<QStringList> listeCapsules = gestionMagasin->getListeCapsules();
+    QVector<QStringList> stock         = gestionMagasin->getStock();
     for(int i = 0; i < listesDeroulantesCapsules.size(); ++i)
     {
         listesDeroulantesCapsules[i]->clear();
@@ -530,23 +521,33 @@ void IhmPikawa::initialiserListeCapsules()
             listesDeroulantesCapsules[i]->addItem(
               listeCapsules[j].at(GestionMagasin::TableCapsule::DESIGNATION));
         }
-        listesDeroulantesCapsules[i]->addItem("Vide");
-        listesDeroulantesCapsules[i]->addItem("Aucune");
+        QFont formatFont = listesDeroulantesCapsules[i]->font();
+        formatFont.setCapitalization(QFont::Capitalize);
+        listesDeroulantesCapsules[i]->setFont(formatFont);
+        listesDeroulantesCapsules[i]->addItem("aucune");
 
-        // @todo séléctionner la désignation de capsule actuellement dans le stock
-        stocksRangeesCapsules[i]->setEnabled(true);
-        // sinon mettre "Aucune" et désactiver le spinBox
-        listesDeroulantesCapsules[i]->setCurrentIndex(listesDeroulantesCapsules[i]->count() - 1);
-        stocksRangeesCapsules[i]->setEnabled(false);
+        // séléctionne la désignation de capsule actuellement dans le stock
+        listesDeroulantesCapsules[i]->setCurrentText(
+          stock[i].at(GestionMagasin::StockMagasin::DESIGNATION_CAPSULE_STOCK));
+
+        if(stock[i].at(GestionMagasin::StockMagasin::DESIGNATION_CAPSULE_STOCK) != "aucune")
+            stocksRangeesCapsules[i]->setEnabled(true);
+        else
+            stocksRangeesCapsules[i]->setEnabled(false);
     }
 }
 
 void IhmPikawa::initialiserStocksRangeeCapsules()
 {
-    for(int i = 0; i < stocksRangeesCapsules.size(); ++i)
+    QVector<QStringList> stock = gestionMagasin->getStock();
+    for(int i = 0; i < stock.size(); ++i)
     {
-        // pour l'instant, par défaut 0
-        stocksRangeesCapsules[i]->setValue(0);
+        int numeroRangee = stock[i].at(GestionMagasin::StockMagasin::RANGEE_CAPSULE_STOCK).toInt();
+        int quantiteRangee =
+          stock[i].at(GestionMagasin::StockMagasin::QUANTITE_CAPSULE_STOCK).toInt();
+        qDebug() << Q_FUNC_INFO << "numeroRangee" << numeroRangee << "quantiteRangee"
+                 << quantiteRangee;
+        stocksRangeesCapsules[numeroRangee - 1]->setValue(quantiteRangee);
     }
 }
 
@@ -592,10 +593,15 @@ void IhmPikawa::rechercherCafetiere()
 
 void IhmPikawa::initialiserCapsulesRestantes()
 {
-    // @todo Récupérer le stock de gestionMagasin et mettre à jour l'affichage
-    for(int i = 0; i < listeLCDNumberCapsules.size(); ++i)
+    QVector<QStringList> stock = gestionMagasin->getStock();
+    for(int i = 0; i < stock.size(); ++i)
     {
-        listeLCDNumberCapsules[i]->display(0);
+        int numeroRangee = stock[i].at(GestionMagasin::StockMagasin::RANGEE_CAPSULE_STOCK).toInt();
+        int quantiteRangee =
+          stock[i].at(GestionMagasin::StockMagasin::QUANTITE_CAPSULE_STOCK).toInt();
+        qDebug() << Q_FUNC_INFO << "numeroRangee" << numeroRangee << "quantiteRangee"
+                 << quantiteRangee;
+        listeLCDNumberCapsules[numeroRangee - 1]->display(quantiteRangee);
     }
 }
 
