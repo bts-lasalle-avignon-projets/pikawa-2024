@@ -322,13 +322,24 @@ void IhmPikawa::afficherPreparationImpossible()
 void IhmPikawa::modifierStock(int nbCapsules)
 {
     QSpinBox* modificationStock = qobject_cast<QSpinBox*>(sender());
-    int       rangee            = rechercherRangee(modificationStock);
+    int rangee = rechercherRangee(modificationStock);
 
     qDebug() << Q_FUNC_INFO << "rangee" << rangee << "nbCapsules" << nbCapsules;
     qDebug() << Q_FUNC_INFO << "capsule" << listesDeroulantesCapsules[rangee - 1]->currentText();
 
-    // @todo Modifier le stock du magasin de nbCapsules seulement si une capsule a été sélectionnée
-    // dans la liste déroulante
+    // Vérifie si une capsule a été sélectionnée dans la liste déroulante
+    QString capsuleSelectionnee = listesDeroulantesCapsules[rangee - 1]->currentText();
+    if (!capsuleSelectionnee.isEmpty())
+    {
+        for (QSpinBox* spinBox : qAsConst(stocksRangeesCapsules)) // Une capsule a été sélectionnée, activer les QSpinBox
+        {
+            spinBox->setEnabled(true);
+        }
+    }
+    else
+    {
+        qDebug() << "Aucune capsule sélectionnée.";
+    }
 }
 
 void IhmPikawa::choisirCapsuleStock(int idCapsule)
@@ -339,7 +350,17 @@ void IhmPikawa::choisirCapsuleStock(int idCapsule)
     qDebug() << Q_FUNC_INFO << "rangee" << rangee << "idCapsule" << idCapsule;
     qDebug() << Q_FUNC_INFO << "capsule" << listesDeroulantesCapsules[rangee - 1]->currentText();
 
-    // @todo Si le choix est "Vide" ou "Aucune" alors désactiver les QSpinBox sinon les activer
+    QString choix = listeDeroulanteCapsules->currentText();
+
+    // Vérifier si le choix est "Vide" ou "Aucune", et désactiver les QSpinBox correspondantes
+    if (idCapsule == CHOIX_CAPSULE_VIDE || idCapsule == CHOIX_CAPSULE_AUCUNE)
+    {
+        stocksRangeesCapsules[rangee -1]->setEnabled(false);
+    }
+    else
+    {
+        stocksRangeesCapsules[rangee -1]->setEnabled(true);
+    }
 }
 
 // Méthodes privées

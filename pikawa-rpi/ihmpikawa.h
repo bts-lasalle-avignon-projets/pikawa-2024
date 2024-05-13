@@ -33,6 +33,9 @@
 #define DUREE_PROGRESSION 1000 // en millisecondes
 #define DUREE_AFFICHAGE   2000 // en millisecondes
 
+#define CHOIX_CAPSULE_AUCUNE 9
+#define CHOIX_CAPSULE_VIDE   8
+
 namespace Ui
 {
 class IhmPikawa;
