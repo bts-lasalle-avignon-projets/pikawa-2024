@@ -1,8 +1,7 @@
 #include "GestionMagasin.h"
 #include "BaseDeDonnees.h"
 
-GestionMagasin::GestionMagasin(QObject* parent) :
-    QObject(parent), bdd(BaseDeDonnees::getInstance()), choixCapsule(CHOIX_CAPSULE_NON_DEFINI)
+GestionMagasin::GestionMagasin(QObject* parent) : QObject(parent), bdd(BaseDeDonnees::getInstance())
 {
     chargerListeCapsules();
     chargerStockMagasin();
@@ -11,17 +10,6 @@ GestionMagasin::GestionMagasin(QObject* parent) :
 GestionMagasin::~GestionMagasin()
 {
     BaseDeDonnees::detruireInstance();
-}
-
-int GestionMagasin::getChoixCapsule() const
-{
-    return choixCapsule;
-}
-
-void GestionMagasin::setChoixCapsule(int choixCapsule)
-{
-    if(choixCapsule != CHOIX_CAPSULE_NON_DEFINI && choixCapsule < listeCapsules.size())
-        this->choixCapsule = choixCapsule;
 }
 
 void GestionMagasin::chargerListeCapsules()
@@ -34,14 +22,6 @@ void GestionMagasin::chargerListeCapsules()
 QVector<QStringList> GestionMagasin::getListeCapsules() const
 {
     return listeCapsules;
-}
-
-QStringList GestionMagasin::getCapsule() const
-{
-    if(choixCapsule != CHOIX_CAPSULE_NON_DEFINI && choixCapsule < listeCapsules.size())
-        return listeCapsules[choixCapsule];
-    else
-        return QStringList();
 }
 
 void GestionMagasin::chargerStockMagasin()

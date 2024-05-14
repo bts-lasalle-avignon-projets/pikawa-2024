@@ -69,6 +69,7 @@ class IhmPikawa : public QMainWindow
     QVector<QPushButton*> boutonsChoixCapsules;
     QVector<Utilisateur*> listeUtilisateurs;
     QVector<QLCDNumber*>  listeLCDNumberCapsules;
+    QStringList           presenceCapsulesPikawa;
 
     // @todo ajouter un bouton pour sélectionner le dernier café effectué
     // @todo afficher le nombre total de capsules restantes dans le magasin
@@ -135,7 +136,7 @@ class IhmPikawa : public QMainWindow
     void afficherErreurCapsule();
     void afficherPreparationImpossible();
     void modifierStock(int nbCapsules);
-    void choisirCapsuleStock(int idCapsule);
+    void choisirCapsuleStock(int indexCapsule);
 };
 
 #endif // IHMPIKAWA_H
