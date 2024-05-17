@@ -143,17 +143,7 @@ void IhmPikawa::demanderEtatMagasin(QString nom, QString adresse)
 void IhmPikawa::gererEtatMagasin(QStringList presenceCapsules)
 {
     qDebug() << Q_FUNC_INFO << "presenceCapsules" << presenceCapsules;
-    for(int i = 0; i < presenceCapsules.size(); i++)
-    {
-        if(presenceCapsules.at(i) == "1")
-        {
-            boutonsChoixCapsules.at(i)->setEnabled(true);
-        }
-        else
-        {
-            boutonsChoixCapsules.at(i)->setEnabled(false);
-        }
-    }
+    presenceCapsulesPikawa = presenceCapsules;
 }
 
 void IhmPikawa::gererEtatPreparation(int etat)
@@ -321,25 +311,50 @@ void IhmPikawa::afficherPreparationImpossible()
 
 void IhmPikawa::modifierStock(int nbCapsules)
 {
-    QSpinBox* modificationStock = qobject_cast<QSpinBox*>(sender());
-    int       rangee            = rechercherRangee(modificationStock);
+    QSpinBox* modificationStock   = qobject_cast<QSpinBox*>(sender());
+    int       rangee              = rechercherRangee(modificationStock);
+    QString   capsuleSelectionnee = listesDeroulantesCapsules[rangee - 1]->currentText();
+    qDebug() << Q_FUNC_INFO << "rangee" << rangee << "nbCapsules" << nbCapsules
+             << "capsuleSelectionnee" << capsuleSelectionnee;
 
-    qDebug() << Q_FUNC_INFO << "rangee" << rangee << "nbCapsules" << nbCapsules;
-    qDebug() << Q_FUNC_INFO << "capsule" << listesDeroulantesCapsules[rangee - 1]->currentText();
-
-    // @todo Modifier le stock du magasin de nbCapsules seulement si une capsule a été sélectionnée
-    // dans la liste déroulante
+    if(capsuleSelectionnee != "aucune")
+    {
+        qDebug() << Q_FUNC_INFO << "nbCapsules" << nbCapsules << "rangee" << rangee;
+        QString requeteSQL = "UPDATE StockMagasin SET quantite='" + QString::number(nbCapsules) +
+                             "' WHERE rangee='" + QString::number(rangee) + "'";
+        if(bdd->executer(requeteSQL))
+        {
+            listeLCDNumberCapsules[rangee - 1]->display(nbCapsules);
+        }
+    }
 }
 
-void IhmPikawa::choisirCapsuleStock(int idCapsule)
+void IhmPikawa::choisirCapsuleStock(int indexCapsule)
 {
     QComboBox* listeDeroulanteCapsules = qobject_cast<QComboBox*>(sender());
     int        rangee                  = rechercherRangee(listeDeroulanteCapsules);
+    QString    capsuleSelectionnee     = listesDeroulantesCapsules[rangee - 1]->currentText();
+    qDebug() << Q_FUNC_INFO << "rangee" << rangee << "indexCapsule" << indexCapsule
+             << "capsuleSelectionnee" << capsuleSelectionnee;
 
-    qDebug() << Q_FUNC_INFO << "rangee" << rangee << "idCapsule" << idCapsule;
-    qDebug() << Q_FUNC_INFO << "capsule" << listesDeroulantesCapsules[rangee - 1]->currentText();
+    if(capsuleSelectionnee != "aucune")
+    {
+        qDebug() << Q_FUNC_INFO << "rangee" << rangee << "actuel idCapsule"
+                 << gestionMagasin->getIdCapsuleRangee(rangee) << "nouvel idCapsule"
+                 << gestionMagasin->getIdCapsuleListe(indexCapsule);
 
-    // @todo Si le choix est "Vide" ou "Aucune" alors désactiver les QSpinBox sinon les activer
+        QString requeteSQL = "UPDATE StockMagasin SET idCapsule='" +
+                             gestionMagasin->getIdCapsuleListe(indexCapsule) + "' WHERE rangee='" +
+                             QString::number(rangee) + "'";
+        if(bdd->executer(requeteSQL))
+        {
+            stocksRangeesCapsules[rangee - 1]->setEnabled(true);
+        }
+    }
+    else
+    {
+        stocksRangeesCapsules[rangee - 1]->setEnabled(false);
+    }
 }
 
 // Méthodes privées
@@ -498,6 +513,7 @@ void IhmPikawa::gererEvenements()
 void IhmPikawa::initialiserListeCapsules()
 {
     QVector<QStringList> listeCapsules = gestionMagasin->getListeCapsules();
+    QVector<QStringList> stock         = gestionMagasin->getStock();
     for(int i = 0; i < listesDeroulantesCapsules.size(); ++i)
     {
         listesDeroulantesCapsules[i]->clear();
@@ -509,23 +525,33 @@ void IhmPikawa::initialiserListeCapsules()
             listesDeroulantesCapsules[i]->addItem(
               listeCapsules[j].at(GestionMagasin::TableCapsule::DESIGNATION));
         }
-        listesDeroulantesCapsules[i]->addItem("Vide");
-        listesDeroulantesCapsules[i]->addItem("Aucune");
+        QFont formatFont = listesDeroulantesCapsules[i]->font();
+        formatFont.setCapitalization(QFont::Capitalize);
+        listesDeroulantesCapsules[i]->setFont(formatFont);
+        listesDeroulantesCapsules[i]->addItem("aucune");
 
-        // @todo séléctionner la désignation de capsule actuellement dans le stock
-        stocksRangeesCapsules[i]->setEnabled(true);
-        // sinon mettre "Aucune" et désactiver le spinBox
-        listesDeroulantesCapsules[i]->setCurrentIndex(listesDeroulantesCapsules[i]->count() - 1);
-        stocksRangeesCapsules[i]->setEnabled(false);
+        // séléctionne la désignation de capsule actuellement dans le stock
+        listesDeroulantesCapsules[i]->setCurrentText(
+          stock[i].at(GestionMagasin::StockMagasin::DESIGNATION_CAPSULE_STOCK));
+
+        if(stock[i].at(GestionMagasin::StockMagasin::DESIGNATION_CAPSULE_STOCK) != "aucune")
+            stocksRangeesCapsules[i]->setEnabled(true);
+        else
+            stocksRangeesCapsules[i]->setEnabled(false);
     }
 }
 
 void IhmPikawa::initialiserStocksRangeeCapsules()
 {
-    for(int i = 0; i < stocksRangeesCapsules.size(); ++i)
+    QVector<QStringList> stock = gestionMagasin->getStock();
+    for(int i = 0; i < stock.size(); ++i)
     {
-        // pour l'instant, par défaut 0
-        stocksRangeesCapsules[i]->setValue(0);
+        int numeroRangee = stock[i].at(GestionMagasin::StockMagasin::RANGEE_CAPSULE_STOCK).toInt();
+        int quantiteRangee =
+          stock[i].at(GestionMagasin::StockMagasin::QUANTITE_CAPSULE_STOCK).toInt();
+        qDebug() << Q_FUNC_INFO << "numeroRangee" << numeroRangee << "quantiteRangee"
+                 << quantiteRangee;
+        stocksRangeesCapsules[numeroRangee - 1]->setValue(quantiteRangee);
     }
 }
 
@@ -534,8 +560,7 @@ void IhmPikawa::initialiserBoutonsCapsules()
     qDebug() << Q_FUNC_INFO;
     for(int i = 0; i < listesDeroulantesCapsules.size(); ++i)
     {
-        if(listesDeroulantesCapsules[i]->currentText() != "Vide" &&
-           listesDeroulantesCapsules[i]->currentText() != "Aucune" &&
+        if(listesDeroulantesCapsules[i]->currentText() != "aucune" &&
            stocksRangeesCapsules[i]->value() > 0)
         {
             QFont formatFont = boutonsChoixCapsules[i]->font();
@@ -548,6 +573,13 @@ void IhmPikawa::initialiserBoutonsCapsules()
         {
             boutonsChoixCapsules[i]->setText("");
             boutonsChoixCapsules[i]->setEnabled(false);
+        }
+    }
+    for(int i = 0; i < presenceCapsulesPikawa.size(); i++)
+    {
+        if(presenceCapsulesPikawa.at(i) == "0")
+        {
+            boutonsChoixCapsules.at(i)->setEnabled(false);
         }
     }
 }
@@ -571,10 +603,15 @@ void IhmPikawa::rechercherCafetiere()
 
 void IhmPikawa::initialiserCapsulesRestantes()
 {
-    // @todo Récupérer le stock de gestionMagasin et mettre à jour l'affichage
-    for(int i = 0; i < listeLCDNumberCapsules.size(); ++i)
+    QVector<QStringList> stock = gestionMagasin->getStock();
+    for(int i = 0; i < stock.size(); ++i)
     {
-        listeLCDNumberCapsules[i]->display(0);
+        int numeroRangee = stock[i].at(GestionMagasin::StockMagasin::RANGEE_CAPSULE_STOCK).toInt();
+        int quantiteRangee =
+          stock[i].at(GestionMagasin::StockMagasin::QUANTITE_CAPSULE_STOCK).toInt();
+        qDebug() << Q_FUNC_INFO << "numeroRangee" << numeroRangee << "quantiteRangee"
+                 << quantiteRangee;
+        listeLCDNumberCapsules[numeroRangee - 1]->display(quantiteRangee);
     }
 }
 
@@ -663,7 +700,11 @@ void IhmPikawa::decrementerNbCapsules()
 
             listeLCDNumberCapsules[rangeeSelectionneePreparation - 1]->display(
               capsulesRestantes); // Mettre à jour l'affichage du nombre de capsules
-            // @todo Mettre à jour la base de données
+
+            QString requeteSQL = "UPDATE StockMagasin SET quantite='" +
+                                 QString::number(capsulesRestantes) + "' WHERE rangee='" +
+                                 QString::number(rangeeSelectionneePreparation) + "'";
+            bdd->executer(requeteSQL);
             rangeeSelectionneePreparation = 0;
         }
     }

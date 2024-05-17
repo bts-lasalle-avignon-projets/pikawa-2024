@@ -1,8 +1,7 @@
 #include "GestionMagasin.h"
 #include "BaseDeDonnees.h"
 
-GestionMagasin::GestionMagasin(QObject* parent) :
-    QObject(parent), bdd(BaseDeDonnees::getInstance()), choixCapsule(CHOIX_CAPSULE_NON_DEFINI)
+GestionMagasin::GestionMagasin(QObject* parent) : QObject(parent), bdd(BaseDeDonnees::getInstance())
 {
     chargerListeCapsules();
     chargerStockMagasin();
@@ -13,21 +12,11 @@ GestionMagasin::~GestionMagasin()
     BaseDeDonnees::detruireInstance();
 }
 
-int GestionMagasin::getChoixCapsule() const
-{
-    return choixCapsule;
-}
-
-void GestionMagasin::setChoixCapsule(int choixCapsule)
-{
-    if(choixCapsule != CHOIX_CAPSULE_NON_DEFINI && choixCapsule < listeCapsules.size())
-        this->choixCapsule = choixCapsule;
-}
-
 void GestionMagasin::chargerListeCapsules()
 {
     QString requeteSQL = "SELECT * FROM Capsule";
     bdd->recuperer(requeteSQL, listeCapsules);
+    qDebug() << Q_FUNC_INFO << "listeCapsules" << listeCapsules;
 }
 
 QVector<QStringList> GestionMagasin::getListeCapsules() const
@@ -35,24 +24,17 @@ QVector<QStringList> GestionMagasin::getListeCapsules() const
     return listeCapsules;
 }
 
-QStringList GestionMagasin::getCapsule() const
-{
-    if(choixCapsule != CHOIX_CAPSULE_NON_DEFINI && choixCapsule < listeCapsules.size())
-        return listeCapsules[choixCapsule];
-    else
-        return QStringList();
-}
-
 void GestionMagasin::chargerStockMagasin()
 {
-    // @todo Effectuer la requête SQL permettant de récupérer le stock actuel du magasin
-    /*
-     * Exemple de requête :
-       SELECT Capsule.idCapsule, Capsule.designation, StockMagasin.rangee, StockMagasin.quantite,
-     Magasin.quantiteMaxRangee FROM StockMagasin INNER JOIN Magasin ON
-     Magasin.idMagasin=StockMagasin.idMagasin INNER JOIN Capsule ON
-     Capsule.idCapsule=StockMagasin.idCapsule;
-     */
+    QString requeteSQL = "SELECT Capsule.idCapsule, Capsule.designation, "
+                         "StockMagasin.rangee, StockMagasin.quantite, "
+                         "Magasin.quantiteMaxRangee "
+                         "FROM StockMagasin "
+                         "INNER JOIN Magasin ON Magasin.idMagasin = StockMagasin.idMagasin "
+                         "INNER JOIN Capsule ON Capsule.idCapsule = StockMagasin.idCapsule";
+
+    bdd->recuperer(requeteSQL, stock);
+    qDebug() << Q_FUNC_INFO << "stock" << stock;
 }
 
 QVector<QStringList> GestionMagasin::getStock() const
@@ -64,7 +46,8 @@ int GestionMagasin::getQuantite(int rangee) const
 {
     if(rangee >= 1 && rangee <= stock.size())
     {
-        // @todo retourner le nombre de capsules contenu dans stock pour cette rangee
+        return stock[rangee - 1][QUANTITE_CAPSULE_STOCK]
+          .toInt(); // rangee - 1 car l'indice du QVector commence à 0
     }
     return 0;
 }
@@ -73,16 +56,16 @@ QString GestionMagasin::getDesignationCapsule(int rangee) const
 {
     if(rangee >= 1 && rangee <= stock.size())
     {
-        // @todo retourner la designation des capsules contenu dans stock pour cette rangee
+        return stock[rangee - 1][DESIGNATION_CAPSULE_STOCK];
     }
     return QString();
 }
 
-QString GestionMagasin::getIdCapsule(int rangee) const
+QString GestionMagasin::getIdCapsuleRangee(int rangee) const
 {
     if(rangee >= 1 && rangee <= stock.size())
     {
-        // @todo retourner l'id des capsules contenu dans stock pour cette rangee
+        return stock[rangee - 1][ID_CAPSULE_STOCK];
     }
     return QString();
 }
@@ -91,7 +74,16 @@ int GestionMagasin::getQuantiteMax(int rangee) const
 {
     if(rangee >= 1 && rangee <= stock.size())
     {
-        // @todo retourner la quantité max de capsules contenu dans stock pour cette rangee
+        return stock[rangee - 1][QUANTITE_MAX_CAPSULE_STOCK].toInt();
     }
     return NB_CAPSULE_PAR_COLONNE;
+}
+
+QString GestionMagasin::getIdCapsuleListe(int indexCapsule) const
+{
+    if(indexCapsule >= 0 && indexCapsule < stock.size())
+    {
+        return listeCapsules[indexCapsule].at(GestionMagasin::TableCapsule::ID_CAPSULE);
+    }
+    return QString();
 }

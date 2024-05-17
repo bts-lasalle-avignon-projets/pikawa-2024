@@ -48,22 +48,20 @@ class GestionMagasin : public QObject
     BaseDeDonnees*       bdd; //!< association vers la classe BaseDeDonnees
     QVector<QStringList> listeCapsules;
     QVector<QStringList> stock;
-    int                  choixCapsule;
 
   public:
     GestionMagasin(QObject* parent = nullptr);
     virtual ~GestionMagasin();
-    int                  getChoixCapsule() const;
-    void                 setChoixCapsule(int choixCapsule);
+
     void                 chargerListeCapsules();
     QVector<QStringList> getListeCapsules() const;
-    QStringList          getCapsule() const;
     void                 chargerStockMagasin();
     QVector<QStringList> getStock() const;
     int                  getQuantite(int rangee) const;
     QString              getDesignationCapsule(int rangee) const;
-    QString              getIdCapsule(int rangee) const;
+    QString              getIdCapsuleRangee(int rangee) const;
     int                  getQuantiteMax(int rangee) const;
+    QString              getIdCapsuleListe(int indexCapsule) const;
 };
 
 #endif // GESTIONMAGASIN_H
