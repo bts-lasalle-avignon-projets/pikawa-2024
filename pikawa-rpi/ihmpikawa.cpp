@@ -319,10 +319,13 @@ void IhmPikawa::modifierStock(int nbCapsules)
 
     if(capsuleSelectionnee != "aucune")
     {
-        // @todo Mettre à jour (UPDATE) la base de données (StockMagasin.quantite de
-        // StockMagasin.rangee)
         qDebug() << Q_FUNC_INFO << "nbCapsules" << nbCapsules << "rangee" << rangee;
-        QString requeteSQL = "";
+        QString requeteSQL = "UPDATE StockMagasin SET StockMagasin.quantite='" +
+                             QString::number(nbCapsules) +
+                             "'"
+                             "WHERE StockMagasin.rangee='" +
+                             QString::number(rangee) + "'";
+
         bdd->executer(requeteSQL);
         // @todo Mettre à jour le listeLCDNumberCapsules correspondant à la rangée
     }
@@ -342,7 +345,12 @@ void IhmPikawa::choisirCapsuleStock(int indexCapsule)
         // StockMagasin.rangee)
         qDebug() << Q_FUNC_INFO << "idCapsule" << gestionMagasin->getIdCapsule(rangee) << "rangee"
                  << rangee;
-        QString requeteSQL = "";
+        QString requeteSQL = "UPDATE StockMagasin SET StockMagasin.idCapsule='" +
+                             QString::number(indexCapsule) +
+                             "'"
+                             "WHERE StockMagasin.rangee='" +
+                             QString::number(rangee) + "'";
+
         bdd->executer(requeteSQL);
         stocksRangeesCapsules[rangee - 1]->setEnabled(true);
     }
@@ -695,7 +703,12 @@ void IhmPikawa::decrementerNbCapsules()
 
             listeLCDNumberCapsules[rangeeSelectionneePreparation - 1]->display(
               capsulesRestantes); // Mettre à jour l'affichage du nombre de capsules
-            // @todo Mettre à jour la base de données
+
+            QString requeteSQL =
+              "UPDATE StockMagasin SET StockMagasin.quantite = " +
+              QString::number(capsulesRestantes) +
+              "WHERE StockMagasin.rangee = " + QString::number(rangeeSelectionneePreparation);
+            bdd->executer(requeteSQL);
             rangeeSelectionneePreparation = 0;
         }
     }
