@@ -320,14 +320,12 @@ void IhmPikawa::modifierStock(int nbCapsules)
     if(capsuleSelectionnee != "aucune")
     {
         qDebug() << Q_FUNC_INFO << "nbCapsules" << nbCapsules << "rangee" << rangee;
-        QString requeteSQL = "UPDATE StockMagasin SET StockMagasin.quantite='" +
-                             QString::number(nbCapsules) +
-                             "'"
-                             "WHERE StockMagasin.rangee='" +
-                             QString::number(rangee) + "'";
-
-        bdd->executer(requeteSQL);
-        // @todo Mettre à jour le listeLCDNumberCapsules correspondant à la rangée
+        QString requeteSQL = "UPDATE StockMagasin SET quantite='" + QString::number(nbCapsules) +
+                             "' WHERE rangee='" + QString::number(rangee) + "'";
+        if(bdd->executer(requeteSQL))
+        {
+            listeLCDNumberCapsules[rangee - 1]->display(nbCapsules);
+        }
     }
 }
 
@@ -341,18 +339,17 @@ void IhmPikawa::choisirCapsuleStock(int indexCapsule)
 
     if(capsuleSelectionnee != "aucune")
     {
-        // @todo Mettre à jour (UPDATE) la base de données (StockMagasin.idCapsule de
-        // StockMagasin.rangee)
-        qDebug() << Q_FUNC_INFO << "idCapsule" << gestionMagasin->getIdCapsule(rangee) << "rangee"
-                 << rangee;
-        QString requeteSQL = "UPDATE StockMagasin SET StockMagasin.idCapsule='" +
-                             QString::number(indexCapsule) +
-                             "'"
-                             "WHERE StockMagasin.rangee='" +
-                             QString::number(rangee) + "'";
+        qDebug() << Q_FUNC_INFO << "rangee" << rangee << "actuel idCapsule"
+                 << gestionMagasin->getIdCapsuleRangee(rangee) << "nouvel idCapsule"
+                 << gestionMagasin->getIdCapsuleListe(indexCapsule);
 
-        bdd->executer(requeteSQL);
-        stocksRangeesCapsules[rangee - 1]->setEnabled(true);
+        QString requeteSQL = "UPDATE StockMagasin SET idCapsule='" +
+                             gestionMagasin->getIdCapsuleListe(indexCapsule) + "' WHERE rangee='" +
+                             QString::number(rangee) + "'";
+        if(bdd->executer(requeteSQL))
+        {
+            stocksRangeesCapsules[rangee - 1]->setEnabled(true);
+        }
     }
     else
     {
@@ -704,10 +701,9 @@ void IhmPikawa::decrementerNbCapsules()
             listeLCDNumberCapsules[rangeeSelectionneePreparation - 1]->display(
               capsulesRestantes); // Mettre à jour l'affichage du nombre de capsules
 
-            QString requeteSQL =
-              "UPDATE StockMagasin SET StockMagasin.quantite = " +
-              QString::number(capsulesRestantes) +
-              "WHERE StockMagasin.rangee = " + QString::number(rangeeSelectionneePreparation);
+            QString requeteSQL = "UPDATE StockMagasin SET quantite='" +
+                                 QString::number(capsulesRestantes) + "' WHERE rangee='" +
+                                 QString::number(rangeeSelectionneePreparation) + "'";
             bdd->executer(requeteSQL);
             rangeeSelectionneePreparation = 0;
         }

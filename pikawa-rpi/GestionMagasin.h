@@ -59,8 +59,9 @@ class GestionMagasin : public QObject
     QVector<QStringList> getStock() const;
     int                  getQuantite(int rangee) const;
     QString              getDesignationCapsule(int rangee) const;
-    QString              getIdCapsule(int rangee) const;
+    QString              getIdCapsuleRangee(int rangee) const;
     int                  getQuantiteMax(int rangee) const;
+    QString              getIdCapsuleListe(int indexCapsule) const;
 };
 
 #endif // GESTIONMAGASIN_H

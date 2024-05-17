@@ -61,7 +61,7 @@ QString GestionMagasin::getDesignationCapsule(int rangee) const
     return QString();
 }
 
-QString GestionMagasin::getIdCapsule(int rangee) const
+QString GestionMagasin::getIdCapsuleRangee(int rangee) const
 {
     if(rangee >= 1 && rangee <= stock.size())
     {
@@ -77,4 +77,13 @@ int GestionMagasin::getQuantiteMax(int rangee) const
         return stock[rangee - 1][QUANTITE_MAX_CAPSULE_STOCK].toInt();
     }
     return NB_CAPSULE_PAR_COLONNE;
+}
+
+QString GestionMagasin::getIdCapsuleListe(int indexCapsule) const
+{
+    if(indexCapsule >= 0 && indexCapsule < stock.size())
+    {
+        return listeCapsules[indexCapsule].at(GestionMagasin::TableCapsule::ID_CAPSULE);
+    }
+    return QString();
 }
