@@ -36,8 +36,8 @@
 
 // Machine à café pikawa
 #define TITRE          PERIPHERIQUE_BLUETOOTH
-#define VERSION        "v1"
-#define VERSION_PIKAWA "0.1"
+#define VERSION        "v2"
+#define VERSION_PIKAWA "0.2"
 
 // OLED 8 lignes x 16 colonnes
 #define ADRESSE_I2C_OLED 0x3c
@@ -172,10 +172,16 @@ enum EtatMagasin
  */
 enum EtatPreparation
 {
-    PasActive     = 0,
-    Active        = 1,
-    Impossible    = 2,
-    ErreurCapsule = 3
+    PasActive           = 0,
+    Active              = 1,
+    Impossible          = 2,
+    ErreurCapsule       = 3,
+    ErreurBacPlein      = 4,
+    ErreurReservoirVide = 5,
+    ErreurColonne       = 6,
+    ErreurTypeLongueur  = 7,
+    AbsenceTasse        = 8,
+    AbsenceCapsule      = 9
 };
 
 /**

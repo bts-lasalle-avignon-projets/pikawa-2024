@@ -16,8 +16,6 @@
 #define CAFE_ESPRESSO  '2'
 #define CAFE_LUNGO     '3'
 
-#define VERSION_SIMULATEUR 1
-
 class Communication : public QObject
 {
     Q_OBJECT
