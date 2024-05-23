@@ -212,17 +212,10 @@ void IhmPikawa::preparerCafeCourt()
     if(rangeeSelectionnee != 0 && communicationBluetooth->estConnecte())
     {
         qDebug() << Q_FUNC_INFO << "rangeeSelectionnee" << rangeeSelectionnee;
-#if VERSION_SIMULATEUR == 1
-        QString trame = QString(DEBUT_TRAME) + QString(TRAME_SEPARATEUR) +
-                        QString(TRAME_PREPARATION_CAFE) + QString(TRAME_SEPARATEUR) +
-                        QString::number(rangeeSelectionnee) + QString(TRAME_SEPARATEUR) +
-                        QString(CAFE_RISTRETTO);
-#else
         QString trame = QString(DEBUT_TRAME) + QString(TRAME_SEPARATEUR) +
                         QString(TRAME_PREPARATION_CAFE) + QString(TRAME_SEPARATEUR) +
                         QString::number(rangeeSelectionnee) + QString(TRAME_SEPARATEUR) +
                         QString(CAFE_RISTRETTO) + QString(TRAME_SEPARATEUR);
-#endif
         communicationBluetooth->envoyerTrame(trame);
         ui->boutonCafeCourt->setChecked(false);
         rangeeSelectionneePreparation = rangeeSelectionnee;
@@ -236,18 +229,10 @@ void IhmPikawa::preparerCafeLong()
     if(rangeeSelectionnee != 0 && communicationBluetooth->estConnecte())
     {
         qDebug() << Q_FUNC_INFO << "rangeeSelectionnee" << rangeeSelectionnee;
-#if VERSION_SIMULATEUR == 1
-        QString trame = QString(DEBUT_TRAME) + QString(TRAME_SEPARATEUR) +
-                        QString(TRAME_PREPARATION_CAFE) + QString(TRAME_SEPARATEUR) +
-                        QString::number(rangeeSelectionnee) + QString(TRAME_SEPARATEUR) +
-                        QString(CAFE_LUNGO);
-#else
         QString trame = QString(DEBUT_TRAME) + QString(TRAME_SEPARATEUR) +
                         QString(TRAME_PREPARATION_CAFE) + QString(TRAME_SEPARATEUR) +
                         QString::number(rangeeSelectionnee) + QString(TRAME_SEPARATEUR) +
                         QString(CAFE_LUNGO) + QString(TRAME_SEPARATEUR);
-#endif
-
         communicationBluetooth->envoyerTrame(trame);
         ui->boutonCafeLong->setChecked(false);
         rangeeSelectionneePreparation = rangeeSelectionnee;
@@ -561,7 +546,7 @@ void IhmPikawa::initialiserBoutonsCapsules()
     for(int i = 0; i < listesDeroulantesCapsules.size(); ++i)
     {
         if(listesDeroulantesCapsules[i]->currentText() != "aucune" &&
-           stocksRangeesCapsules[i]->value() > 0)
+           listeLCDNumberCapsules[i]->value() > 0)
         {
             QFont formatFont = boutonsChoixCapsules[i]->font();
             formatFont.setCapitalization(QFont::Capitalize);
