@@ -14,7 +14,7 @@ BluetoothSerial SerialBT;                            //!< objet pour la communic
 static bool     connecte                    = false; //!< état de la connexion Bluetooth
 static int      rssi                        = 0;     //!< le niveau RSSI du Bluetooth
 static uint8_t  adresseMAC[ESP_BD_ADDR_LEN] = {
-     0, 0, 0, 0, 0, 0
+    0, 0, 0, 0, 0, 0
 }; //!< l'adresse MAC du Bluetooth connecté
 SSD1306Wire display(ADRESSE_I2C_OLED, I2C_SDA_OLED,
                     I2C_SCL_OLED);                               //!< l'objet OLED
@@ -258,6 +258,30 @@ void envoyerTrame(String type, bool erreur /*=false*/)
         else if(etatPreparation == EtatPreparation::ErreurCapsule)
         {
             sprintf((char*)trameEnvoi, "%sP~3~\r\n", entete.c_str());
+        }
+        else if(etatPreparation == EtatPreparation::ErreurBacPlein)
+        {
+            sprintf((char*)trameEnvoi, "%sP~4~\r\n", entete.c_str());
+        }
+        else if(etatPreparation == EtatPreparation::ErreurReservoirVide)
+        {
+            sprintf((char*)trameEnvoi, "%sP~5~\r\n", entete.c_str());
+        }
+        else if(etatPreparation == EtatPreparation::ErreurColonne)
+        {
+            sprintf((char*)trameEnvoi, "%sP~6~\r\n", entete.c_str());
+        }
+        else if(etatPreparation == EtatPreparation::ErreurTypeLongueur)
+        {
+            sprintf((char*)trameEnvoi, "%sP~7~\r\n", entete.c_str());
+        }
+        else if(etatPreparation == EtatPreparation::AbsenceTasse)
+        {
+            sprintf((char*)trameEnvoi, "%sP~8~\r\n", entete.c_str());
+        }
+        else if(etatPreparation == EtatPreparation::AbsenceCapsule)
+        {
+            sprintf((char*)trameEnvoi, "%sP~9~\r\n", entete.c_str());
         }
         else
         {
@@ -720,10 +744,8 @@ void mettreAJourMagasin(int numeroColonne)
     char cleMagasin[64] = "";
     sprintf((char*)cleMagasin, "%s%d", "colonne", numeroColonne);
     preferences.putInt(cleMagasin, magasin[numeroColonne]);
-    /*if(magasin[numeroColonne] > 0)
-        setEtatCapsule(Ok);
-    else
-        setEtatCapsule(PasOk);*/
+    if(magasin[numeroColonne] == 0)
+        changementEtatMagasin = true;
 }
 
 /**
@@ -821,9 +843,9 @@ bool verifierEtatsMachine(int numeroColonne, String longueurCafe)
     if(numeroColonne < 0 || numeroColonne > NB_COLONNES)
     {
 #ifdef DEBUG
-        Serial.println(String("<Erreur> Type de cafe inconnu !"));
+        Serial.println(String("<Erreur> colonne incorrecte !"));
 #endif
-        etatPreparation = EtatPreparation::Impossible;
+        etatPreparation = EtatPreparation::ErreurColonne;
         return false;
     }
 
@@ -833,7 +855,7 @@ bool verifierEtatsMachine(int numeroColonne, String longueurCafe)
 #ifdef DEBUG
         Serial.println(String("<Erreur> Longueur inconnue !"));
 #endif
-        etatPreparation = EtatPreparation::Impossible;
+        etatPreparation = EtatPreparation::ErreurTypeLongueur;
         return false;
     }
 
@@ -842,7 +864,7 @@ bool verifierEtatsMachine(int numeroColonne, String longueurCafe)
 #ifdef DEBUG
         Serial.println(String("<Erreur> Le magasin est vide !"));
 #endif
-        etatPreparation = EtatPreparation::Impossible;
+        etatPreparation = EtatPreparation::AbsenceCapsule;
         setEtatMagasin(Indisponible);
         setEtatCapsule(PasOk);
         return false;
@@ -854,7 +876,7 @@ bool verifierEtatsMachine(int numeroColonne, String longueurCafe)
         Serial.println(String("<Erreur> Plus de ce type de capsule !"));
 #endif
         // setEtatCapsule(PasOk);
-        etatPreparation = EtatPreparation::Impossible;
+        etatPreparation = EtatPreparation::AbsenceCapsule;
         return false;
     }
 
@@ -863,7 +885,7 @@ bool verifierEtatsMachine(int numeroColonne, String longueurCafe)
 #ifdef DEBUG
         Serial.println(String("<Erreur> Tasse absente"));
 #endif
-        etatPreparation = EtatPreparation::Impossible;
+        etatPreparation = EtatPreparation::AbsenceTasse;
         return false;
     }
 
@@ -872,7 +894,7 @@ bool verifierEtatsMachine(int numeroColonne, String longueurCafe)
 #ifdef DEBUG
         Serial.println(String("<Erreur> Bac plein !"));
 #endif
-        etatPreparation = EtatPreparation::Impossible;
+        etatPreparation = EtatPreparation::ErreurBacPlein;
         return false;
     }
 
@@ -881,7 +903,7 @@ bool verifierEtatsMachine(int numeroColonne, String longueurCafe)
 #ifdef DEBUG
         Serial.println(String("<Erreur> Niveau eau vide ou insuffisant !"));
 #endif
-        etatPreparation = EtatPreparation::Impossible;
+        etatPreparation = EtatPreparation::ErreurReservoirVide;
         return false;
     }
 
@@ -895,7 +917,7 @@ bool verifierEtatsMachine(int numeroColonne, String longueurCafe)
     }
 
     // simuler un problème de capsule
-    int taus = random(0, 5); // 1 fois sur 5 pour simuler un problème
+    int taus = random(0, 10); // 1 fois sur 10 pour simuler un problème
     if(taus == 0)
     {
 #ifdef DEBUG
