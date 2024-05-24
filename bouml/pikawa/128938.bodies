@@ -1,7 +1,23 @@
 class Utilisateur
-!!!129962.cpp!!!	Utilisateur(in nom : QString, in prenom : QString)
+!!!129962.cpp!!!	Utilisateur(in idUtilisateur : QString, in nom : QString, in prenom : QString, in code : QString, in badge : QString, in email : QString)
+    qDebug() << Q_FUNC_INFO << "idUtilisateur" << idUtilisateur << "nom" << nom << "prenom"
+             << prenom << "code" << code << "badge" << badge << "email" << email;
+!!!172842.cpp!!!	Utilisateur(in utilisateur : QStringList)
+    qDebug() << Q_FUNC_INFO << "idUtilisateur" << idUtilisateur << "nom" << nom << "prenom"
+             << prenom << "code" << code << "badge" << badge << "email" << email;
+!!!172970.cpp!!!	~Utilisateur()
     qDebug() << Q_FUNC_INFO;
+!!!173098.cpp!!!	getIdUtilisateur() : QString
+    return idUtilisateur;
 !!!130090.cpp!!!	getNom() : QString
     return nom;
 !!!130218.cpp!!!	getPrenom() : QString
     return prenom;
+!!!173226.cpp!!!	getCode() : QString
+    return code;
+!!!173354.cpp!!!	getBadge() : QString
+    return badge;
+!!!173482.cpp!!!	getEmail() : QString
+    return email;
+!!!173610.cpp!!!	estAuthentifie() : bool
+    return authentifie;

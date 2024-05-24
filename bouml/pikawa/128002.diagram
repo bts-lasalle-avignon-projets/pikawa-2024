@@ -4,7 +4,7 @@ usecasecanvas 128898 usecase_ref 128002 // Selectionner une capsule
   xyzwh 224 230 3005 64 32 label_xy 174 262
 end
 usecasecanvas 129538 usecase_ref 128386 // Administrer le magasin
-  xyzwh 224 22 3005 64 32 label_xy 184 7
+  xyzwh 224 22 3005 64 32 label_xy 175 4
 end
 usecasecanvas 129666 usecase_ref 128514 // Parametrer ses préférences 
   xyzwh 224 125 3005 64 32 label_xy 161 110
@@ -23,17 +23,17 @@ classcanvas 133762 class_ref 128130 // Utilisateur
   xyz 5 174 2000
 end
 simplerelationcanvas 130946 simplerelation_ref 128130
-  from ref 129666 z 3006 stereotype "<<include>>" xyz 348 139.5 3000 to ref 129922
+  from ref 129666 z 3006 stereotype "<<include>>" xyz 348 139 3000 to ref 129922
 end
 simplerelationcanvas 131074 simplerelation_ref 128258
   from ref 129794 z 3006 to point 495 342
-  line 133634 z 3006 stereotype "<<include>>" xyz 567.5 284 3000 to ref 130050
+  line 133634 z 3006 stereotype "<<include>>" xyz 567 284 3000 to ref 130050
 end
 simplerelationcanvas 131202 simplerelation_ref 128386
   from ref 129538 z 3006 to ref 129922
 end
 simplerelationcanvas 131330 simplerelation_ref 128514
-  from ref 129538 z 3006 stereotype "<<include>>" xyz 377 46.5 3000 to point 545 53
+  from ref 129538 z 3006 stereotype "<<include>>" xyz 377 46 3000 to point 545 53
   line 131458 z 3006 to ref 130050
 end
 simplerelationcanvas 132994 simplerelation_ref 128642
