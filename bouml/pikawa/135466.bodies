@@ -1,10 +1,7 @@
 class BaseDeDonnees
 !!!136874.cpp!!!	BaseDeDonnees(in type : QString)
-    qDebug() << Q_FUNC_INFO << type;
     db       = QSqlDatabase::addDatabase(type);
     typeBase = type;
-!!!137002.cpp!!!	~BaseDeDonnees()
-    qDebug() << Q_FUNC_INFO;
 !!!137130.cpp!!!	getInstance(in type : QString = "QSQLITE") : BaseDeDonnees
     if(baseDeDonnees == nullptr)
     {
@@ -13,7 +10,6 @@ class BaseDeDonnees
     }
 
     nbAcces++;
-    qDebug() << Q_FUNC_INFO << "nbAcces" << nbAcces;
 
     return baseDeDonnees;
 !!!137258.cpp!!!	detruireInstance() : void
@@ -21,8 +17,6 @@ class BaseDeDonnees
     {
         if(nbAcces > 0)
             nbAcces--;
-
-        qDebug() << Q_FUNC_INFO << "nbAcces" << nbAcces;
 
         if(nbAcces == 0)
         {
@@ -40,7 +34,6 @@ class BaseDeDonnees
         db.setDatabaseName(fichierBase);
         if(db.open())
         {
-            qDebug() << Q_FUNC_INFO << db.databaseName();
             return true;
         }
         else
@@ -260,3 +253,25 @@ class BaseDeDonnees
     }
     else
         return false;
+!!!174634.cpp!!!	recuperer(in requete : QString, inout donnees : QVector<int>) : bool
+    QSqlQuery query;
+    if (!query.exec(requete)) {
+        qDebug() << "Erreur lors de l'exécution de la requête :" << query.lastError().text();
+        return false;
+    }
+
+    while (query.next()) {
+        donnees.append(query.value(0).toInt());
+    }
+
+    return true;
+!!!174762.cpp!!!	recupererNbCapsulesPresentes() : QVector<int>
+    QVector<int> nombreCapsulesPresentes;
+    QString requete = "SELECT SUM(quantite) FROM StockMagasin GROUP BY rangee";
+
+    if (recuperer(requete, nombreCapsulesPresentes)) {
+        return nombreCapsulesPresentes;
+    } else {
+        qDebug() << "Erreur lors de la récupération du nombre de capsules présentes !";
+        return QVector<int>(); 
+    }
