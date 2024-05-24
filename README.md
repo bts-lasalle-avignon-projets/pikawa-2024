@@ -33,9 +33,16 @@ L'utilisateur pourra :
 
 ## Fonctionnalités
 
-- Affichage de l'écran d'accueil
-- Affichage de l'écran permettant d'administrer le stock du magasin
-- Affichage de l'écran de sélection d'une capsule
+| Fonctionnalités                    | OUI | NON |
+| ---------------------------------- |:---:|:---:|
+| Administrer le magasin de capsules | X   |     |
+| Gestion du type de capsule         | X   |     |
+| Suivi de l'état du stock           | X   |     |
+| Sélectionner une capsule           | X   |     |
+| Lancer la préparation d’un café    | X   |     |
+| Communiquer avec la cafetière      | X   |     |
+
+![](images/uc.png)
 
 ## Documentation du code
 
@@ -43,25 +50,77 @@ https://btssn-lasalle-84.github.io/pikawa-2024/
 
 ## Diagramme de classes
 
-![](images/diagramme-classes-v0.1.png)
+![](images/diagramme-classes-v0.2.png)
 
 ## Protocole
 
+Format général : `#PIKAWA~{TYPE}~[DONNÉES~]\r\n`
+
+Les différents {TYPE} de trames :
+
+- `M` : état du magasin
+- `P` : préparation d’un café
+
+Trames de requête/réponse pour le magasin
+
+Format de la requête (application→cafetière) : `#PIKAWA~M~\r\n`
+
+Cette trame est envoyée par l’application pour connaître l’état du Magasin (présence de capsule dans les rangées)
+
+Format de la réponse (cafetière→application) : `#PIKAWA~M~R1~R2~R3~R4~R5~R6~R7~R8~\r\n`
+
+Pour chaque Rangée de 1 à 8, la valeur 1 indiquera que la présence d’une capsule dans le magasin sinon 0
+
+Exemple : `#PIKAWA~M~0~0~0~0~0~1~0~0~\r\n`
+
+Seul la rangée 6 a une capsule
+
+Trame de commande d’un café
+
+Format de la commande (application→cafetière) : `PIKAWA~P~NUMÉRO_RANGEE~LONGUEUR~\r\n`
+
+Le champ `NUMÉRO_RANGEE` aura une valeur de 1 à 8 pour sélectionner la capsule dans le magasin.
+
+Le champ LONGUEUR aura 3 états possibles :
+
+- `1` Ristretto (Court)
+- `2` Espresso
+- `3` Lungo (Long)
+
+Cette trame est envoyé lorsque l’utilisateur lance la Préparation d’un café
+
+Exemple : `#PIKAWA~P~6~3~\r\n`
+
+Explication : Préparation d’un café de type Lungo avec la capsule de la rangée 6
+
+Format de la réponse (cafetière→application) : `#PIKAWA~P~ETAT~\r\n`
+
+Le champ ÉTAT à 9 états possibles :
+
+- `0` : le café est prêt ou au repos
+- `1` : le café est en cours de préparation
+- `2` : impossible (préparation déjà en cours)
+- `3` : erreur capsule
+- `4` : bac capsules plein
+- `5` : réservoir eau vide
+- `6` : numéro de rangée incorrect
+- `7` : type de longueur incorrect
+- `8` : absence tasse
+- `9` : absence capsule
 
 ## Screenshots
 
-![](images/screenshot-ihm-accueil-v0.1.png)
-
-![](images/screenshot-ihm-magasin-v0.1.png)
-
-![](images/screenshot-ihm-machine-v0.1.png)
+![](images/ihm.gif)
 
 ## Historique des versions
 
+- Version 0.2 : 24/05/2024
+
+![](images/version_0.2.png)
+
 - Version 0.1 : 05/04/2024
-  - Réalisation de l'ihm
-  - Création d'une base de donnée contenant le stock de capsules
-  - Création de la structure des classes du projet
+
+![](images/version_0.1.png)
 
 ## Auteurs
 

@@ -1,23 +1,55 @@
 class GestionMagasin
 !!!134551.cpp!!!	GestionMagasin(inout parent : QObject = nullptr)
-    qDebug() << Q_FUNC_INFO;
     chargerListeCapsules();
+    chargerStockMagasin();
 !!!134679.cpp!!!	~GestionMagasin()
     BaseDeDonnees::detruireInstance();
-    qDebug() << Q_FUNC_INFO;
-!!!134807.cpp!!!	getChoixCapsule() : int
-    return choixCapsule;
-!!!134935.cpp!!!	setChoixCapsule(in choixCapsule : int) : void
-    if(choixCapsule != CHOIX_CAPSULE_NON_DEFINI && choixCapsule < listeCapsules.size())
-        this->choixCapsule = choixCapsule;
 !!!135063.cpp!!!	chargerListeCapsules() : void
     QString requeteSQL = "SELECT * FROM Capsule";
     bdd->recuperer(requeteSQL, listeCapsules);
     qDebug() << Q_FUNC_INFO << "listeCapsules" << listeCapsules;
 !!!135191.cpp!!!	getListeCapsules() : QVector<QStringList>
     return listeCapsules;
-!!!135319.cpp!!!	getCapsule() : QStringList
-    if(choixCapsule != CHOIX_CAPSULE_NON_DEFINI && choixCapsule < listeCapsules.size())
-        return listeCapsules[choixCapsule];
-    else
-        return QStringList();
+!!!173738.cpp!!!	chargerStockMagasin() : void
+    QString requeteSQL = "SELECT Capsule.idCapsule, Capsule.designation, "
+                         "StockMagasin.rangee, StockMagasin.quantite, "
+                         "Magasin.quantiteMaxRangee "
+                         "FROM StockMagasin "
+                         "INNER JOIN Magasin ON Magasin.idMagasin = StockMagasin.idMagasin "
+                         "INNER JOIN Capsule ON Capsule.idCapsule = StockMagasin.idCapsule";
+
+    bdd->recuperer(requeteSQL, stock);
+    qDebug() << Q_FUNC_INFO << "stock" << stock;
+!!!173866.cpp!!!	getStock() : QVector<QStringList>
+    return stock;
+!!!173994.cpp!!!	getQuantite(in rangee : int) : int
+    if(rangee >= 1 && rangee <= stock.size())
+    {
+        return stock[rangee - 1][QUANTITE_CAPSULE_STOCK]
+          .toInt(); // rangee - 1 car l'indice du QVector commence à 0
+    }
+    return 0;
+!!!174122.cpp!!!	getDesignationCapsule(in rangee : int) : QString
+    if(rangee >= 1 && rangee <= stock.size())
+    {
+        return stock[rangee - 1][DESIGNATION_CAPSULE_STOCK];
+    }
+    return QString();
+!!!174250.cpp!!!	getIdCapsuleRangee(in rangee : int) : QString
+    if(rangee >= 1 && rangee <= stock.size())
+    {
+        return stock[rangee - 1][ID_CAPSULE_STOCK];
+    }
+    return QString();
+!!!174378.cpp!!!	getQuantiteMax(in rangee : int) : int
+    if(rangee >= 1 && rangee <= stock.size())
+    {
+        return stock[rangee - 1][QUANTITE_MAX_CAPSULE_STOCK].toInt();
+    }
+    return NB_CAPSULE_PAR_COLONNE;
+!!!174506.cpp!!!	getIdCapsuleListe(in indexCapsule : int) : QString
+    if(indexCapsule >= 0 && indexCapsule < stock.size())
+    {
+        return listeCapsules[indexCapsule].at(GestionMagasin::TableCapsule::ID_CAPSULE);
+    }
+    return QString();

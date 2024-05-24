@@ -1,0 +1,166 @@
+class Communication
+!!!178730.cpp!!!	estBluetoothDisponible() : bool
+    return interfaceLocale.isValid();
+!!!178858.cpp!!!	activerBluetooth() : void
+    if(estBluetoothDisponible())
+    {
+        qDebug() << Q_FUNC_INFO << interfaceLocale.name() << interfaceLocale.address().toString();
+        interfaceLocale.powerOn();
+    }
+    else
+        qDebug() << Q_FUNC_INFO << "pas de Bluetooth !";
+!!!178986.cpp!!!	Communication(inout parent : QObject = nullptr)
+    qDebug() << Q_FUNC_INFO;
+    activerBluetooth();
+!!!179114.cpp!!!	~Communication()
+    deconnecter();
+    qDebug() << Q_FUNC_INFO;
+!!!179242.cpp!!!	estConnecte() : bool
+    if(!estBluetoothDisponible())
+        return false;
+    if(!pikawaDetecte)
+        return false;
+    if(socketBluetoothPikawa == nullptr)
+        return false;
+    if(!socketBluetoothPikawa->isOpen())
+        return false;
+    return true;
+!!!179370.cpp!!!	estDetecte() : bool
+    qDebug() << Q_FUNC_INFO << "pikawaDetecte" << pikawaDetecte;
+    return pikawaDetecte;
+!!!179498.cpp!!!	activerLaDecouverte() : void
+    if(estBluetoothDisponible())
+    {
+        agentDecouvreur = new QBluetoothDeviceDiscoveryAgent(this);
+        connect(agentDecouvreur,
+                &QBluetoothDeviceDiscoveryAgent::deviceDiscovered,
+                this,
+                [this](const QBluetoothDeviceInfo& peripheriqueBluetooth)
+                {
+                    if(peripheriqueBluetooth.name().startsWith(PREFIXE_NOM_CAFETIERE))
+                    {
+                        pikawa        = peripheriqueBluetooth;
+                        pikawaDetecte = true;
+                        qDebug() << Q_FUNC_INFO << "cafetiereDetectee"
+                                 << peripheriqueBluetooth.name()
+                                 << peripheriqueBluetooth.address().toString();
+                        emit cafetiereDetectee(peripheriqueBluetooth.name(),
+                                               peripheriqueBluetooth.address().toString());
+                    }
+                });
+        connect(agentDecouvreur,
+                &QBluetoothDeviceDiscoveryAgent::finished,
+                this,
+                [this]()
+                {
+                    qDebug() << Q_FUNC_INFO << "rechercheTerminee"
+                             << "pikawaDetecte" << pikawaDetecte;
+                    emit rechercheTerminee(pikawaDetecte);
+                });
+        qDebug() << Q_FUNC_INFO;
+        pikawaDetecte = false;
+        agentDecouvreur->start();
+    }
+!!!179626.cpp!!!	desactiverLaDecouverte() : void
+    if(estBluetoothDisponible() && agentDecouvreur->isActive())
+    {
+        qDebug() << Q_FUNC_INFO;
+        agentDecouvreur->stop();
+    }
+!!!179754.cpp!!!	connecter() : void
+    if(!estConnecte())
+    {
+        qDebug() << Q_FUNC_INFO << "pikawa" << pikawa.name() << pikawa.address().toString();
+        socketBluetoothPikawa = new QBluetoothSocket(QBluetoothServiceInfo::RfcommProtocol);
+        if(socketBluetoothPikawa != nullptr)
+        {
+            connect(socketBluetoothPikawa, SIGNAL(connected()), this, SLOT(connecterSocket()));
+            connect(socketBluetoothPikawa, SIGNAL(disconnected()), this, SLOT(deconnecterSocket()));
+            connect(socketBluetoothPikawa,
+                    SIGNAL(readyRead()),
+                    this,
+                    SLOT(lireDonneesDisponnible()));
+
+            QBluetoothAddress adresse = QBluetoothAddress(pikawa.address());
+            QBluetoothUuid    uuid    = QBluetoothUuid(QBluetoothUuid::SerialPort);
+            socketBluetoothPikawa->connectToService(adresse, uuid);
+            socketBluetoothPikawa->open(QIODevice::ReadWrite);
+        }
+    }
+!!!179882.cpp!!!	deconnecter() : void
+    if(estConnecte())
+    {
+        qDebug() << Q_FUNC_INFO;
+        socketBluetoothPikawa->close();
+        delete socketBluetoothPikawa;
+        socketBluetoothPikawa = nullptr;
+    }
+!!!180010.cpp!!!	connecterSocket() : void
+    qDebug() << Q_FUNC_INFO << socketBluetoothPikawa->peerName()
+             << socketBluetoothPikawa->peerAddress().toString();
+
+    emit cafetiereConnectee(socketBluetoothPikawa->peerName(),
+                            socketBluetoothPikawa->peerAddress().toString());
+!!!180138.cpp!!!	deconnecterSocket() : void
+    qDebug() << Q_FUNC_INFO;
+    emit cafetiereDeconnectee();
+!!!180266.cpp!!!	lireDonneesDisponnible() : void
+    QByteArray donnees;
+    donnees = socketBluetoothPikawa->readAll();
+
+    qDebug() << Q_FUNC_INFO << "donnees" << donnees;
+
+    trame += QString(donnees.data());
+
+    if(trame.startsWith(DEBUT_TRAME) && trame.endsWith(FIN_TRAME))
+    {
+        qDebug() << Q_FUNC_INFO << "trame" << trame;
+        if(trame.contains(QString(TRAME_SEPARATEUR) + QString(TRAME_ETAT_MAGASIN)))
+        {
+            traiterTrameEtatMagasin(trame);
+            trame.clear();
+        }
+        else if(trame.contains(QString(TRAME_SEPARATEUR) + QString(TRAME_PREPARATION_CAFE)))
+        {
+            traiterTrameEtatPreparation(trame);
+            trame.clear();
+        }
+        else
+        {
+            qDebug() << Q_FUNC_INFO << "Erreur trame invalide !" << trame;
+        }
+        trame.clear();
+    }
+!!!180394.cpp!!!	envoyerTrame(in trame : QString) : void
+    if(estConnecte())
+    {
+        qDebug() << Q_FUNC_INFO << "trame" << trame;
+        trame += FIN_TRAME;
+        socketBluetoothPikawa->write(trame.toLatin1());
+    }
+!!!180522.cpp!!!	traiterTrameEtatMagasin(in trame : QString) : void
+    // Exemple de trame : "#PIKAWA~M~1~1~1~1~1~1~1~1~\r\n"
+
+    // nettoyage
+    trame.remove(DEBUT_TRAME).remove(FIN_TRAME); // -> "~M~1~1~1~1~1~1~1~1~"
+    trame.remove(0, 3);                          // -> "1~1~1~1~1~1~1~1~"
+    trame.remove(trame.size() - 1, 1);           // -> "1~1~1~1~1~1~1~1"
+
+    QStringList presenceCapsules;
+    presenceCapsules = trame.split(TRAME_SEPARATEUR);
+    qDebug() << Q_FUNC_INFO << "presenceCapsules" << presenceCapsules;
+
+    emit etatMagasin(presenceCapsules);
+!!!180650.cpp!!!	traiterTrameEtatPreparation(in trame : QString) : void
+    // Exemple de trame : "#PIKAWA~P~ETAT~\r\n"
+    int etat = 0;
+
+    // nettoyage
+    trame.remove(DEBUT_TRAME).remove(FIN_TRAME); // -> "~P~ETAT~"
+    trame.remove(0, 3);                          // -> "ETAT~"
+    trame.remove(trame.size() - 1, 1);           // -> "ETAT"
+
+    etat = trame.toInt();
+    qDebug() << Q_FUNC_INFO << "etat" << etat;
+
+    emit cafeEnPreparation(etat);
