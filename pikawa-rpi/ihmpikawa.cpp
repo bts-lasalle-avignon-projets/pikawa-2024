@@ -37,6 +37,7 @@ IhmPikawa::IhmPikawa(QWidget* parent) :
     initialiserStocksRangeeCapsules();
     initialiserCapsulesRestantes();
 
+    afficherCafetiereDeconnectee();
     gererEvenements();
     changerEcranAccueil();
 
@@ -100,22 +101,28 @@ void IhmPikawa::changerEcranEtatPreparation()
 void IhmPikawa::afficherCafetiereDetectee(QString nom, QString adresse)
 {
     qDebug() << Q_FUNC_INFO << "nom" << nom << "adresse" << adresse;
-    // @todo prévoir une signalisation graphique
+    QPixmap iconeDetectee(QString::fromUtf8("../images/iconeCafetiereDetectee.png"));
+    ui->etatCafetiere->setPixmap(iconeDetectee);
+    ui->etatCafetiere->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
     ui->labelEtatCafetiere->setText(QString("Cafetière ") + QString(nom) + QString(" détectée"));
 }
 
 void IhmPikawa::afficherCafetiereConnectee(QString nom, QString adresse)
 {
     qDebug() << Q_FUNC_INFO << "nom" << nom << "adresse" << adresse;
-    // @todo prévoir une signalisation graphique
+    QPixmap iconeConnectee(QString::fromUtf8("../images/iconeCafetiereFonctionnel.png"));
+    ui->etatCafetiere->setPixmap(iconeConnectee);
+    ui->etatCafetiere->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
     ui->labelEtatCafetiere->setText(QString("Cafetière ") + QString(nom) + QString(" connectée"));
 }
 
 void IhmPikawa::afficherCafetiereDeconnectee()
 {
     qDebug() << Q_FUNC_INFO;
-    // @todo prévoir une signalisation graphique
     ui->labelEtatCafetiere->setText(QString("Cafetière déconnectée"));
+    QPixmap iconeDeconnectee(QString::fromUtf8("../images/iconeCafetiereNonFonctionnel.png"));
+    ui->etatCafetiere->setPixmap(iconeDeconnectee);
+    ui->etatCafetiere->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
 }
 
 void IhmPikawa::demarrerCommunication(QString nom, QString adresse)
