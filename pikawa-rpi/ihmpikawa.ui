@@ -45,7 +45,7 @@
     <item>
      <widget class="QStackedWidget" name="ecrans">
       <property name="currentIndex">
-       <number>0</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="ecranAccueil">
        <layout class="QVBoxLayout" name="layoutEcranAccueil">
@@ -1231,6 +1231,25 @@ color: rgb(255, 255, 255);</string>
              <number>0</number>
             </property>
             <item>
+             <widget class="QLabel" name="labelBacCapsule">
+              <property name="maximumSize">
+               <size>
+                <width>256</width>
+                <height>256</height>
+               </size>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="pixmap">
+               <pixmap>../images/bacACapsule.png</pixmap>
+              </property>
+              <property name="scaledContents">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QLabel" name="labelCafetiere">
               <property name="maximumSize">
                <size>
@@ -1252,6 +1271,44 @@ color: rgb(255, 255, 255);</string>
               </property>
              </widget>
             </item>
+            <item>
+             <widget class="QLabel" name="labelCapsule">
+              <property name="maximumSize">
+               <size>
+                <width>256</width>
+                <height>256</height>
+               </size>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="pixmap">
+               <pixmap>../images/iconeCapsule.png</pixmap>
+              </property>
+              <property name="scaledContents">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="labelTasse">
+              <property name="maximumSize">
+               <size>
+                <width>256</width>
+                <height>256</height>
+               </size>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="pixmap">
+               <pixmap>../images/tasse.png</pixmap>
+              </property>
+              <property name="scaledContents">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
            </layout>
           </item>
           <item>
@@ -1259,6 +1316,25 @@ color: rgb(255, 255, 255);</string>
             <property name="bottomMargin">
              <number>0</number>
             </property>
+            <item>
+             <widget class="QLabel" name="etatBacCapsule">
+              <property name="maximumSize">
+               <size>
+                <width>64</width>
+                <height>64</height>
+               </size>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="pixmap">
+               <pixmap>../images/iconeCafetiereFonctionnel.png</pixmap>
+              </property>
+              <property name="scaledContents">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
             <item>
              <widget class="QLabel" name="etatCafePreparation">
               <property name="enabled">
@@ -1281,6 +1357,44 @@ color: rgb(255, 255, 255);</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="etatCapsule">
+              <property name="maximumSize">
+               <size>
+                <width>64</width>
+                <height>64</height>
+               </size>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="pixmap">
+               <pixmap>../images/iconeCafetiereFonctionnel.png</pixmap>
+              </property>
+              <property name="scaledContents">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="etatTasse">
+              <property name="maximumSize">
+               <size>
+                <width>64</width>
+                <height>64</height>
+               </size>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="pixmap">
+               <pixmap>../images/iconeCafetiereFonctionnel.png</pixmap>
+              </property>
+              <property name="scaledContents">
+               <bool>true</bool>
               </property>
              </widget>
             </item>

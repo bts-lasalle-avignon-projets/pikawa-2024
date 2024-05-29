@@ -62,7 +62,7 @@ class IhmPikawa : public QMainWindow
     BaseDeDonnees*  bdd;                    //!< l'association vers la classe BaseDeDonnees
     Communication*  communicationBluetooth; //!< l'association vers la classe Communication
     QTimer*
-      minuteurPreparationCafe; //!< minuterie pour contrôler la durée de la préparation du café
+                          minuteurPreparationCafe; //!< minuterie pour contrôler la durée de la préparation du café
     int                   rangeeSelectionneePreparation;
     QVector<QComboBox*>   listesDeroulantesCapsules;
     QVector<QSpinBox*>    stocksRangeesCapsules;
@@ -89,6 +89,10 @@ class IhmPikawa : public QMainWindow
         EnCours,
         PreparationImpossible,
         ErreurCapsule,
+        BacCapsulePlein,
+        ReservoirEauPlein,
+        TasseAbscente,
+        CapsuleAbscente,
         NbEtats
     };
 
@@ -132,8 +136,12 @@ class IhmPikawa : public QMainWindow
     void preparerCafeLong();
     void afficherPreparationCafeEncours();
     void afficherPreparationCafePret();
-    void mettreAJourBarreProgression();
+    void afficherErreurBacCapsulePlein();
     void afficherErreurCapsule();
+    void afficherErreurReservoirEauVide();
+    void afficherErreurTasseAbscente();
+    void afficherErreurCapsuleAbscente();
+    void mettreAJourBarreProgression();
     void afficherPreparationImpossible();
     void modifierStock(int nbCapsules);
     void choisirCapsuleStock(int indexCapsule);

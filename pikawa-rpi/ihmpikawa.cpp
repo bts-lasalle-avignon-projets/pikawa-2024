@@ -176,7 +176,27 @@ void IhmPikawa::gererEtatPreparation(int etat)
     else if(etat == EtatPreparation::ErreurCapsule)
     {
         // Erreur capsule
-        afficherErreurCapsule();
+        afficherErreurCapsuleAbscente();
+    }
+    else if(etat == EtatPreparation::BacCapsulePlein)
+    {
+        // Erreur reservoir d'eau vide
+        afficherErreurBacCapsulePlein();
+    }
+    else if(etat == EtatPreparation::ReservoirEauPlein)
+    {
+        // Erreur reservoir d'eau vide
+        afficherErreurReservoirEauVide();
+    }
+    else if(etat == EtatPreparation::TasseAbscente)
+    {
+        // Erreur tasse abscente
+        afficherErreurTasseAbscente();
+    }
+    else if(etat == EtatPreparation::CapsuleAbscente)
+    {
+        // Erreur capsule abscente
+        afficherErreurBacCapsulePlein();
     }
     else
     {
@@ -298,6 +318,37 @@ void IhmPikawa::afficherPreparationImpossible()
     ui->etatCafePreparation->setPixmap(
       QPixmap(QString::fromUtf8("../images/iconeCafetiereNonFonctionnel.png")));
     // @todo A remplacer par un bouton retour à l'accueil
+    QTimer::singleShot(DUREE_AFFICHAGE, this, &IhmPikawa::changerEcranAccueil);
+}
+
+void IhmPikawa::afficherErreurBacCapsulePlein()
+{
+    ui->progressionCafe->setVisible(false);
+    ui->etatBacCapsule->setPixmap(
+      QPixmap(QString::fromUtf8("../images/iconeCafetiereNonFonctionnel.png")));
+    QTimer::singleShot(DUREE_AFFICHAGE, this, &IhmPikawa::changerEcranAccueil);
+}
+
+void IhmPikawa::afficherErreurReservoirEauVide()
+{
+    ui->progressionCafe->setVisible(false);
+    ui->etatCafePreparation->setPixmap(
+      QPixmap(QString::fromUtf8("../images/iconeCafetiereNonFonctionnel.png")));
+    QTimer::singleShot(DUREE_AFFICHAGE, this, &IhmPikawa::changerEcranAccueil);
+}
+
+void IhmPikawa::afficherErreurTasseAbscente()
+{
+    ui->progressionCafe->setVisible(false);
+    ui->etatTasse->setPixmap(
+      QPixmap(QString::fromUtf8("../images/iconeCafetiereNonFonctionnel.png")));
+    QTimer::singleShot(DUREE_AFFICHAGE, this, &IhmPikawa::changerEcranAccueil);
+}
+void IhmPikawa::afficherErreurCapsuleAbscente()
+{
+    ui->progressionCafe->setVisible(false);
+    ui->etatCapsule->setPixmap(
+      QPixmap(QString::fromUtf8("../images/iconeCafetiereNonFonctionnel.png")));
     QTimer::singleShot(DUREE_AFFICHAGE, this, &IhmPikawa::changerEcranAccueil);
 }
 
