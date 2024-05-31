@@ -24,7 +24,8 @@
 IhmPikawa::IhmPikawa(QWidget* parent) :
     QMainWindow(parent), ui(new Ui::IhmPikawa), gestionMagasin(new GestionMagasin(this)),
     bdd(BaseDeDonnees::getInstance()), communicationBluetooth(new Communication(this)),
-    minuteurPreparationCafe(new QTimer(this)), rangeeSelectionneePreparation(0)
+    minuteurPreparationCafe(new QTimer(this)), rangeeSelectionneePreparation(0),
+    rangeeDernierCafe(0)
 {
     qDebug() << Q_FUNC_INFO;
     ui->setupUi(this);
@@ -231,12 +232,8 @@ void IhmPikawa::selectionnerCapsule()
     {
         ui->boutonCafeCourt->setEnabled(true);
         ui->boutonCafeLong->setEnabled(true);
+        ui->boutonDernierCafe->setEnabled(true);
     }
-}
-
-void IhmPikawa::selectionnerDernierCafe()
-{
-    // @todo recuperer la derniere capsule
 }
 
 void IhmPikawa::preparerCafeCourt()
@@ -253,6 +250,8 @@ void IhmPikawa::preparerCafeCourt()
         ui->boutonCafeCourt->setChecked(false);
         rangeeSelectionneePreparation = rangeeSelectionnee;
         deselectionnerRangee(rangeeSelectionnee);
+        typeDernierCafe   = CAFE_RISTRETTO;
+        rangeeDernierCafe = rangeeSelectionnee;
     }
 }
 
@@ -270,7 +269,14 @@ void IhmPikawa::preparerCafeLong()
         ui->boutonCafeLong->setChecked(false);
         rangeeSelectionneePreparation = rangeeSelectionnee;
         deselectionnerRangee(rangeeSelectionnee);
+        typeDernierCafe   = CAFE_LUNGO;
+        rangeeDernierCafe = rangeeSelectionnee;
     }
+}
+
+void IhmPikawa::preparerDernierCafe()
+{
+    // @todo préparer le dernier café (typeDernierCafe et rangeeDernierCafe)
 }
 
 void IhmPikawa::afficherPreparationCafeEncours()
@@ -292,13 +298,21 @@ void IhmPikawa::afficherPreparationCafePret()
     QTimer::singleShot(DUREE_AFFICHAGE, this, &IhmPikawa::changerEcranAccueil);
 }
 
-void IhmPikawa::mettreAJourBarreProgressionCafeCourt()
+void IhmPikawa::mettreAJourBarreProgressionPreparationCafe()
 {
-    // @todo mettre a jour selon cafe court ou long
-    static int progression = 0;
+    /*
+     * La durée d'un café court est de DUREE_CAFE_COURT (6000 ms ou 6s)
+     * La durée d'un café long est de DUREE_CAFE_LONG (le double d'un café court)
+     * La méthode mettreAJourBarreProgressionPreparationCafe() s'exécute toutes les secondes (1000
+     * ms) La barre de progression représente 100% du temps de préparation Le type de café en cours
+     * de préparation est stocké dans l'attribut typeDernierCafe (soit CAFE_RISTRETTO soit
+     * CAFE_LUNGO)
+     * cf. todo
+     */
+    static int progression = 0; // une variable statique est déclarée seule fois puis sa valeur est
+                                // conservée à chaque appel
 
-    // Incrémentez la progression de 20% toutes les secondes
-
+    // @todo calculer le pas de progression en fonction d'un café court ou long
     progression += 20;
 
     ui->progressionCafe->setValue(progression);
@@ -521,9 +535,12 @@ void IhmPikawa::gererEvenements()
     }
 
     // Les boutons de préparation de café
-
     connect(ui->boutonCafeCourt, &QPushButton::clicked, this, &IhmPikawa::preparerCafeCourt);
     connect(ui->boutonCafeLong, &QPushButton::clicked, this, &IhmPikawa::preparerCafeLong);
+    connect(minuteurPreparationCafe,
+            &QTimer::timeout,
+            this,
+            &IhmPikawa::mettreAJourBarreProgressionPreparationCafe);
 
     // signaux/slot de la communication
     connect(communicationBluetooth,
@@ -554,11 +571,6 @@ void IhmPikawa::gererEvenements()
             &Communication::cafeEnPreparation,
             this,
             &IhmPikawa::gererEtatPreparation);
-
-    connect(minuteurPreparationCafe,
-            &QTimer::timeout,
-            this,
-            &IhmPikawa::mettreAJourBarreProgressionCafeCourt);
 }
 
 void IhmPikawa::initialiserListeCapsules()

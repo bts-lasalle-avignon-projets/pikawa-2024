@@ -36,8 +36,6 @@ class Communication : public QObject
 
     bool estConnecte() const;
     bool estDetecte() const;
-    int  getEtatCafeLong() const;
-    int  getEtatCafeCourt() const;
 
   public slots:
     void activerLaDecouverte();
