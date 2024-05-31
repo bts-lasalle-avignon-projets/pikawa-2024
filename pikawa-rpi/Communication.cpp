@@ -42,8 +42,7 @@ void Communication::activerLaDecouverte()
         connect(agentDecouvreur,
                 &QBluetoothDeviceDiscoveryAgent::deviceDiscovered,
                 this,
-                [this](const QBluetoothDeviceInfo& peripheriqueBluetooth)
-                {
+                [this](const QBluetoothDeviceInfo& peripheriqueBluetooth) {
                     if(peripheriqueBluetooth.name().startsWith(PREFIXE_NOM_CAFETIERE))
                     {
                         pikawa        = peripheriqueBluetooth;
@@ -55,15 +54,11 @@ void Communication::activerLaDecouverte()
                                                peripheriqueBluetooth.address().toString());
                     }
                 });
-        connect(agentDecouvreur,
-                &QBluetoothDeviceDiscoveryAgent::finished,
-                this,
-                [this]()
-                {
-                    qDebug() << Q_FUNC_INFO << "rechercheTerminee"
-                             << "pikawaDetecte" << pikawaDetecte;
-                    emit rechercheTerminee(pikawaDetecte);
-                });
+        connect(agentDecouvreur, &QBluetoothDeviceDiscoveryAgent::finished, this, [this]() {
+            qDebug() << Q_FUNC_INFO << "rechercheTerminee"
+                     << "pikawaDetecte" << pikawaDetecte;
+            emit rechercheTerminee(pikawaDetecte);
+        });
         qDebug() << Q_FUNC_INFO;
         pikawaDetecte = false;
         agentDecouvreur->start();
@@ -214,4 +209,14 @@ void Communication::activerBluetooth()
     }
     else
         qDebug() << Q_FUNC_INFO << "pas de Bluetooth !";
+}
+
+int Communication::getEtatCafeLong() const
+{
+    return CAFE_LUNGO;
+}
+
+int Communication::getEtatCafeCourt() const
+{
+    return CAFE_RISTRETTO;
 }

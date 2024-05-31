@@ -134,6 +134,7 @@ class IhmPikawa : public QMainWindow
     void selectionnerCapsule();
     void preparerCafeCourt();
     void preparerCafeLong();
+    void selectionnerDernierCafe();
     void afficherPreparationCafeEncours();
     void afficherPreparationCafePret();
     void afficherErreurBacCapsulePlein();
@@ -141,7 +142,7 @@ class IhmPikawa : public QMainWindow
     void afficherErreurReservoirEauVide();
     void afficherErreurTasseAbscente();
     void afficherErreurCapsuleAbscente();
-    void mettreAJourBarreProgression();
+    void mettreAJourBarreProgressionCafeCourt();
     void afficherPreparationImpossible();
     void modifierStock(int nbCapsules);
     void choisirCapsuleStock(int indexCapsule);

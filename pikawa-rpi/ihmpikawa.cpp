@@ -225,12 +225,18 @@ void IhmPikawa::selectionnerCapsule()
     {
         ui->boutonCafeCourt->setEnabled(false);
         ui->boutonCafeLong->setEnabled(false);
+        ui->boutonDernierCafe->setEnabled(false);
     }
     else
     {
         ui->boutonCafeCourt->setEnabled(true);
         ui->boutonCafeLong->setEnabled(true);
     }
+}
+
+void IhmPikawa::selectionnerDernierCafe()
+{
+    // @todo recuperer la derniere capsule
 }
 
 void IhmPikawa::preparerCafeCourt()
@@ -286,14 +292,15 @@ void IhmPikawa::afficherPreparationCafePret()
     QTimer::singleShot(DUREE_AFFICHAGE, this, &IhmPikawa::changerEcranAccueil);
 }
 
-void IhmPikawa::mettreAJourBarreProgression()
+void IhmPikawa::mettreAJourBarreProgressionCafeCourt()
 {
+    // @todo mettre a jour selon cafe court ou long
     static int progression = 0;
 
     // Incrémentez la progression de 20% toutes les secondes
+
     progression += 20;
 
-    // Mettez à jour la valeur de la barre de progression
     ui->progressionCafe->setValue(progression);
 
     if(progression >= 100)
@@ -446,8 +453,8 @@ void IhmPikawa::initialiserRessourcesGUI()
     // Définition du texte du label de l'état de la cafetière
     ui->labelEtatCafetiere->setText(QString("Cafetière déconnectée"));
 
-    // @todo gérer le café préféré
-    ui->boutonCafePrefere->setEnabled(false);
+    // @todo gérer le dernier cafe
+    ui->boutonDernierCafe->setEnabled(false);
 }
 
 void IhmPikawa::fixerRaccourcisClavier()
@@ -514,6 +521,7 @@ void IhmPikawa::gererEvenements()
     }
 
     // Les boutons de préparation de café
+
     connect(ui->boutonCafeCourt, &QPushButton::clicked, this, &IhmPikawa::preparerCafeCourt);
     connect(ui->boutonCafeLong, &QPushButton::clicked, this, &IhmPikawa::preparerCafeLong);
 
@@ -550,7 +558,7 @@ void IhmPikawa::gererEvenements()
     connect(minuteurPreparationCafe,
             &QTimer::timeout,
             this,
-            &IhmPikawa::mettreAJourBarreProgression);
+            &IhmPikawa::mettreAJourBarreProgressionCafeCourt);
 }
 
 void IhmPikawa::initialiserListeCapsules()

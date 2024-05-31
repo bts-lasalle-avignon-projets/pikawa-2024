@@ -45,7 +45,7 @@
     <item>
      <widget class="QStackedWidget" name="ecrans">
       <property name="currentIndex">
-       <number>3</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="ecranAccueil">
        <layout class="QVBoxLayout" name="layoutEcranAccueil">
@@ -877,27 +877,6 @@
           <property name="spacing">
            <number>25</number>
           </property>
-          <item row="3" column="1">
-           <widget class="QPushButton" name="boutonChoixCapsule6">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>50</height>
-             </size>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>14</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>Volluto</string>
-            </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
           <item row="5" column="0">
            <widget class="QPushButton" name="boutonChoixCapsule4">
             <property name="minimumSize">
@@ -919,8 +898,8 @@
             </property>
            </widget>
           </item>
-          <item row="4" column="0">
-           <widget class="QPushButton" name="boutonChoixCapsule3">
+          <item row="4" column="1">
+           <widget class="QPushButton" name="boutonChoixCapsule7">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -933,28 +912,7 @@
              </font>
             </property>
             <property name="text">
-             <string>Roma</string>
-            </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QPushButton" name="boutonChoixCapsule5">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>50</height>
-             </size>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>14</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>Finizzio</string>
+             <string>Indriya</string>
             </property>
             <property name="checkable">
              <bool>true</bool>
@@ -1003,8 +961,8 @@
             </property>
            </widget>
           </item>
-          <item row="4" column="1">
-           <widget class="QPushButton" name="boutonChoixCapsule7">
+          <item row="4" column="0">
+           <widget class="QPushButton" name="boutonChoixCapsule3">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -1017,15 +975,15 @@
              </font>
             </property>
             <property name="text">
-             <string>Indriya</string>
+             <string>Roma</string>
             </property>
             <property name="checkable">
              <bool>true</bool>
             </property>
            </widget>
           </item>
-          <item row="1" column="0">
-           <widget class="QPushButton" name="boutonChoixCapsule1">
+          <item row="1" column="1">
+           <widget class="QPushButton" name="boutonChoixCapsule5">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -1038,13 +996,10 @@
              </font>
             </property>
             <property name="text">
-             <string>Vivalto</string>
+             <string>Finizzio</string>
             </property>
             <property name="checkable">
              <bool>true</bool>
-            </property>
-            <property name="checked">
-             <bool>false</bool>
             </property>
            </widget>
           </item>
@@ -1074,7 +1029,7 @@ color: rgb(255, 255, 255);</string>
            </widget>
           </item>
           <item row="1" column="2">
-           <widget class="QPushButton" name="boutonCafePrefere">
+           <widget class="QPushButton" name="boutonDernierCafe">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -1087,7 +1042,7 @@ color: rgb(255, 255, 255);</string>
              </font>
             </property>
             <property name="text">
-             <string>Café préféré</string>
+             <string>Dernier Café </string>
             </property>
             <property name="checkable">
              <bool>true</bool>
@@ -1116,6 +1071,51 @@ color: rgb(255, 255, 255);</string>
             </property>
             <property name="text">
              <string>Café Long </string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QPushButton" name="boutonChoixCapsule1">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Vivalto</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QPushButton" name="boutonChoixCapsule6">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Volluto</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
