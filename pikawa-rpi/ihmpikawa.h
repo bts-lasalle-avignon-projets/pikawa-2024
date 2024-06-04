@@ -64,7 +64,7 @@ class IhmPikawa : public QMainWindow
     BaseDeDonnees*  bdd;                    //!< l'association vers la classe BaseDeDonnees
     Communication*  communicationBluetooth; //!< l'association vers la classe Communication
     QTimer*
-      minuteurPreparationCafe; //!< minuterie pour contrôler la durée de la préparation du café
+                          minuteurPreparationCafe; //!< minuterie pour contrôler la durée de la préparation du café
     int                   rangeeSelectionneePreparation;
     QVector<QComboBox*>   listesDeroulantesCapsules;
     QVector<QSpinBox*>    stocksRangeesCapsules;
@@ -106,6 +106,7 @@ class IhmPikawa : public QMainWindow
     void initialiserListeCapsules();
     void initialiserStocksRangeeCapsules();
     void initialiserBoutonsCapsules();
+    void initialiserCapsulesRestantesTotal();
     void chargerListeUtilisateurs();
     void rechercherCafetiere();
     void initialiserCapsulesRestantes();

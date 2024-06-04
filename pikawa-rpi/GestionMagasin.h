@@ -5,10 +5,10 @@
 #include <QVector>
 #include <QStringList>
 
-#define NB_COLONNES_CAPSULE    8
-#define NB_CAPSULE_PAR_COLONNE 4
-
+#define NB_COLONNES_CAPSULE      8
+#define NB_CAPSULE_PAR_COLONNE   4
 #define CHOIX_CAPSULE_NON_DEFINI -1
+#define NB_CAPSULE_MAX           32
 
 class BaseDeDonnees;
 
@@ -48,6 +48,7 @@ class GestionMagasin : public QObject
     BaseDeDonnees*       bdd; //!< association vers la classe BaseDeDonnees
     QVector<QStringList> listeCapsules;
     QVector<QStringList> stock;
+    int                  quantiteCapsuleMax;
 
   public:
     GestionMagasin(QObject* parent = nullptr);
