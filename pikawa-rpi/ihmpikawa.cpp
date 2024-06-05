@@ -232,7 +232,8 @@ void IhmPikawa::selectionnerCapsule()
     {
         ui->boutonCafeCourt->setEnabled(true);
         ui->boutonCafeLong->setEnabled(true);
-        ui->boutonDernierCafe->setEnabled(true);
+        if(!typeDernierCafe.isEmpty())
+            ui->boutonDernierCafe->setEnabled(true);
     }
 }
 
@@ -276,29 +277,22 @@ void IhmPikawa::preparerCafeLong()
 
 void IhmPikawa::preparerDernierCafe()
 {
-    // Vérifier que le type et la rangée du dernier café sont valides
-    if(typeDernierCafe == CAFE_RISTRETTO || typeDernierCafe == CAFE_LUNGO)
+    // @todo Vérifier que le type et la rangée du dernier café soient encore disponible au niveau
+    // magasin
+    if(rangeeDernierCafe != 0 && communicationBluetooth->estConnecte())
     {
-        // Créer la trame de préparation du café
-        QString tramePreparation = QString(DEBUT_TRAME) + TRAME_PREPARATION_CAFE +
-                                   TRAME_SEPARATEUR + QString::number(rangeeDernierCafe) +
-                                   TRAME_SEPARATEUR + QString(typeDernierCafe) + TRAME_SEPARATEUR +
-                                   FIN_TRAME;
-
-        // Envoyer la trame à la cafetière
-        communicationBluetooth->envoyerTrame(tramePreparation);
-
-        // Démarrer le minuteur pour mettre à jour la barre de progression
-        minuteurPreparationCafe->start(
-          DUREE_PROGRESSION *
-          1000); // DUREE_PROGRESSION est en secondes, start() prend des milliseconde
-
-        qDebug() << Q_FUNC_INFO << "Préparation du café en cours..." << tramePreparation;
-    }
-    else
-    {
-        // Afficher un message d'erreur si le type du dernier café est invalide
-        qDebug() << Q_FUNC_INFO << "Erreur: Type de café invalide." << typeDernierCafe;
+        if(typeDernierCafe == CAFE_RISTRETTO || typeDernierCafe == CAFE_LUNGO)
+        {
+            qDebug() << Q_FUNC_INFO << "rangeeDernierCafe" << rangeeDernierCafe;
+            QString trame = QString(DEBUT_TRAME) + QString(TRAME_SEPARATEUR) +
+                            QString(TRAME_PREPARATION_CAFE) + QString(TRAME_SEPARATEUR) +
+                            QString::number(rangeeDernierCafe) + QString(TRAME_SEPARATEUR) +
+                            typeDernierCafe + QString(TRAME_SEPARATEUR);
+            communicationBluetooth->envoyerTrame(trame);
+            ui->boutonDernierCafe->setChecked(false);
+            rangeeSelectionneePreparation = rangeeDernierCafe;
+            deselectionnerRangee(rangeeDernierCafe);
+        }
     }
 }
 
@@ -309,6 +303,11 @@ void IhmPikawa::afficherPreparationCafeEncours()
     ui->progressionCafe->setValue(0);
     ui->etatCafePreparation->setPixmap(
       QPixmap(QString::fromUtf8("../images/iconeCafetiereVierge.png")));
+    ui->etatBacCapsule->setPixmap(
+      QPixmap(QString::fromUtf8("../images/iconeCafetiereFonctionnel.png")));
+    ui->etatTasse->setPixmap(QPixmap(QString::fromUtf8("../images/iconeCafetiereFonctionnel.png")));
+    ui->etatCapsule->setPixmap(
+      QPixmap(QString::fromUtf8("../images/iconeCafetiereFonctionnel.png")));
     minuteurPreparationCafe->start(DUREE_PROGRESSION); // en ms
 }
 
@@ -317,7 +316,6 @@ void IhmPikawa::afficherPreparationCafePret()
     qDebug() << Q_FUNC_INFO;
     ui->etatCafePreparation->setPixmap(
       QPixmap(QString::fromUtf8("../images/iconeCafetiereFonctionnel.png")));
-    ui->progressionCafe->setValue(100);
     QTimer::singleShot(DUREE_AFFICHAGE, this, &IhmPikawa::changerEcranAccueil);
 }
 
@@ -340,7 +338,7 @@ void IhmPikawa::mettreAJourBarreProgressionPreparationCafe()
     }
 
     // Calcule le pas de progression
-    int pasProgression = 100 * DUREE_PROGRESSION / dureeTotalePreparation;
+    int pasProgression = (100 * DUREE_PROGRESSION) / dureeTotalePreparation;
 
     // Mettre à jour la progression
     progression += pasProgression;
@@ -348,13 +346,14 @@ void IhmPikawa::mettreAJourBarreProgressionPreparationCafe()
     // Vérifier si la progression est terminée
     if(progression >= 100)
     {
-        progression = 100;
         minuteurPreparationCafe->stop();
-        afficherPreparationCafePret();
+        ui->progressionCafe->setValue(100);
         progression = 0; // Réinitialiser la progression pour la prochaine utilisation
     }
-
-    ui->progressionCafe->setValue(progression);
+    else
+    {
+        ui->progressionCafe->setValue(progression);
+    }
 }
 
 void IhmPikawa::afficherErreurCapsule()
@@ -378,6 +377,8 @@ void IhmPikawa::afficherPreparationImpossible()
 void IhmPikawa::afficherErreurBacCapsulePlein()
 {
     ui->progressionCafe->setVisible(false);
+    ui->etatCafePreparation->setPixmap(
+      QPixmap(QString::fromUtf8("../images/iconeCafetiereNonFonctionnel.png")));
     ui->etatBacCapsule->setPixmap(
       QPixmap(QString::fromUtf8("../images/iconeCafetiereNonFonctionnel.png")));
     QTimer::singleShot(DUREE_AFFICHAGE, this, &IhmPikawa::changerEcranAccueil);
@@ -394,13 +395,18 @@ void IhmPikawa::afficherErreurReservoirEauVide()
 void IhmPikawa::afficherErreurTasseAbscente()
 {
     ui->progressionCafe->setVisible(false);
+    ui->etatCafePreparation->setPixmap(
+      QPixmap(QString::fromUtf8("../images/iconeCafetiereNonFonctionnel.png")));
     ui->etatTasse->setPixmap(
       QPixmap(QString::fromUtf8("../images/iconeCafetiereNonFonctionnel.png")));
     QTimer::singleShot(DUREE_AFFICHAGE, this, &IhmPikawa::changerEcranAccueil);
 }
+
 void IhmPikawa::afficherErreurCapsuleAbscente()
 {
     ui->progressionCafe->setVisible(false);
+    ui->etatCafePreparation->setPixmap(
+      QPixmap(QString::fromUtf8("../images/iconeCafetiereNonFonctionnel.png")));
     ui->etatCapsule->setPixmap(
       QPixmap(QString::fromUtf8("../images/iconeCafetiereNonFonctionnel.png")));
     QTimer::singleShot(DUREE_AFFICHAGE, this, &IhmPikawa::changerEcranAccueil);
@@ -422,7 +428,7 @@ void IhmPikawa::modifierStock(int nbCapsules)
         if(bdd->executer(requeteSQL))
         {
             listeLCDNumberCapsules[rangee - 1]->display(nbCapsules);
-            ui->capsuleTotalRestantes->display(NB_CAPSULE_MAX + nbCapsules);
+            ui->capsuleTotalRestantes->display(calculerTotalCapsulesRestantes());
         }
     }
 }
@@ -497,18 +503,15 @@ void IhmPikawa::initialiserRessourcesGUI()
     listeLCDNumberCapsules.push_back(ui->capsuleRestantesR6);
     listeLCDNumberCapsules.push_back(ui->capsuleRestantesR7);
     listeLCDNumberCapsules.push_back(ui->capsuleRestantesR8);
-    listeLCDNumberCapsules.push_back(ui->capsuleTotalRestantes);
 
     // Définition du texte du label de l'état de la cafetière
     ui->labelEtatCafetiere->setText(QString("Cafetière déconnectée"));
-    ui->capsuleTotalRestantes->display(NB_CAPSULE_MAX);
 
-    // @todo gérer le dernier cafe
-    ui->boutonDernierCafe->setEnabled(false);
-}
-
-void IhmPikawa::initialiserCapsulesRestantesTotal()
-{
+    ui->horizontalLayoutErreurs->setAlignment(Qt::AlignCenter);
+    ui->verticalLayoutErreur1->setAlignment(Qt::AlignCenter);
+    ui->verticalLayoutErreur2->setAlignment(Qt::AlignCenter);
+    ui->verticalLayoutErreur3->setAlignment(Qt::AlignCenter);
+    ui->verticalLayoutErreur4->setAlignment(Qt::AlignCenter);
 }
 
 void IhmPikawa::fixerRaccourcisClavier()
@@ -577,6 +580,7 @@ void IhmPikawa::gererEvenements()
     // Les boutons de préparation de café
     connect(ui->boutonCafeCourt, &QPushButton::clicked, this, &IhmPikawa::preparerCafeCourt);
     connect(ui->boutonCafeLong, &QPushButton::clicked, this, &IhmPikawa::preparerCafeLong);
+    connect(ui->boutonDernierCafe, &QPushButton::clicked, this, &IhmPikawa::preparerDernierCafe);
     connect(minuteurPreparationCafe,
             &QTimer::timeout,
             this,
@@ -656,6 +660,8 @@ void IhmPikawa::initialiserStocksRangeeCapsules()
                  << quantiteRangee;
         stocksRangeesCapsules[numeroRangee - 1]->setValue(quantiteRangee);
     }
+    // Initialisation du LCDNumber capsuleTotalRestante
+    ui->capsuleTotalRestantes->display(gestionMagasin->calculerTotalCapsulesRestantes());
 }
 
 void IhmPikawa::initialiserBoutonsCapsules()
@@ -808,6 +814,7 @@ void IhmPikawa::decrementerNbCapsules()
               capsulesRestantes); // Mettre à jour l'affichage du nombre de capsules
 
             ui->capsuleTotalRestantes->display(capsulesRestantesTotal);
+            ui->capsuleTotalRestantes->display(calculerTotalCapsulesRestantes());
 
             QString requeteSQL = "UPDATE StockMagasin SET quantite='" +
                                  QString::number(capsulesRestantes) + "' WHERE rangee='" +
@@ -816,4 +823,15 @@ void IhmPikawa::decrementerNbCapsules()
             rangeeSelectionneePreparation = 0;
         }
     }
+}
+
+int IhmPikawa::calculerTotalCapsulesRestantes()
+{
+    int quantiteCapsulesMagasin = 0;
+    for(int i = 0; i < listeLCDNumberCapsules.size(); ++i)
+    {
+        quantiteCapsulesMagasin += listeLCDNumberCapsules[i]->value();
+    }
+    qDebug() << Q_FUNC_INFO << "quantiteCapsulesMagasin" << quantiteCapsulesMagasin;
+    return quantiteCapsulesMagasin;
 }

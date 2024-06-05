@@ -106,7 +106,6 @@ class IhmPikawa : public QMainWindow
     void initialiserListeCapsules();
     void initialiserStocksRangeeCapsules();
     void initialiserBoutonsCapsules();
-    void initialiserCapsulesRestantesTotal();
     void chargerListeUtilisateurs();
     void rechercherCafetiere();
     void initialiserCapsulesRestantes();
@@ -117,6 +116,7 @@ class IhmPikawa : public QMainWindow
     void deselectionnerAutresRangees(QPushButton* bouton);
     void deselectionnerRangee(int rangee);
     void decrementerNbCapsules();
+    int  calculerTotalCapsulesRestantes();
 
   signals:
 

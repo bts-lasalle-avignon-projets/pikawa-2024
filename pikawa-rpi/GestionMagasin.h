@@ -8,8 +8,7 @@
 #define NB_COLONNES_CAPSULE      8
 #define NB_CAPSULE_PAR_COLONNE   4
 #define CHOIX_CAPSULE_NON_DEFINI -1
-#define NB_CAPSULE_MAX           32
-
+#define NB_CAPSULE_MAX           (NB_COLONNES_CAPSULE * NB_CAPSULE_PAR_COLONNE)
 class BaseDeDonnees;
 
 class GestionMagasin : public QObject
@@ -48,7 +47,7 @@ class GestionMagasin : public QObject
     BaseDeDonnees*       bdd; //!< association vers la classe BaseDeDonnees
     QVector<QStringList> listeCapsules;
     QVector<QStringList> stock;
-    int                  quantiteCapsuleMax;
+    int                  quantiteTotalCapsule;
 
   public:
     GestionMagasin(QObject* parent = nullptr);
@@ -63,6 +62,7 @@ class GestionMagasin : public QObject
     QString              getIdCapsuleRangee(int rangee) const;
     int                  getQuantiteMax(int rangee) const;
     QString              getIdCapsuleListe(int indexCapsule) const;
+    int                  calculerTotalCapsulesRestantes();
 };
 
 #endif // GESTIONMAGASIN_H
