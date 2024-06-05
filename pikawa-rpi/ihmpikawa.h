@@ -30,8 +30,10 @@
  */
 #define PLEIN_ECRAN_PI
 
-#define DUREE_PROGRESSION 1000 // en millisecondes
-#define DUREE_AFFICHAGE   2000 // en millisecondes
+#define DUREE_CAFE_COURT  6000                   // 6 s pour un café court
+#define DUREE_CAFE_LONG   (DUREE_CAFE_COURT * 2) // le double pour un long
+#define DUREE_PROGRESSION 1000                   // en millisecondes
+#define DUREE_AFFICHAGE   4000                   // en millisecondes
 
 namespace Ui
 {
@@ -62,7 +64,7 @@ class IhmPikawa : public QMainWindow
     BaseDeDonnees*  bdd;                    //!< l'association vers la classe BaseDeDonnees
     Communication*  communicationBluetooth; //!< l'association vers la classe Communication
     QTimer*
-      minuteurPreparationCafe; //!< minuterie pour contrôler la durée de la préparation du café
+                          minuteurPreparationCafe; //!< minuterie pour contrôler la durée de la préparation du café
     int                   rangeeSelectionneePreparation;
     QVector<QComboBox*>   listesDeroulantesCapsules;
     QVector<QSpinBox*>    stocksRangeesCapsules;
@@ -70,6 +72,8 @@ class IhmPikawa : public QMainWindow
     QVector<Utilisateur*> listeUtilisateurs;
     QVector<QLCDNumber*>  listeLCDNumberCapsules;
     QStringList           presenceCapsulesPikawa;
+    QString               typeDernierCafe;
+    int                   rangeeDernierCafe;
 
     // @todo ajouter un bouton pour sélectionner le dernier café effectué
     // @todo afficher le nombre total de capsules restantes dans le magasin
@@ -89,6 +93,10 @@ class IhmPikawa : public QMainWindow
         EnCours,
         PreparationImpossible,
         ErreurCapsule,
+        BacCapsulePlein,
+        ReservoirEauPlein,
+        TasseAbscente,
+        CapsuleAbscente,
         NbEtats
     };
 
@@ -108,6 +116,7 @@ class IhmPikawa : public QMainWindow
     void deselectionnerAutresRangees(QPushButton* bouton);
     void deselectionnerRangee(int rangee);
     void decrementerNbCapsules();
+    int  calculerTotalCapsulesRestantes();
 
   signals:
 
@@ -130,10 +139,15 @@ class IhmPikawa : public QMainWindow
     void selectionnerCapsule();
     void preparerCafeCourt();
     void preparerCafeLong();
+    void preparerDernierCafe();
     void afficherPreparationCafeEncours();
     void afficherPreparationCafePret();
-    void mettreAJourBarreProgression();
+    void afficherErreurBacCapsulePlein();
     void afficherErreurCapsule();
+    void afficherErreurReservoirEauVide();
+    void afficherErreurTasseAbscente();
+    void afficherErreurCapsuleAbscente();
+    void mettreAJourBarreProgressionPreparationCafe();
     void afficherPreparationImpossible();
     void modifierStock(int nbCapsules);
     void choisirCapsuleStock(int indexCapsule);

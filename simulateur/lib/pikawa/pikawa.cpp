@@ -181,11 +181,7 @@ void traiterTrames()
     {
         typeTrame = verifierTrame(trame);
 
-        if(typeTrame == String(TRAME_REQUETE_ETAT_CAFETIERE))
-        {
-            // envoyerTrame(TRAME_REQUETE_ETAT_CAFETIERE); // réponse C
-        }
-        else if(typeTrame == String(TRAME_REQUETE_ETAT_MAGASIN))
+        if(typeTrame == String(TRAME_REQUETE_ETAT_MAGASIN))
         {
             envoyerTrame(TRAME_REQUETE_ETAT_MAGASIN); // réponse M
         }
@@ -207,7 +203,7 @@ void traiterTrames()
         }
         else if(typeTrame == String(TRAME_ERREUR))
         {
-            envoyerTrame(typeTrame); // réponse E
+            // envoyerTrame(typeTrame); // réponse E
         }
     }
 }
@@ -224,18 +220,7 @@ void envoyerTrame(String type, bool erreur /*=false*/)
     char trameEnvoi[64];
     char contenuMagasin[64] = "";
 
-    if(type == String(TRAME_REQUETE_ETAT_CAFETIERE))
-    {
-        sprintf((char*)trameEnvoi,
-                "%sC~%d~%d~%d~%d~\r\n",
-                entete.c_str(),
-                (contenanceEau * 40),
-                (int)etatBac,
-                !((int)etatMagasin),
-                (int)etatTasse);
-        // SerialBT.write((uint8_t*)trameEnvoi, strlen((char*)trameEnvoi));
-    }
-    else if(type == String(TRAME_REQUETE_ETAT_MAGASIN))
+    if(type == String(TRAME_REQUETE_ETAT_MAGASIN))
     {
         for(unsigned int i = 0; i < NB_COLONNES; ++i)
         {
@@ -300,7 +285,7 @@ void envoyerTrame(String type, bool erreur /*=false*/)
     }
     else if(type == String(TRAME_ERREUR))
     {
-        //
+        /*
         sprintf((char*)trameEnvoi,
                 "%s%s~%d~\r\n",
                 entete.c_str(),
@@ -308,6 +293,7 @@ void envoyerTrame(String type, bool erreur /*=false*/)
                 erreurTrame);
         SerialBT.write((uint8_t*)trameEnvoi, strlen((char*)trameEnvoi));
         erreurTrame = 0;
+        */
     }
 
 #ifdef DEBUG
@@ -368,6 +354,9 @@ String verifierTrame(String& trame)
     if(!trame.startsWith(entete))
     {
         erreurTrame = ERREUR_PROTOCOLE;
+#ifdef DEBUG
+        Serial.println("Erreur protocole !");
+#endif
         return String(TRAME_ERREUR);
     }
 
@@ -380,18 +369,6 @@ String verifierTrame(String& trame)
 #endif
 #endif
 
-    type = entete + String(TRAME_REQUETE_ETAT_CAFETIERE);
-    if(trame.startsWith(type))
-    {
-        if(compterParametres(trame) == NB_PARAMETRES_TRAME_REQUETE_ETAT_CAFETIERE)
-            return String(TRAME_REQUETE_ETAT_CAFETIERE);
-        else
-        {
-            erreurTrame = ERREUR_NB_PARAMETRES;
-            return String(TRAME_ERREUR);
-        }
-    }
-
     type = entete + String(TRAME_REQUETE_ETAT_MAGASIN);
     if(trame.startsWith(type))
     {
@@ -400,6 +377,9 @@ String verifierTrame(String& trame)
         else
         {
             erreurTrame = ERREUR_NB_PARAMETRES;
+#ifdef DEBUG
+            Serial.println("Erreur nb parametres !");
+#endif
             return String(TRAME_ERREUR);
         }
     }
@@ -414,6 +394,9 @@ String verifierTrame(String& trame)
             Serial.print(compterParametres(trame));
             Serial.println();
             erreurTrame = ERREUR_NB_PARAMETRES;
+#ifdef DEBUG
+            Serial.println("Erreur nb parametres !");
+#endif
             return String(TRAME_ERREUR);
         }
     }
@@ -426,11 +409,17 @@ String verifierTrame(String& trame)
         else
         {
             erreurTrame = ERREUR_NB_PARAMETRES;
+#ifdef DEBUG
+            Serial.println("Erreur nb parametres !");
+#endif
             return String(TRAME_ERREUR);
         }
     }
 
     erreurTrame = ERREUR_TRAME_INCONNUE;
+#ifdef DEBUG
+    Serial.println("Erreur trame inconnue !");
+#endif
     return String(TRAME_ERREUR);
 }
 

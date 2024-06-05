@@ -1,7 +1,8 @@
 #include "GestionMagasin.h"
 #include "BaseDeDonnees.h"
 
-GestionMagasin::GestionMagasin(QObject* parent) : QObject(parent), bdd(BaseDeDonnees::getInstance())
+GestionMagasin::GestionMagasin(QObject* parent) :
+    QObject(parent), bdd(BaseDeDonnees::getInstance()), quantiteTotalCapsule(0)
 {
     chargerListeCapsules();
     chargerStockMagasin();
@@ -86,4 +87,15 @@ QString GestionMagasin::getIdCapsuleListe(int indexCapsule) const
         return listeCapsules[indexCapsule].at(GestionMagasin::TableCapsule::ID_CAPSULE);
     }
     return QString();
+}
+
+int GestionMagasin::calculerTotalCapsulesRestantes()
+{
+    quantiteTotalCapsule = 0;
+    for(int i = 0; i < stock.size(); i++)
+    {
+        quantiteTotalCapsule += stock[i].at(StockMagasin::QUANTITE_CAPSULE_STOCK).toInt();
+    }
+    qDebug() << Q_FUNC_INFO << "quantiteTotalCapsule" << quantiteTotalCapsule;
+    return quantiteTotalCapsule;
 }
