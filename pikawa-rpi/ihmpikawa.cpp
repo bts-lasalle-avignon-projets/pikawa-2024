@@ -43,6 +43,10 @@ IhmPikawa::IhmPikawa(QWidget* parent) :
     changerEcranAccueil();
 
     rechercherCafetiere();
+
+    #ifdef PLEIN_ECRAN_PI
+    showFullScreen();
+    #endif
 }
 
 IhmPikawa::~IhmPikawa()
