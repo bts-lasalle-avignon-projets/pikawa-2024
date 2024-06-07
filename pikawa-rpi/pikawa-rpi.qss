@@ -1,0 +1,133 @@
+QWidget {
+    background-color: #fffff8;
+    color: #b9830e8f;
+}
+
+QComboBox {
+    selection-color: #c17c51;
+    selection-background-color: transparent;
+    background-color: transparent;
+    border: 2px solid rgb(7, 0, 0);
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px;
+    min-width: 10em;
+    color: #080808;
+    font-size: 28px;
+    font-weight: 800;
+}
+
+QComboBox::item:hover {
+    background-color: wheat;
+}
+
+QComboBox::drop-down {
+    /*
+    subcontrol-origin: padding;
+    subcontrol-position: top right;*/
+    width: 36px;
+    border-left-width: 2px;
+    border-left-color: rgba(209, 126, 17, 0.822);
+    border-left-style: solid;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+QComboBox::down-arrow {
+    image: url(":arrow-down.png");
+}
+
+QLabel {
+    font-family: 'Open Sans';
+    font-size: 54px;
+    color: #c17c51;
+}
+
+QLCDNumber#capsuleTotalRestantes {
+    background-color: transparent;
+    border: 2px solid grey;
+    border-radius: 12px;
+    font-size: 54px;
+}
+
+QSpinBox {
+    margin-left: 32px;
+    /* make room for the arrows */
+    margin-right: 32px;
+    /* make room for the arrows */
+    width: 25px;
+    /*border: 2px solid makgrey;*/
+    background-color: transparent;
+    color: transparent;
+}
+
+QSpinBox::up-button {
+    subcontrol-origin: margin;
+    subcontrol-position: center left;
+    width: 32px;
+    border-width: 1px;
+}
+
+QSpinBox::up-arrow {
+    image: url(":arrow-up.png");
+    min-width: 32px;
+    min-height: 32px;
+    max-width: 32px;
+    max-height: 32px;
+    height: 32px;
+    width: 32px;
+}
+
+QSpinBox::up-button:pressed {
+    top: 1px;
+    right: 1px;
+}
+
+QSpinBox::down-button {
+    subcontrol-origin: margin;
+    subcontrol-position: center right;
+    width: 52px;
+    border-width: 1px;
+}
+
+QSpinBox::down-arrow {
+    image: url(":arrow-down.png");
+    min-width: 32px;
+    min-height: 32px;
+    max-width: 32px;
+    max-height: 32px;
+    height: 32px;
+    width: 32px;
+}
+
+QSpinBox::down-button:pressed {
+    top: 1px;
+    left: 1px;
+}
+
+QPushButton {
+    background-color: #317AC1;
+    border: 2px solid grey;
+    border-radius: 8px;
+    color: #dddddd;
+    font-size: 54px;
+    font-weight: 800;
+    padding: 20px;
+}
+
+/*
+QPushButton:hover: !pressed {
+    border: 2px solid #E1A624;
+    border-radius: 8px;
+    color: #E1A624;
+    font-size: 54px;
+    font-weight: 800;
+}
+*/
+QPushButton:focus {
+    border: 2px solid #E1A624;
+    border-radius: 8px;
+    color: #E1A624;
+    font-size: 54px;
+    font-weight: 800;
+}

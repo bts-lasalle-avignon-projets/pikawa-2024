@@ -117,7 +117,7 @@ class IhmPikawa : public QMainWindow
     void deselectionnerRangee(int rangee);
     void decrementerNbCapsules();
     int  calculerTotalCapsulesRestantes();
-
+    
   signals:
 
   public slots:

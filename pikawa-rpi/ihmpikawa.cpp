@@ -433,6 +433,7 @@ void IhmPikawa::modifierStock(int nbCapsules)
         {
             listeLCDNumberCapsules[rangee - 1]->display(nbCapsules);
             ui->capsuleTotalRestantes->display(calculerTotalCapsulesRestantes());
+            ui->capsuleTotalRestantes->setPalette(Qt::red);      
         }
     }
 }
@@ -724,7 +725,7 @@ void IhmPikawa::initialiserCapsulesRestantes()
           stock[i].at(GestionMagasin::StockMagasin::QUANTITE_CAPSULE_STOCK).toInt();
         qDebug() << Q_FUNC_INFO << "numeroRangee" << numeroRangee << "quantiteRangee"
                  << quantiteRangee;
-        listeLCDNumberCapsules[numeroRangee - 1]->display(quantiteRangee);
+        listeLCDNumberCapsules[numeroRangee - 1]->display(quantiteRangee);       
     }
 }
 
