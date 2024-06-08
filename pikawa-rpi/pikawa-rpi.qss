@@ -45,9 +45,10 @@ QLabel {
 
 QLCDNumber#capsuleTotalRestantes {
     background-color: transparent;
-    border: 2px solid grey;
-    border-radius: 12px;
+    /*border: 2px solid grey;
+    border-radius: 12px;*/
     font-size: 54px;
+    color: green;
 }
 
 QSpinBox {

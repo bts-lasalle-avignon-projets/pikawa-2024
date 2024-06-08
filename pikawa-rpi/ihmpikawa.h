@@ -30,10 +30,11 @@
  */
 #define PLEIN_ECRAN_PI
 
-#define DUREE_CAFE_COURT  6000                   // 6 s pour un café court
-#define DUREE_CAFE_LONG   (DUREE_CAFE_COURT * 2) // le double pour un long
-#define DUREE_PROGRESSION 1000                   // en millisecondes
-#define DUREE_AFFICHAGE   4000                   // en millisecondes
+#define DUREE_CAFE_COURT         6000                   // 6 s pour un café court
+#define DUREE_CAFE_LONG          (DUREE_CAFE_COURT * 2) // le double pour un long
+#define DUREE_PROGRESSION        1000                   // en millisecondes
+#define DUREE_AFFICHAGE          4000                   // en millisecondes
+#define SEUIL_CAPSULES_RESTANTES 4                      //
 
 namespace Ui
 {

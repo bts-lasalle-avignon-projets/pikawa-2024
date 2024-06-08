@@ -432,8 +432,16 @@ void IhmPikawa::modifierStock(int nbCapsules)
         if(bdd->executer(requeteSQL))
         {
             listeLCDNumberCapsules[rangee - 1]->display(nbCapsules);
-            ui->capsuleTotalRestantes->display(calculerTotalCapsulesRestantes());
-            ui->capsuleTotalRestantes->setPalette(Qt::red);
+            stocksRangeesCapsules[rangee - 1]->setValue(
+              listeLCDNumberCapsules[rangee - 1]->value());
+            int capsulesRestantesTotal = calculerTotalCapsulesRestantes();
+            ui->capsuleTotalRestantes->display(capsulesRestantesTotal);
+            if(capsulesRestantesTotal < SEUIL_CAPSULES_RESTANTES)
+                ui->capsuleTotalRestantes->setStyleSheet(
+                  "background-color: transparent; color: red;");
+            else
+                ui->capsuleTotalRestantes->setStyleSheet(
+                  "background-color: transparent;color: green;");
         }
     }
 }
@@ -501,13 +509,41 @@ void IhmPikawa::initialiserRessourcesGUI()
 
     // Initialisation des LCDNumber capsules
     listeLCDNumberCapsules.push_back(ui->capsuleRestantesR1);
+    ui->capsuleRestantesR1->setFixedSize(ui->capsuleRestantesR1->width() * 1.5,
+                                         ui->capsuleRestantesR1->height() *
+                                           1.5); // agrandit sa taille
     listeLCDNumberCapsules.push_back(ui->capsuleRestantesR2);
+    ui->capsuleRestantesR2->setFixedSize(ui->capsuleRestantesR2->width() * 1.5,
+                                         ui->capsuleRestantesR2->height() *
+                                           1.5); // agrandit sa taille
     listeLCDNumberCapsules.push_back(ui->capsuleRestantesR3);
+    ui->capsuleRestantesR3->setFixedSize(ui->capsuleRestantesR3->width() * 1.5,
+                                         ui->capsuleRestantesR3->height() *
+                                           1.5); // agrandit sa taille
     listeLCDNumberCapsules.push_back(ui->capsuleRestantesR4);
+    ui->capsuleRestantesR4->setFixedSize(ui->capsuleRestantesR4->width() * 1.5,
+                                         ui->capsuleRestantesR4->height() *
+                                           1.5); // agrandit sa taille
     listeLCDNumberCapsules.push_back(ui->capsuleRestantesR5);
+    ui->capsuleRestantesR5->setFixedSize(ui->capsuleRestantesR5->width() * 1.5,
+                                         ui->capsuleRestantesR5->height() *
+                                           1.5); // agrandit sa taille
     listeLCDNumberCapsules.push_back(ui->capsuleRestantesR6);
+    ui->capsuleRestantesR6->setFixedSize(ui->capsuleRestantesR6->width() * 1.5,
+                                         ui->capsuleRestantesR6->height() *
+                                           1.5); // agrandit sa taille
     listeLCDNumberCapsules.push_back(ui->capsuleRestantesR7);
+    ui->capsuleRestantesR7->setFixedSize(ui->capsuleRestantesR7->width() * 1.5,
+                                         ui->capsuleRestantesR7->height() *
+                                           1.5); // agrandit sa taille
     listeLCDNumberCapsules.push_back(ui->capsuleRestantesR8);
+    ui->capsuleRestantesR8->setFixedSize(ui->capsuleRestantesR8->width() * 1.5,
+                                         ui->capsuleRestantesR8->height() *
+                                           1.5); // agrandit sa taille
+
+    ui->capsuleTotalRestantes->setFixedSize(ui->capsuleTotalRestantes->width() * 2,
+                                            ui->capsuleTotalRestantes->height() *
+                                              2); // agrandit sa taille
 
     // Définition du texte du label de l'état de la cafetière
     ui->labelEtatCafetiere->setText(QString("Cafetière déconnectée"));
@@ -666,7 +702,12 @@ void IhmPikawa::initialiserStocksRangeeCapsules()
         stocksRangeesCapsules[numeroRangee - 1]->setValue(quantiteRangee);
     }
     // Initialisation du LCDNumber capsuleTotalRestante
-    ui->capsuleTotalRestantes->display(gestionMagasin->calculerTotalCapsulesRestantes());
+    int capsulesRestantesTotal = calculerTotalCapsulesRestantes();
+    ui->capsuleTotalRestantes->display(capsulesRestantesTotal);
+    if(capsulesRestantesTotal < SEUIL_CAPSULES_RESTANTES)
+        ui->capsuleTotalRestantes->setStyleSheet("background-color: transparent; color: red;");
+    else
+        ui->capsuleTotalRestantes->setStyleSheet("background-color: transparent;color: green;");
 }
 
 void IhmPikawa::initialiserBoutonsCapsules()
@@ -726,6 +767,8 @@ void IhmPikawa::initialiserCapsulesRestantes()
         qDebug() << Q_FUNC_INFO << "numeroRangee" << numeroRangee << "quantiteRangee"
                  << quantiteRangee;
         listeLCDNumberCapsules[numeroRangee - 1]->display(quantiteRangee);
+        stocksRangeesCapsules[numeroRangee - 1]->setValue(
+          listeLCDNumberCapsules[numeroRangee - 1]->value());
     }
 }
 
@@ -806,20 +849,26 @@ void IhmPikawa::decrementerNbCapsules()
     {
         int capsulesRestantes = listeLCDNumberCapsules[rangeeSelectionneePreparation - 1]
                                   ->value(); // Récupérer le nombre de capsules restantes
-        int capsulesRestantesTotal = NB_CAPSULE_MAX;
 
         qDebug() << Q_FUNC_INFO << "rangeeSelectionneePreparation" << rangeeSelectionneePreparation
                  << "capsulesRestantes" << capsulesRestantes;
         if(capsulesRestantes > 0)
         {
             capsulesRestantes--; // Décrémenter le nombre de capsules
-            capsulesRestantesTotal--;
 
             listeLCDNumberCapsules[rangeeSelectionneePreparation - 1]->display(
               capsulesRestantes); // Mettre à jour l'affichage du nombre de capsules
+            stocksRangeesCapsules[rangeeSelectionneePreparation - 1]->setValue(
+              listeLCDNumberCapsules[rangeeSelectionneePreparation - 1]->value());
 
+            int capsulesRestantesTotal = calculerTotalCapsulesRestantes();
             ui->capsuleTotalRestantes->display(capsulesRestantesTotal);
-            ui->capsuleTotalRestantes->display(calculerTotalCapsulesRestantes());
+            if(capsulesRestantesTotal < SEUIL_CAPSULES_RESTANTES)
+                ui->capsuleTotalRestantes->setStyleSheet(
+                  "background-color: transparent; color: red;");
+            else
+                ui->capsuleTotalRestantes->setStyleSheet(
+                  "background-color: transparent;color: green;");
 
             QString requeteSQL = "UPDATE StockMagasin SET quantite='" +
                                  QString::number(capsulesRestantes) + "' WHERE rangee='" +
