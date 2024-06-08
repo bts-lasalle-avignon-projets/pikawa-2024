@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="">
+        <file>pikawa-rpi.qss</file>
+    </qresource>
+    <qresource prefix="">
+        <file>arrow-down.png</file>
+    </qresource>
+    <qresource prefix="">
+        <file>arrow-up.png</file>
+    </qresource>
+</RCC>
+
+

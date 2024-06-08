@@ -6,7 +6,7 @@
  *
  * @brief Déclaration de la classe IhmPikawa
  * @author MDOIOUHOMA Nakib
- * @version 0.2
+ * @version 1.0
  */
 
 #include <QtWidgets>
@@ -30,10 +30,11 @@
  */
 #define PLEIN_ECRAN_PI
 
-#define DUREE_CAFE_COURT  6000                   // 6 s pour un café court
-#define DUREE_CAFE_LONG   (DUREE_CAFE_COURT * 2) // le double pour un long
-#define DUREE_PROGRESSION 1000                   // en millisecondes
-#define DUREE_AFFICHAGE   4000                   // en millisecondes
+#define DUREE_CAFE_COURT         6000                   // 6 s pour un café court
+#define DUREE_CAFE_LONG          (DUREE_CAFE_COURT * 2) // le double pour un long
+#define DUREE_PROGRESSION        1000                   // en millisecondes
+#define DUREE_AFFICHAGE          4000                   // en millisecondes
+#define SEUIL_CAPSULES_RESTANTES 4                      //
 
 namespace Ui
 {
@@ -64,7 +65,7 @@ class IhmPikawa : public QMainWindow
     BaseDeDonnees*  bdd;                    //!< l'association vers la classe BaseDeDonnees
     Communication*  communicationBluetooth; //!< l'association vers la classe Communication
     QTimer*
-                          minuteurPreparationCafe; //!< minuterie pour contrôler la durée de la préparation du café
+      minuteurPreparationCafe; //!< minuterie pour contrôler la durée de la préparation du café
     int                   rangeeSelectionneePreparation;
     QVector<QComboBox*>   listesDeroulantesCapsules;
     QVector<QSpinBox*>    stocksRangeesCapsules;

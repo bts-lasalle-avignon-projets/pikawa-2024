@@ -27,6 +27,8 @@ HEADERS += \
 FORMS += \
     ihmpikawa.ui
 
+RESOURCES += pikawa-rpi.qrc
+
 COPIES += bdd
 bdd.files = pikawa.db
 bdd.path = $$OUT_PWD/

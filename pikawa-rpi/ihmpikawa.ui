@@ -6,20 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1024</width>
-    <height>600</height>
+    <width>1824</width>
+    <height>984</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>1024</width>
-    <height>600</height>
+    <width>1824</width>
+    <height>984</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>1024</width>
-    <height>600</height>
+    <width>1824</width>
+    <height>984</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -45,7 +45,7 @@
     <item>
      <widget class="QStackedWidget" name="ecrans">
       <property name="currentIndex">
-       <number>3</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="ecranAccueil">
        <layout class="QVBoxLayout" name="layoutEcranAccueil">
@@ -251,7 +251,18 @@
            </spacer>
           </item>
           <item>
-           <widget class="QLCDNumber" name="capsuleTotalRestantes"/>
+           <widget class="QLabel" name="labelStock">
+            <property name="text">
+             <string>Stock</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLCDNumber" name="capsuleTotalRestantes">
+            <property name="digitCount">
+             <number>2</number>
+            </property>
+           </widget>
           </item>
           <item>
            <spacer name="horizontalSpacer_5">
@@ -260,8 +271,8 @@
             </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>40</width>
-              <height>20</height>
+              <width>110</width>
+              <height>80</height>
              </size>
             </property>
            </spacer>
@@ -316,7 +327,11 @@
            </widget>
           </item>
           <item row="3" column="3">
-           <widget class="QLCDNumber" name="capsuleRestantesR1"/>
+           <widget class="QLCDNumber" name="capsuleRestantesR1">
+            <property name="digitCount">
+             <number>1</number>
+            </property>
+           </widget>
           </item>
           <item row="3" column="12">
            <spacer name="horizontalSpacer_3">
@@ -332,7 +347,11 @@
            </spacer>
           </item>
           <item row="6" column="3">
-           <widget class="QLCDNumber" name="capsuleRestantesR3"/>
+           <widget class="QLCDNumber" name="capsuleRestantesR3">
+            <property name="digitCount">
+             <number>1</number>
+            </property>
+           </widget>
           </item>
           <item row="6" column="4">
            <widget class="QSpinBox" name="stockR3">
@@ -531,10 +550,18 @@
            </widget>
           </item>
           <item row="9" column="3">
-           <widget class="QLCDNumber" name="capsuleRestantesR4"/>
+           <widget class="QLCDNumber" name="capsuleRestantesR4">
+            <property name="digitCount">
+             <number>1</number>
+            </property>
+           </widget>
           </item>
           <item row="4" column="3">
-           <widget class="QLCDNumber" name="capsuleRestantesR2"/>
+           <widget class="QLCDNumber" name="capsuleRestantesR2">
+            <property name="digitCount">
+             <number>1</number>
+            </property>
+           </widget>
           </item>
           <item row="9" column="2">
            <widget class="QComboBox" name="listeCapsulesR4">
@@ -831,16 +858,32 @@
            </widget>
           </item>
           <item row="4" column="9">
-           <widget class="QLCDNumber" name="capsuleRestantesR6"/>
+           <widget class="QLCDNumber" name="capsuleRestantesR6">
+            <property name="digitCount">
+             <number>1</number>
+            </property>
+           </widget>
           </item>
           <item row="6" column="9">
-           <widget class="QLCDNumber" name="capsuleRestantesR7"/>
+           <widget class="QLCDNumber" name="capsuleRestantesR7">
+            <property name="digitCount">
+             <number>1</number>
+            </property>
+           </widget>
           </item>
           <item row="9" column="9">
-           <widget class="QLCDNumber" name="capsuleRestantesR8"/>
+           <widget class="QLCDNumber" name="capsuleRestantesR8">
+            <property name="digitCount">
+             <number>1</number>
+            </property>
+           </widget>
           </item>
           <item row="3" column="9">
-           <widget class="QLCDNumber" name="capsuleRestantesR5"/>
+           <widget class="QLCDNumber" name="capsuleRestantesR5">
+            <property name="digitCount">
+             <number>1</number>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
