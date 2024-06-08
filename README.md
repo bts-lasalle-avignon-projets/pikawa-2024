@@ -7,11 +7,11 @@
 - [Le projet pikawa 2024](#le-projet-pikawa-2024)
   - [Présentation](#présentation)
   - [Fonctionnalités](#fonctionnalités)
-  - [Documentation du code](#documentation-du-code)
+  - [Screenshots](#screenshots)
   - [Diagramme de classes](#diagramme-de-classes)
   - [Protocole](#protocole)
-  - [Screenshots](#screenshots)
   - [Historique des versions](#historique-des-versions)
+  - [Documentation du code](#documentation-du-code)
   - [Auteurs](#auteurs)
 
 ---
@@ -24,33 +24,35 @@ Pikawa est une machine à café connectée, équipée d’un magasin rotatif et 
 
 L'utilisateur pourra :
 
-- Sélectionner une capsule, le type de capusule (type de capsule, boisson preférée)
+- Sélectionner une capsule, le type de capusule (type de capsule, type de café, dernier café)
 - Administrer le stock du magasin, la possibilité de pouvoir reapprovisionner la quantité de capsules lorsque cela est nécessaire
-- S'identifier par un badge RFID, la personne qui est identifiée se verra attribuer plusieurs options comme suivre sa consommation et de gérer ses préférences
 - Être alerté si une capsule est présente ou abscente
 - Visualiser un bilan de santé pour pouvoir connaître sa consommation  avec son taux de cafeine et son nombre de cafés par jour
 - Lancer la préparation d'un café (Ristretto, Espresso et Lungo)
-
-## Fonctionnalités
-
-| Fonctionnalités                    | OUI | NON |
-| ---------------------------------- |:---:|:---:|
-| Administrer le magasin de capsules | X   |     |
-| Gestion du type de capsule         | X   |     |
-| Suivi de l'état du stock           | X   |     |
-| Sélectionner une capsule           | X   |     |
-| Lancer la préparation d’un café    | X   |     |
-| Communiquer avec la cafetière      | X   |     |
+- S'identifier par un badge RFID, la personne qui est identifiée se verra attribuer plusieurs options comme suivre sa consommation et de gérer ses préférences
 
 ![](images/uc.png)
 
-## Documentation du code
+## Fonctionnalités
 
-https://btssn-lasalle-84.github.io/pikawa-2024/
+| Fonctionnalités                          | OUI | NON |
+| ---------------------------------------- | :-: | :-: |
+| Administrer le magasin de capsules       |  X  |     |
+| Gestion du type de capsule               |  X  |     |
+| Suivi de l'état du stock                 |  X  |     |
+| Sélectionner une capsule                 |  X  |     |
+| Lancer la préparation d’un café          |  X  |     |
+| Gérer l'état d'une préparation d’un café |  X  |     |
+| Être alerté en cas d'erreur              |  X  |     |
+| Communiquer avec la cafetière            |  X  |     |
+
+## Screenshots
+
+![](images/pikawa-rpi-v1.0.gif)
 
 ## Diagramme de classes
 
-![](images/diagramme-classes-v0.2.png)
+![](images/diagramme-classes-v1.0.png)
 
 ## Protocole
 
@@ -108,11 +110,11 @@ Le champ ÉTAT à 9 états possibles :
 - `8` : absence tasse
 - `9` : absence capsule
 
-## Screenshots
-
-![](images/ihm.gif)
-
 ## Historique des versions
+
+- Version 1.0 : 08/06/2024
+
+![](images/version_1.0.png)
 
 - Version 0.2 : 24/05/2024
 
@@ -121,6 +123,10 @@ Le champ ÉTAT à 9 états possibles :
 - Version 0.1 : 05/04/2024
 
 ![](images/version_0.1.png)
+
+## Documentation du code
+
+https://btssn-lasalle-84.github.io/pikawa-2024/
 
 ## Auteurs
 

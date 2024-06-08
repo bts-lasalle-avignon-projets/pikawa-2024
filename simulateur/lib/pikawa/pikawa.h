@@ -217,15 +217,12 @@ enum Simulation
 #define TAILLE_LUNGO     3
 
 // Trame de requête/réponse :
-#define TRAME_REQUETE_ETAT_CAFETIERE               "C~"
-#define NB_PARAMETRES_TRAME_REQUETE_ETAT_CAFETIERE 3
-#define TRAME_REQUETE_ETAT_MAGASIN                 "M~"
-#define NB_PARAMETRES_TRAME_REQUETE_ETAT_MAGASIN   2
-#define TRAME_COMMANDE_PREPARATION                 "P"
-#define NB_PARAMETRES_TRAME_COMMANDE_PREPARATION   4
-#define TRAME_REPONSE_ETAT_CAFETIERE               "C"
-#define TRAME_REPONSE_ETAT_MAGASIN                 "M"
-#define TRAME_REPONSE_ETAT_PREPARATION             "P"
+#define TRAME_REQUETE_ETAT_MAGASIN               "M~"
+#define NB_PARAMETRES_TRAME_REQUETE_ETAT_MAGASIN 2
+#define TRAME_COMMANDE_PREPARATION               "P"
+#define NB_PARAMETRES_TRAME_COMMANDE_PREPARATION 4
+#define TRAME_REPONSE_ETAT_MAGASIN               "M"
+#define TRAME_REPONSE_ETAT_PREPARATION           "P"
 
 // Trame de service (application vers système) : périodique toutes les secondes
 #define TRAME_SERVICE         "A" // Alive / Acquittement

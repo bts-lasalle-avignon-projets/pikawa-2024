@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Projet pikawa:  Fichier source de Communication.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="customdoxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="projet-logo.png"/></td>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Projet pikawa
+   &#160;<span id="projectnumber">1.0</span>
+   </div>
+   <div id="projectbrief">BTS SNIR LaSalle Avignon 2024</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Recherche','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Recherche');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('_communication_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">Communication.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="_communication_8h.html">Aller à la documentation de ce fichier.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef COMMUNICATION_H</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define COMMUNICATION_H</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;QObject&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;QString&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;QtBluetooth&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
+<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="_communication_8h.html#aaedb8cba353986b79a8c594e33cd6945">    8</a></span>&#160;<span class="preprocessor">#define PREFIXE_NOM_CAFETIERE  &quot;pikawa&quot;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="_communication_8h.html#a8306179e41b89299f90fcdca0fa2c900">    9</a></span>&#160;<span class="preprocessor">#define TRAME_PREPARATION_CAFE &#39;P&#39;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="_communication_8h.html#a14187dd8b06c942136500f63765b3795">   10</a></span>&#160;<span class="preprocessor">#define TRAME_ETAT_MAGASIN     &#39;M&#39;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="_communication_8h.html#aa34f3db65e8e2285027433f0dec98a0d">   11</a></span>&#160;<span class="preprocessor">#define DEBUT_TRAME            &quot;#PIKAWA&quot;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="_communication_8h.html#a4e6b00f2aded94906a17b7ab7eaf28df">   12</a></span>&#160;<span class="preprocessor">#define FIN_TRAME              &quot;\r\n&quot;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="_communication_8h.html#aa780bdb2890a1fad3d3104051a689e30">   13</a></span>&#160;<span class="preprocessor">#define TRAME_SEPARATEUR       &#39;~&#39;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="_communication_8h.html#a0caf5851ebc23297e690cd68aa06d91d">   15</a></span>&#160;<span class="preprocessor">#define CAFE_RISTRETTO &#39;1&#39;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="_communication_8h.html#ab0bcaa2ab72fd751fe120c6212870978">   16</a></span>&#160;<span class="preprocessor">#define CAFE_ESPRESSO  &#39;2&#39;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="_communication_8h.html#ac347ea52d87ce85cb3b67d97432ddea6">   17</a></span>&#160;<span class="preprocessor">#define CAFE_LUNGO     &#39;3&#39;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="class_communication.html">   19</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_communication.html">Communication</a> : <span class="keyword">public</span> <a class="code" href="class_q_object.html">QObject</a></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;{</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    Q_OBJECT</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;  <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="class_communication.html#a3b1bcc0bf28c15014c7665e5ec33459a">   23</a></span>&#160;    QBluetoothLocalDevice           <a class="code" href="class_communication.html#a3b1bcc0bf28c15014c7665e5ec33459a">interfaceLocale</a>;</div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="class_communication.html#aa567af874d2f13458e65868bd1636311">   24</a></span>&#160;    QBluetoothDeviceDiscoveryAgent* <a class="code" href="class_communication.html#aa567af874d2f13458e65868bd1636311">agentDecouvreur</a>;</div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="class_communication.html#a05b884196ea4e77ab1969f4411bfa80c">   25</a></span>&#160;    QBluetoothDeviceInfo            <a class="code" href="class_communication.html#a05b884196ea4e77ab1969f4411bfa80c">pikawa</a>;</div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="class_communication.html#a7deaef74dc69090edc9953d479c6df1a">   26</a></span>&#160;    <span class="keywordtype">bool</span>                            <a class="code" href="class_communication.html#a7deaef74dc69090edc9953d479c6df1a">pikawaDetecte</a>;</div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="class_communication.html#a4cb62978a884664a75a5eb8c3700c4f7">   27</a></span>&#160;    QBluetoothSocket*               <a class="code" href="class_communication.html#a4cb62978a884664a75a5eb8c3700c4f7">socketBluetoothPikawa</a>;</div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="class_communication.html#ac8f5004bfaaf7f538ba5ae93255f772b">   28</a></span>&#160;    QString                         <a class="code" href="class_communication.html#ac8f5004bfaaf7f538ba5ae93255f772b">trame</a>;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_communication.html#a7051a5773b38c82827175614f2acf5b0">estBluetoothDisponible</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_communication.html#a1e022e7a532b6ef760ff8dee2f6f28b7">activerBluetooth</a>();</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;  <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <a class="code" href="class_communication.html#a56cf4b262e592bcae1d987c3dd00487f">Communication</a>(<a class="code" href="class_q_object.html">QObject</a>* parent = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <a class="code" href="class_communication.html#a75ba08ce908d45251e28e4c1db94e6f4">~Communication</a>();</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_communication.html#af3ae011aedc8bcc4098a881b7dec41bf">estConnecte</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_communication.html#a9950324a0491bab64c869a31c0120310">estDetecte</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="keyword">public</span> slots:</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_communication.html#a0475b9c5fae9a0a987e8a9b45e601a6f">activerLaDecouverte</a>();</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_communication.html#ae87e184e5977c7a896ff6dbc241d6a49">desactiverLaDecouverte</a>();</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_communication.html#a49a00e5a4ca7e8cec970232fc4e2c263">connecter</a>();</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_communication.html#a30fc4cf3f0d2c7ee32e2daab097ebb1a">deconnecter</a>();</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_communication.html#a1ef7e4107d98346290f19f76d7eecf32">connecterSocket</a>();</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_communication.html#a5280c11bea5ead32e7a7101fd5b0f9b2">deconnecterSocket</a>();</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_communication.html#aff46487c2e88d18420450c5d984852cc">lireDonneesDisponnible</a>();</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_communication.html#a53c26abe4c16ff155a15929dd5ad07cf">envoyerTrame</a>(QString <a class="code" href="class_communication.html#ac8f5004bfaaf7f538ba5ae93255f772b">trame</a>);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_communication.html#a6bf734343e9de7412fbcd938734f053b">traiterTrameEtatMagasin</a>(QString <a class="code" href="class_communication.html#ac8f5004bfaaf7f538ba5ae93255f772b">trame</a>);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_communication.html#a50cb2d1ac29883320b322e1a46f38d8a">traiterTrameEtatPreparation</a>(QString <a class="code" href="class_communication.html#ac8f5004bfaaf7f538ba5ae93255f772b">trame</a>);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  signals:</div>
+<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="class_communication.html#a0b19b5fc65ea3de524c8f646043b2046">   53</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_communication.html#a0b19b5fc65ea3de524c8f646043b2046">cafetiereDetectee</a>(QString nom, QString adresse);</div>
+<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="class_communication.html#a2f1745198d821800ea0476656fa16577">   54</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_communication.html#a2f1745198d821800ea0476656fa16577">rechercheTerminee</a>(<span class="keywordtype">bool</span>);</div>
+<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="class_communication.html#ad04e4d9489b77bc5a436aec9f259eb86">   55</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_communication.html#ad04e4d9489b77bc5a436aec9f259eb86">cafetiereConnectee</a>(QString nom, QString adresse);</div>
+<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="class_communication.html#a735265d8d7db235ad0ba3a7fc316c5ee">   56</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_communication.html#a735265d8d7db235ad0ba3a7fc316c5ee">cafetiereDeconnectee</a>();</div>
+<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="class_communication.html#a7ccf8b03b5a9ae643e465c146c132c70">   57</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_communication.html#a7ccf8b03b5a9ae643e465c146c132c70">etatMagasin</a>(QStringList presenceCapsules); <span class="comment">// R1 à R8</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="class_communication.html#ac404a30a9f0742345447e0654864a4b8">   58</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_communication.html#ac404a30a9f0742345447e0654864a4b8">cafeEnPreparation</a>(<span class="keywordtype">int</span> etat);               <span class="comment">// 0 à 3</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;};</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// COMMUNICATION_H</span></div>
+<div class="ttc" id="aclass_communication_html"><div class="ttname"><a href="class_communication.html">Communication</a></div><div class="ttdef"><b>Definition:</b> <a href="_communication_8h_source.html#l00019">Communication.h:20</a></div></div>
+<div class="ttc" id="aclass_communication_html_a0475b9c5fae9a0a987e8a9b45e601a6f"><div class="ttname"><a href="class_communication.html#a0475b9c5fae9a0a987e8a9b45e601a6f">Communication::activerLaDecouverte</a></div><div class="ttdeci">void activerLaDecouverte()</div><div class="ttdef"><b>Definition:</b> <a href="_communication_8cpp_source.html#l00037">Communication.cpp:37</a></div></div>
+<div class="ttc" id="aclass_communication_html_a05b884196ea4e77ab1969f4411bfa80c"><div class="ttname"><a href="class_communication.html#a05b884196ea4e77ab1969f4411bfa80c">Communication::pikawa</a></div><div class="ttdeci">QBluetoothDeviceInfo pikawa</div><div class="ttdef"><b>Definition:</b> <a href="_communication_8h_source.html#l00025">Communication.h:25</a></div></div>
+<div class="ttc" id="aclass_communication_html_a0b19b5fc65ea3de524c8f646043b2046"><div class="ttname"><a href="class_communication.html#a0b19b5fc65ea3de524c8f646043b2046">Communication::cafetiereDetectee</a></div><div class="ttdeci">void cafetiereDetectee(QString nom, QString adresse)</div></div>
+<div class="ttc" id="aclass_communication_html_a1e022e7a532b6ef760ff8dee2f6f28b7"><div class="ttname"><a href="class_communication.html#a1e022e7a532b6ef760ff8dee2f6f28b7">Communication::activerBluetooth</a></div><div class="ttdeci">void activerBluetooth()</div><div class="ttdef"><b>Definition:</b> <a href="_communication_8cpp_source.html#l00208">Communication.cpp:208</a></div></div>
+<div class="ttc" id="aclass_communication_html_a1ef7e4107d98346290f19f76d7eecf32"><div class="ttname"><a href="class_communication.html#a1ef7e4107d98346290f19f76d7eecf32">Communication::connecterSocket</a></div><div class="ttdeci">void connecterSocket()</div><div class="ttdef"><b>Definition:</b> <a href="_communication_8cpp_source.html#l00116">Communication.cpp:116</a></div></div>
+<div class="ttc" id="aclass_communication_html_a2f1745198d821800ea0476656fa16577"><div class="ttname"><a href="class_communication.html#a2f1745198d821800ea0476656fa16577">Communication::rechercheTerminee</a></div><div class="ttdeci">void rechercheTerminee(bool)</div></div>
+<div class="ttc" id="aclass_communication_html_a30fc4cf3f0d2c7ee32e2daab097ebb1a"><div class="ttname"><a href="class_communication.html#a30fc4cf3f0d2c7ee32e2daab097ebb1a">Communication::deconnecter</a></div><div class="ttdeci">void deconnecter()</div><div class="ttdef"><b>Definition:</b> <a href="_communication_8cpp_source.html#l00105">Communication.cpp:105</a></div></div>
+<div class="ttc" id="aclass_communication_html_a3b1bcc0bf28c15014c7665e5ec33459a"><div class="ttname"><a href="class_communication.html#a3b1bcc0bf28c15014c7665e5ec33459a">Communication::interfaceLocale</a></div><div class="ttdeci">QBluetoothLocalDevice interfaceLocale</div><div class="ttdef"><b>Definition:</b> <a href="_communication_8h_source.html#l00023">Communication.h:23</a></div></div>
+<div class="ttc" id="aclass_communication_html_a49a00e5a4ca7e8cec970232fc4e2c263"><div class="ttname"><a href="class_communication.html#a49a00e5a4ca7e8cec970232fc4e2c263">Communication::connecter</a></div><div class="ttdeci">void connecter()</div><div class="ttdef"><b>Definition:</b> <a href="_communication_8cpp_source.html#l00082">Communication.cpp:82</a></div></div>
+<div class="ttc" id="aclass_communication_html_a4cb62978a884664a75a5eb8c3700c4f7"><div class="ttname"><a href="class_communication.html#a4cb62978a884664a75a5eb8c3700c4f7">Communication::socketBluetoothPikawa</a></div><div class="ttdeci">QBluetoothSocket * socketBluetoothPikawa</div><div class="ttdef"><b>Definition:</b> <a href="_communication_8h_source.html#l00027">Communication.h:27</a></div></div>
+<div class="ttc" id="aclass_communication_html_a50cb2d1ac29883320b322e1a46f38d8a"><div class="ttname"><a href="class_communication.html#a50cb2d1ac29883320b322e1a46f38d8a">Communication::traiterTrameEtatPreparation</a></div><div class="ttdeci">void traiterTrameEtatPreparation(QString trame)</div><div class="ttdef"><b>Definition:</b> <a href="_communication_8cpp_source.html#l00177">Communication.cpp:177</a></div></div>
+<div class="ttc" id="aclass_communication_html_a5280c11bea5ead32e7a7101fd5b0f9b2"><div class="ttname"><a href="class_communication.html#a5280c11bea5ead32e7a7101fd5b0f9b2">Communication::deconnecterSocket</a></div><div class="ttdeci">void deconnecterSocket()</div><div class="ttdef"><b>Definition:</b> <a href="_communication_8cpp_source.html#l00125">Communication.cpp:125</a></div></div>
+<div class="ttc" id="aclass_communication_html_a53c26abe4c16ff155a15929dd5ad07cf"><div class="ttname"><a href="class_communication.html#a53c26abe4c16ff155a15929dd5ad07cf">Communication::envoyerTrame</a></div><div class="ttdeci">void envoyerTrame(QString trame)</div><div class="ttdef"><b>Definition:</b> <a href="_communication_8cpp_source.html#l00193">Communication.cpp:193</a></div></div>
+<div class="ttc" id="aclass_communication_html_a56cf4b262e592bcae1d987c3dd00487f"><div class="ttname"><a href="class_communication.html#a56cf4b262e592bcae1d987c3dd00487f">Communication::Communication</a></div><div class="ttdeci">Communication(QObject *parent=nullptr)</div><div class="ttdef"><b>Definition:</b> <a href="_communication_8cpp_source.html#l00005">Communication.cpp:5</a></div></div>
+<div class="ttc" id="aclass_communication_html_a6bf734343e9de7412fbcd938734f053b"><div class="ttname"><a href="class_communication.html#a6bf734343e9de7412fbcd938734f053b">Communication::traiterTrameEtatMagasin</a></div><div class="ttdeci">void traiterTrameEtatMagasin(QString trame)</div><div class="ttdef"><b>Definition:</b> <a href="_communication_8cpp_source.html#l00161">Communication.cpp:161</a></div></div>
+<div class="ttc" id="aclass_communication_html_a7051a5773b38c82827175614f2acf5b0"><div class="ttname"><a href="class_communication.html#a7051a5773b38c82827175614f2acf5b0">Communication::estBluetoothDisponible</a></div><div class="ttdeci">bool estBluetoothDisponible() const</div><div class="ttdef"><b>Definition:</b> <a href="_communication_8cpp_source.html#l00203">Communication.cpp:203</a></div></div>
+<div class="ttc" id="aclass_communication_html_a735265d8d7db235ad0ba3a7fc316c5ee"><div class="ttname"><a href="class_communication.html#a735265d8d7db235ad0ba3a7fc316c5ee">Communication::cafetiereDeconnectee</a></div><div class="ttdeci">void cafetiereDeconnectee()</div></div>
+<div class="ttc" id="aclass_communication_html_a75ba08ce908d45251e28e4c1db94e6f4"><div class="ttname"><a href="class_communication.html#a75ba08ce908d45251e28e4c1db94e6f4">Communication::~Communication</a></div><div class="ttdeci">~Communication()</div><div class="ttdef"><b>Definition:</b> <a href="_communication_8cpp_source.html#l00012">Communication.cpp:12</a></div></div>
+<div class="ttc" id="aclass_communication_html_a7ccf8b03b5a9ae643e465c146c132c70"><div class="ttname"><a href="class_communication.html#a7ccf8b03b5a9ae643e465c146c132c70">Communication::etatMagasin</a></div><div class="ttdeci">void etatMagasin(QStringList presenceCapsules)</div></div>
+<div class="ttc" id="aclass_communication_html_a7deaef74dc69090edc9953d479c6df1a"><div class="ttname"><a href="class_communication.html#a7deaef74dc69090edc9953d479c6df1a">Communication::pikawaDetecte</a></div><div class="ttdeci">bool pikawaDetecte</div><div class="ttdef"><b>Definition:</b> <a href="_communication_8h_source.html#l00026">Communication.h:26</a></div></div>
+<div class="ttc" id="aclass_communication_html_a9950324a0491bab64c869a31c0120310"><div class="ttname"><a href="class_communication.html#a9950324a0491bab64c869a31c0120310">Communication::estDetecte</a></div><div class="ttdeci">bool estDetecte() const</div><div class="ttdef"><b>Definition:</b> <a href="_communication_8cpp_source.html#l00031">Communication.cpp:31</a></div></div>
+<div class="ttc" id="aclass_communication_html_aa567af874d2f13458e65868bd1636311"><div class="ttname"><a href="class_communication.html#aa567af874d2f13458e65868bd1636311">Communication::agentDecouvreur</a></div><div class="ttdeci">QBluetoothDeviceDiscoveryAgent * agentDecouvreur</div><div class="ttdef"><b>Definition:</b> <a href="_communication_8h_source.html#l00024">Communication.h:24</a></div></div>
+<div class="ttc" id="aclass_communication_html_ac404a30a9f0742345447e0654864a4b8"><div class="ttname"><a href="class_communication.html#ac404a30a9f0742345447e0654864a4b8">Communication::cafeEnPreparation</a></div><div class="ttdeci">void cafeEnPreparation(int etat)</div></div>
+<div class="ttc" id="aclass_communication_html_ac8f5004bfaaf7f538ba5ae93255f772b"><div class="ttname"><a href="class_communication.html#ac8f5004bfaaf7f538ba5ae93255f772b">Communication::trame</a></div><div class="ttdeci">QString trame</div><div class="ttdef"><b>Definition:</b> <a href="_communication_8h_source.html#l00028">Communication.h:28</a></div></div>
+<div class="ttc" id="aclass_communication_html_ad04e4d9489b77bc5a436aec9f259eb86"><div class="ttname"><a href="class_communication.html#ad04e4d9489b77bc5a436aec9f259eb86">Communication::cafetiereConnectee</a></div><div class="ttdeci">void cafetiereConnectee(QString nom, QString adresse)</div></div>
+<div class="ttc" id="aclass_communication_html_ae87e184e5977c7a896ff6dbc241d6a49"><div class="ttname"><a href="class_communication.html#ae87e184e5977c7a896ff6dbc241d6a49">Communication::desactiverLaDecouverte</a></div><div class="ttdeci">void desactiverLaDecouverte()</div><div class="ttdef"><b>Definition:</b> <a href="_communication_8cpp_source.html#l00073">Communication.cpp:73</a></div></div>
+<div class="ttc" id="aclass_communication_html_af3ae011aedc8bcc4098a881b7dec41bf"><div class="ttname"><a href="class_communication.html#af3ae011aedc8bcc4098a881b7dec41bf">Communication::estConnecte</a></div><div class="ttdeci">bool estConnecte() const</div><div class="ttdef"><b>Definition:</b> <a href="_communication_8cpp_source.html#l00018">Communication.cpp:18</a></div></div>
+<div class="ttc" id="aclass_communication_html_aff46487c2e88d18420450c5d984852cc"><div class="ttname"><a href="class_communication.html#aff46487c2e88d18420450c5d984852cc">Communication::lireDonneesDisponnible</a></div><div class="ttdeci">void lireDonneesDisponnible()</div><div class="ttdef"><b>Definition:</b> <a href="_communication_8cpp_source.html#l00131">Communication.cpp:131</a></div></div>
+<div class="ttc" id="aclass_q_object_html"><div class="ttname"><a href="class_q_object.html">QObject</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- HTML footer for doxygen 1.9.1-->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_85212270a1fa58eb9818348af0285e4e.html">pikawa-rpi</a></li><li class="navelem"><a class="el" href="_communication_8h.html">Communication.h</a></li>
+    <li class="footer"><img class="footer" src="lasalle-logo.png" height="31" alt="La Salle Avignon"/>&nbsp;<b>Campus La Salle Avignon</b>&nbsp;-&nbsp;9 Rue Notre Dame des 7 douleurs&nbsp;-&nbsp;BP 50165&nbsp;-&nbsp;84008 Avignon&nbsp;-&nbsp;Généré le Samedi 8 Juin 2024 12:06:01 pour Projet pikawa par&nbsp;<a href="https://www.doxygen.org/index.html">doxygen</a>&nbsp;1.9.1&nbsp;</li>
+  </ul>
+</div>
+</body>
+</html>
