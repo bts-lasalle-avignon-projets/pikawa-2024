@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Projet pikawa:  Fichier source de GestionMagasin.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="customdoxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="projet-logo.png"/></td>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Projet pikawa
+   &#160;<span id="projectnumber">1.0</span>
+   </div>
+   <div id="projectbrief">BTS SNIR LaSalle Avignon 2024</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Recherche','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Recherche');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('_gestion_magasin_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">GestionMagasin.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="_gestion_magasin_8h.html">Aller à la documentation de ce fichier.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef GESTIONMAGASIN_H</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define GESTIONMAGASIN_H</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;QObject&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;QVector&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;QStringList&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
+<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="_gestion_magasin_8h.html#aec1d95c6fdaf14fab27018b17bedbd7e">    8</a></span>&#160;<span class="preprocessor">#define NB_COLONNES_CAPSULE      8</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="_gestion_magasin_8h.html#a2759d6af69a0abcc96c3a3f8ced03be6">    9</a></span>&#160;<span class="preprocessor">#define NB_CAPSULE_PAR_COLONNE   4</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="_gestion_magasin_8h.html#a04820e7e83d0d0f1a2d7af683d220606">   10</a></span>&#160;<span class="preprocessor">#define CHOIX_CAPSULE_NON_DEFINI -1</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="_gestion_magasin_8h.html#a55299e737493a67a08bb1a6f7f093b75">   11</a></span>&#160;<span class="preprocessor">#define NB_CAPSULE_MAX           (NB_COLONNES_CAPSULE * NB_CAPSULE_PAR_COLONNE)</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">class </span><a class="code" href="class_base_de_donnees.html">BaseDeDonnees</a>;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
+<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="class_gestion_magasin.html">   14</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_gestion_magasin.html">GestionMagasin</a> : <span class="keyword">public</span> <a class="code" href="class_q_object.html">QObject</a></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;{</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    Q_OBJECT</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;  <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="class_gestion_magasin.html#a8a6c19f1f1610d116260f18cf85c8d70">   24</a></span>&#160;    <span class="keyword">enum</span> <a class="code" href="class_gestion_magasin.html#a8a6c19f1f1610d116260f18cf85c8d70">TableCapsule</a></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    {</div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="class_gestion_magasin.html#a8a6c19f1f1610d116260f18cf85c8d70a74007092d8430a535942a899e0638cb5">   26</a></span>&#160;        <a class="code" href="class_gestion_magasin.html#a8a6c19f1f1610d116260f18cf85c8d70a74007092d8430a535942a899e0638cb5">ID_CAPSULE</a>  = 0,</div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="class_gestion_magasin.html#a8a6c19f1f1610d116260f18cf85c8d70a2d50d5991a00ca4b4cb2e300d1fca683">   27</a></span>&#160;        <a class="code" href="class_gestion_magasin.html#a8a6c19f1f1610d116260f18cf85c8d70a2d50d5991a00ca4b4cb2e300d1fca683">MARQUE</a>      = 1,</div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="class_gestion_magasin.html#a8a6c19f1f1610d116260f18cf85c8d70a638e13d4b4a671180f0ff4c09aca16c1">   28</a></span>&#160;        <a class="code" href="class_gestion_magasin.html#a8a6c19f1f1610d116260f18cf85c8d70a638e13d4b4a671180f0ff4c09aca16c1">DESIGNATION</a> = 2,</div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="class_gestion_magasin.html#a8a6c19f1f1610d116260f18cf85c8d70a7a3fa5c1916bd37ba3b3ef99d582bf73">   29</a></span>&#160;        <a class="code" href="class_gestion_magasin.html#a8a6c19f1f1610d116260f18cf85c8d70a7a3fa5c1916bd37ba3b3ef99d582bf73">DESCRIPTION</a> = 3,</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <a class="code" href="class_gestion_magasin.html#a8a6c19f1f1610d116260f18cf85c8d70aaa454f9d99b5384ea152bd2cef60ce54">INTENSITE</a>   = 4</div>
+<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="class_gestion_magasin.html#a8a6c19f1f1610d116260f18cf85c8d70aaa454f9d99b5384ea152bd2cef60ce54">   31</a></span>&#160;    };</div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="class_gestion_magasin.html#a4fb3ab6de6cb7ed5f9d5b6a657b4ef94">   37</a></span>&#160;    <span class="keyword">enum</span> <a class="code" href="class_gestion_magasin.html#a4fb3ab6de6cb7ed5f9d5b6a657b4ef94">StockMagasin</a></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    {</div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="class_gestion_magasin.html#a4fb3ab6de6cb7ed5f9d5b6a657b4ef94aae6805674e1e81c1aea516f58c645c3d">   39</a></span>&#160;        <a class="code" href="class_gestion_magasin.html#a4fb3ab6de6cb7ed5f9d5b6a657b4ef94aae6805674e1e81c1aea516f58c645c3d">ID_CAPSULE_STOCK</a>           = 0,</div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="class_gestion_magasin.html#a4fb3ab6de6cb7ed5f9d5b6a657b4ef94af8c0c551516ab6fc341a386c56f4ea1c">   40</a></span>&#160;        <a class="code" href="class_gestion_magasin.html#a4fb3ab6de6cb7ed5f9d5b6a657b4ef94af8c0c551516ab6fc341a386c56f4ea1c">DESIGNATION_CAPSULE_STOCK</a>  = 1,</div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="class_gestion_magasin.html#a4fb3ab6de6cb7ed5f9d5b6a657b4ef94a9a14760022a7135348dde727abb0fa28">   41</a></span>&#160;        <a class="code" href="class_gestion_magasin.html#a4fb3ab6de6cb7ed5f9d5b6a657b4ef94a9a14760022a7135348dde727abb0fa28">RANGEE_CAPSULE_STOCK</a>       = 2,</div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="class_gestion_magasin.html#a4fb3ab6de6cb7ed5f9d5b6a657b4ef94a4a24763507f6a33111622c95b66505af">   42</a></span>&#160;        <a class="code" href="class_gestion_magasin.html#a4fb3ab6de6cb7ed5f9d5b6a657b4ef94a4a24763507f6a33111622c95b66505af">QUANTITE_CAPSULE_STOCK</a>     = 3,</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <a class="code" href="class_gestion_magasin.html#a4fb3ab6de6cb7ed5f9d5b6a657b4ef94a687bc7dc00b2876db8320110a52426c4">QUANTITE_MAX_CAPSULE_STOCK</a> = 4</div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="class_gestion_magasin.html#a4fb3ab6de6cb7ed5f9d5b6a657b4ef94a687bc7dc00b2876db8320110a52426c4">   44</a></span>&#160;    };</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="class_gestion_magasin.html#a28f04c608c2ccd39bc18c320181920d7">   47</a></span>&#160;    <a class="code" href="class_base_de_donnees.html">BaseDeDonnees</a>*       <a class="code" href="class_gestion_magasin.html#a28f04c608c2ccd39bc18c320181920d7">bdd</a>; </div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="class_gestion_magasin.html#aa503221b8632ca79439e92521f6a993a">   48</a></span>&#160;    QVector&lt;QStringList&gt; <a class="code" href="class_gestion_magasin.html#aa503221b8632ca79439e92521f6a993a">listeCapsules</a>;</div>
+<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="class_gestion_magasin.html#aba767877a898b4bc5bdf2fb13a189e8c">   49</a></span>&#160;    QVector&lt;QStringList&gt; <a class="code" href="class_gestion_magasin.html#aba767877a898b4bc5bdf2fb13a189e8c">stock</a>;</div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="class_gestion_magasin.html#add9e497b56e39324c8898376d17f2e25">   50</a></span>&#160;    <span class="keywordtype">int</span>                  <a class="code" href="class_gestion_magasin.html#add9e497b56e39324c8898376d17f2e25">quantiteTotalCapsule</a>;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <a class="code" href="class_gestion_magasin.html#a15dc8c07e7e0e49cb558207ea666060f">GestionMagasin</a>(<a class="code" href="class_q_object.html">QObject</a>* parent = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="class_gestion_magasin.html#a62efab4c75afadfe624907019994c62a">~GestionMagasin</a>();</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">void</span>                 <a class="code" href="class_gestion_magasin.html#a30f82152ee22db01882fea2e58f1febb">chargerListeCapsules</a>();</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    QVector&lt;QStringList&gt; <a class="code" href="class_gestion_magasin.html#a46c8c0e21b7eac07f79f2e73c780dfc9">getListeCapsules</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">void</span>                 <a class="code" href="class_gestion_magasin.html#afa50e4443ced470650d39ed61dfef019">chargerStockMagasin</a>();</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    QVector&lt;QStringList&gt; <a class="code" href="class_gestion_magasin.html#a8c752763d69e0e2d38d533ff554e2a07">getStock</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">int</span>                  <a class="code" href="class_gestion_magasin.html#a77892cf0dab6d9fd1f7c51b98c220693">getQuantite</a>(<span class="keywordtype">int</span> rangee) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    QString              <a class="code" href="class_gestion_magasin.html#a9420f048b46d8b943efc3f046c314ff2">getDesignationCapsule</a>(<span class="keywordtype">int</span> rangee) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    QString              <a class="code" href="class_gestion_magasin.html#a16dbc388e61f4a1de89d09057c134864">getIdCapsuleRangee</a>(<span class="keywordtype">int</span> rangee) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">int</span>                  <a class="code" href="class_gestion_magasin.html#a00a4cbe4555649be192ce2b2fd5eb605">getQuantiteMax</a>(<span class="keywordtype">int</span> rangee) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    QString              <a class="code" href="class_gestion_magasin.html#a5080afce6a45716e22279dd4f3cfe9a1">getIdCapsuleListe</a>(<span class="keywordtype">int</span> indexCapsule) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">int</span>                  <a class="code" href="class_gestion_magasin.html#a662dc8c20a029765a7b9036e72eba9af">calculerTotalCapsulesRestantes</a>();</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;};</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// GESTIONMAGASIN_H</span></div>
+<div class="ttc" id="aclass_base_de_donnees_html"><div class="ttname"><a href="class_base_de_donnees.html">BaseDeDonnees</a></div><div class="ttdef"><b>Definition:</b> <a href="_base_de_donnees_8h_source.html#l00030">BaseDeDonnees.h:31</a></div></div>
+<div class="ttc" id="aclass_gestion_magasin_html"><div class="ttname"><a href="class_gestion_magasin.html">GestionMagasin</a></div><div class="ttdef"><b>Definition:</b> <a href="_gestion_magasin_8h_source.html#l00014">GestionMagasin.h:15</a></div></div>
+<div class="ttc" id="aclass_gestion_magasin_html_a00a4cbe4555649be192ce2b2fd5eb605"><div class="ttname"><a href="class_gestion_magasin.html#a00a4cbe4555649be192ce2b2fd5eb605">GestionMagasin::getQuantiteMax</a></div><div class="ttdeci">int getQuantiteMax(int rangee) const</div><div class="ttdef"><b>Definition:</b> <a href="_gestion_magasin_8cpp_source.html#l00074">GestionMagasin.cpp:74</a></div></div>
+<div class="ttc" id="aclass_gestion_magasin_html_a15dc8c07e7e0e49cb558207ea666060f"><div class="ttname"><a href="class_gestion_magasin.html#a15dc8c07e7e0e49cb558207ea666060f">GestionMagasin::GestionMagasin</a></div><div class="ttdeci">GestionMagasin(QObject *parent=nullptr)</div><div class="ttdef"><b>Definition:</b> <a href="_gestion_magasin_8cpp_source.html#l00004">GestionMagasin.cpp:4</a></div></div>
+<div class="ttc" id="aclass_gestion_magasin_html_a16dbc388e61f4a1de89d09057c134864"><div class="ttname"><a href="class_gestion_magasin.html#a16dbc388e61f4a1de89d09057c134864">GestionMagasin::getIdCapsuleRangee</a></div><div class="ttdeci">QString getIdCapsuleRangee(int rangee) const</div><div class="ttdef"><b>Definition:</b> <a href="_gestion_magasin_8cpp_source.html#l00065">GestionMagasin.cpp:65</a></div></div>
+<div class="ttc" id="aclass_gestion_magasin_html_a28f04c608c2ccd39bc18c320181920d7"><div class="ttname"><a href="class_gestion_magasin.html#a28f04c608c2ccd39bc18c320181920d7">GestionMagasin::bdd</a></div><div class="ttdeci">BaseDeDonnees * bdd</div><div class="ttdoc">association vers la classe BaseDeDonnees</div><div class="ttdef"><b>Definition:</b> <a href="_gestion_magasin_8h_source.html#l00047">GestionMagasin.h:47</a></div></div>
+<div class="ttc" id="aclass_gestion_magasin_html_a30f82152ee22db01882fea2e58f1febb"><div class="ttname"><a href="class_gestion_magasin.html#a30f82152ee22db01882fea2e58f1febb">GestionMagasin::chargerListeCapsules</a></div><div class="ttdeci">void chargerListeCapsules()</div><div class="ttdef"><b>Definition:</b> <a href="_gestion_magasin_8cpp_source.html#l00016">GestionMagasin.cpp:16</a></div></div>
+<div class="ttc" id="aclass_gestion_magasin_html_a46c8c0e21b7eac07f79f2e73c780dfc9"><div class="ttname"><a href="class_gestion_magasin.html#a46c8c0e21b7eac07f79f2e73c780dfc9">GestionMagasin::getListeCapsules</a></div><div class="ttdeci">QVector&lt; QStringList &gt; getListeCapsules() const</div><div class="ttdef"><b>Definition:</b> <a href="_gestion_magasin_8cpp_source.html#l00023">GestionMagasin.cpp:23</a></div></div>
+<div class="ttc" id="aclass_gestion_magasin_html_a4fb3ab6de6cb7ed5f9d5b6a657b4ef94"><div class="ttname"><a href="class_gestion_magasin.html#a4fb3ab6de6cb7ed5f9d5b6a657b4ef94">GestionMagasin::StockMagasin</a></div><div class="ttdeci">StockMagasin</div><div class="ttdoc">Définit les différents champs.</div><div class="ttdef"><b>Definition:</b> <a href="_gestion_magasin_8h_source.html#l00037">GestionMagasin.h:38</a></div></div>
+<div class="ttc" id="aclass_gestion_magasin_html_a4fb3ab6de6cb7ed5f9d5b6a657b4ef94a4a24763507f6a33111622c95b66505af"><div class="ttname"><a href="class_gestion_magasin.html#a4fb3ab6de6cb7ed5f9d5b6a657b4ef94a4a24763507f6a33111622c95b66505af">GestionMagasin::QUANTITE_CAPSULE_STOCK</a></div><div class="ttdeci">@ QUANTITE_CAPSULE_STOCK</div><div class="ttdef"><b>Definition:</b> <a href="_gestion_magasin_8h_source.html#l00042">GestionMagasin.h:42</a></div></div>
+<div class="ttc" id="aclass_gestion_magasin_html_a4fb3ab6de6cb7ed5f9d5b6a657b4ef94a687bc7dc00b2876db8320110a52426c4"><div class="ttname"><a href="class_gestion_magasin.html#a4fb3ab6de6cb7ed5f9d5b6a657b4ef94a687bc7dc00b2876db8320110a52426c4">GestionMagasin::QUANTITE_MAX_CAPSULE_STOCK</a></div><div class="ttdeci">@ QUANTITE_MAX_CAPSULE_STOCK</div><div class="ttdef"><b>Definition:</b> <a href="_gestion_magasin_8h_source.html#l00044">GestionMagasin.h:43</a></div></div>
+<div class="ttc" id="aclass_gestion_magasin_html_a4fb3ab6de6cb7ed5f9d5b6a657b4ef94a9a14760022a7135348dde727abb0fa28"><div class="ttname"><a href="class_gestion_magasin.html#a4fb3ab6de6cb7ed5f9d5b6a657b4ef94a9a14760022a7135348dde727abb0fa28">GestionMagasin::RANGEE_CAPSULE_STOCK</a></div><div class="ttdeci">@ RANGEE_CAPSULE_STOCK</div><div class="ttdef"><b>Definition:</b> <a href="_gestion_magasin_8h_source.html#l00041">GestionMagasin.h:41</a></div></div>
+<div class="ttc" id="aclass_gestion_magasin_html_a4fb3ab6de6cb7ed5f9d5b6a657b4ef94aae6805674e1e81c1aea516f58c645c3d"><div class="ttname"><a href="class_gestion_magasin.html#a4fb3ab6de6cb7ed5f9d5b6a657b4ef94aae6805674e1e81c1aea516f58c645c3d">GestionMagasin::ID_CAPSULE_STOCK</a></div><div class="ttdeci">@ ID_CAPSULE_STOCK</div><div class="ttdef"><b>Definition:</b> <a href="_gestion_magasin_8h_source.html#l00039">GestionMagasin.h:39</a></div></div>
+<div class="ttc" id="aclass_gestion_magasin_html_a4fb3ab6de6cb7ed5f9d5b6a657b4ef94af8c0c551516ab6fc341a386c56f4ea1c"><div class="ttname"><a href="class_gestion_magasin.html#a4fb3ab6de6cb7ed5f9d5b6a657b4ef94af8c0c551516ab6fc341a386c56f4ea1c">GestionMagasin::DESIGNATION_CAPSULE_STOCK</a></div><div class="ttdeci">@ DESIGNATION_CAPSULE_STOCK</div><div class="ttdef"><b>Definition:</b> <a href="_gestion_magasin_8h_source.html#l00040">GestionMagasin.h:40</a></div></div>
+<div class="ttc" id="aclass_gestion_magasin_html_a5080afce6a45716e22279dd4f3cfe9a1"><div class="ttname"><a href="class_gestion_magasin.html#a5080afce6a45716e22279dd4f3cfe9a1">GestionMagasin::getIdCapsuleListe</a></div><div class="ttdeci">QString getIdCapsuleListe(int indexCapsule) const</div><div class="ttdef"><b>Definition:</b> <a href="_gestion_magasin_8cpp_source.html#l00083">GestionMagasin.cpp:83</a></div></div>
+<div class="ttc" id="aclass_gestion_magasin_html_a62efab4c75afadfe624907019994c62a"><div class="ttname"><a href="class_gestion_magasin.html#a62efab4c75afadfe624907019994c62a">GestionMagasin::~GestionMagasin</a></div><div class="ttdeci">virtual ~GestionMagasin()</div><div class="ttdef"><b>Definition:</b> <a href="_gestion_magasin_8cpp_source.html#l00011">GestionMagasin.cpp:11</a></div></div>
+<div class="ttc" id="aclass_gestion_magasin_html_a662dc8c20a029765a7b9036e72eba9af"><div class="ttname"><a href="class_gestion_magasin.html#a662dc8c20a029765a7b9036e72eba9af">GestionMagasin::calculerTotalCapsulesRestantes</a></div><div class="ttdeci">int calculerTotalCapsulesRestantes()</div><div class="ttdef"><b>Definition:</b> <a href="_gestion_magasin_8cpp_source.html#l00092">GestionMagasin.cpp:92</a></div></div>
+<div class="ttc" id="aclass_gestion_magasin_html_a77892cf0dab6d9fd1f7c51b98c220693"><div class="ttname"><a href="class_gestion_magasin.html#a77892cf0dab6d9fd1f7c51b98c220693">GestionMagasin::getQuantite</a></div><div class="ttdeci">int getQuantite(int rangee) const</div><div class="ttdef"><b>Definition:</b> <a href="_gestion_magasin_8cpp_source.html#l00046">GestionMagasin.cpp:46</a></div></div>
+<div class="ttc" id="aclass_gestion_magasin_html_a8a6c19f1f1610d116260f18cf85c8d70"><div class="ttname"><a href="class_gestion_magasin.html#a8a6c19f1f1610d116260f18cf85c8d70">GestionMagasin::TableCapsule</a></div><div class="ttdeci">TableCapsule</div><div class="ttdoc">Définit les champs de la table Capsule.</div><div class="ttdef"><b>Definition:</b> <a href="_gestion_magasin_8h_source.html#l00024">GestionMagasin.h:25</a></div></div>
+<div class="ttc" id="aclass_gestion_magasin_html_a8a6c19f1f1610d116260f18cf85c8d70a2d50d5991a00ca4b4cb2e300d1fca683"><div class="ttname"><a href="class_gestion_magasin.html#a8a6c19f1f1610d116260f18cf85c8d70a2d50d5991a00ca4b4cb2e300d1fca683">GestionMagasin::MARQUE</a></div><div class="ttdeci">@ MARQUE</div><div class="ttdef"><b>Definition:</b> <a href="_gestion_magasin_8h_source.html#l00027">GestionMagasin.h:27</a></div></div>
+<div class="ttc" id="aclass_gestion_magasin_html_a8a6c19f1f1610d116260f18cf85c8d70a638e13d4b4a671180f0ff4c09aca16c1"><div class="ttname"><a href="class_gestion_magasin.html#a8a6c19f1f1610d116260f18cf85c8d70a638e13d4b4a671180f0ff4c09aca16c1">GestionMagasin::DESIGNATION</a></div><div class="ttdeci">@ DESIGNATION</div><div class="ttdef"><b>Definition:</b> <a href="_gestion_magasin_8h_source.html#l00028">GestionMagasin.h:28</a></div></div>
+<div class="ttc" id="aclass_gestion_magasin_html_a8a6c19f1f1610d116260f18cf85c8d70a74007092d8430a535942a899e0638cb5"><div class="ttname"><a href="class_gestion_magasin.html#a8a6c19f1f1610d116260f18cf85c8d70a74007092d8430a535942a899e0638cb5">GestionMagasin::ID_CAPSULE</a></div><div class="ttdeci">@ ID_CAPSULE</div><div class="ttdef"><b>Definition:</b> <a href="_gestion_magasin_8h_source.html#l00026">GestionMagasin.h:26</a></div></div>
+<div class="ttc" id="aclass_gestion_magasin_html_a8a6c19f1f1610d116260f18cf85c8d70a7a3fa5c1916bd37ba3b3ef99d582bf73"><div class="ttname"><a href="class_gestion_magasin.html#a8a6c19f1f1610d116260f18cf85c8d70a7a3fa5c1916bd37ba3b3ef99d582bf73">GestionMagasin::DESCRIPTION</a></div><div class="ttdeci">@ DESCRIPTION</div><div class="ttdef"><b>Definition:</b> <a href="_gestion_magasin_8h_source.html#l00029">GestionMagasin.h:29</a></div></div>
+<div class="ttc" id="aclass_gestion_magasin_html_a8a6c19f1f1610d116260f18cf85c8d70aaa454f9d99b5384ea152bd2cef60ce54"><div class="ttname"><a href="class_gestion_magasin.html#a8a6c19f1f1610d116260f18cf85c8d70aaa454f9d99b5384ea152bd2cef60ce54">GestionMagasin::INTENSITE</a></div><div class="ttdeci">@ INTENSITE</div><div class="ttdef"><b>Definition:</b> <a href="_gestion_magasin_8h_source.html#l00031">GestionMagasin.h:30</a></div></div>
+<div class="ttc" id="aclass_gestion_magasin_html_a8c752763d69e0e2d38d533ff554e2a07"><div class="ttname"><a href="class_gestion_magasin.html#a8c752763d69e0e2d38d533ff554e2a07">GestionMagasin::getStock</a></div><div class="ttdeci">QVector&lt; QStringList &gt; getStock() const</div><div class="ttdef"><b>Definition:</b> <a href="_gestion_magasin_8cpp_source.html#l00041">GestionMagasin.cpp:41</a></div></div>
+<div class="ttc" id="aclass_gestion_magasin_html_a9420f048b46d8b943efc3f046c314ff2"><div class="ttname"><a href="class_gestion_magasin.html#a9420f048b46d8b943efc3f046c314ff2">GestionMagasin::getDesignationCapsule</a></div><div class="ttdeci">QString getDesignationCapsule(int rangee) const</div><div class="ttdef"><b>Definition:</b> <a href="_gestion_magasin_8cpp_source.html#l00056">GestionMagasin.cpp:56</a></div></div>
+<div class="ttc" id="aclass_gestion_magasin_html_aa503221b8632ca79439e92521f6a993a"><div class="ttname"><a href="class_gestion_magasin.html#aa503221b8632ca79439e92521f6a993a">GestionMagasin::listeCapsules</a></div><div class="ttdeci">QVector&lt; QStringList &gt; listeCapsules</div><div class="ttdef"><b>Definition:</b> <a href="_gestion_magasin_8h_source.html#l00048">GestionMagasin.h:48</a></div></div>
+<div class="ttc" id="aclass_gestion_magasin_html_aba767877a898b4bc5bdf2fb13a189e8c"><div class="ttname"><a href="class_gestion_magasin.html#aba767877a898b4bc5bdf2fb13a189e8c">GestionMagasin::stock</a></div><div class="ttdeci">QVector&lt; QStringList &gt; stock</div><div class="ttdef"><b>Definition:</b> <a href="_gestion_magasin_8h_source.html#l00049">GestionMagasin.h:49</a></div></div>
+<div class="ttc" id="aclass_gestion_magasin_html_add9e497b56e39324c8898376d17f2e25"><div class="ttname"><a href="class_gestion_magasin.html#add9e497b56e39324c8898376d17f2e25">GestionMagasin::quantiteTotalCapsule</a></div><div class="ttdeci">int quantiteTotalCapsule</div><div class="ttdef"><b>Definition:</b> <a href="_gestion_magasin_8h_source.html#l00050">GestionMagasin.h:50</a></div></div>
+<div class="ttc" id="aclass_gestion_magasin_html_afa50e4443ced470650d39ed61dfef019"><div class="ttname"><a href="class_gestion_magasin.html#afa50e4443ced470650d39ed61dfef019">GestionMagasin::chargerStockMagasin</a></div><div class="ttdeci">void chargerStockMagasin()</div><div class="ttdef"><b>Definition:</b> <a href="_gestion_magasin_8cpp_source.html#l00028">GestionMagasin.cpp:28</a></div></div>
+<div class="ttc" id="aclass_q_object_html"><div class="ttname"><a href="class_q_object.html">QObject</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- HTML footer for doxygen 1.9.1-->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_85212270a1fa58eb9818348af0285e4e.html">pikawa-rpi</a></li><li class="navelem"><a class="el" href="_gestion_magasin_8h.html">GestionMagasin.h</a></li>
+    <li class="footer"><img class="footer" src="lasalle-logo.png" height="31" alt="La Salle Avignon"/>&nbsp;<b>Campus La Salle Avignon</b>&nbsp;-&nbsp;9 Rue Notre Dame des 7 douleurs&nbsp;-&nbsp;BP 50165&nbsp;-&nbsp;84008 Avignon&nbsp;-&nbsp;Généré le Samedi 8 Juin 2024 12:06:01 pour Projet pikawa par&nbsp;<a href="https://www.doxygen.org/index.html">doxygen</a>&nbsp;1.9.1&nbsp;</li>
+  </ul>
+</div>
+</body>
+</html>
