@@ -6,7 +6,7 @@
  *
  * @brief Déclaration de la classe IhmPikawa
  * @author MDOIOUHOMA Nakib
- * @version 0.2
+ * @version 1.0
  */
 
 #include <QtWidgets>
@@ -64,7 +64,7 @@ class IhmPikawa : public QMainWindow
     BaseDeDonnees*  bdd;                    //!< l'association vers la classe BaseDeDonnees
     Communication*  communicationBluetooth; //!< l'association vers la classe Communication
     QTimer*
-                          minuteurPreparationCafe; //!< minuterie pour contrôler la durée de la préparation du café
+      minuteurPreparationCafe; //!< minuterie pour contrôler la durée de la préparation du café
     int                   rangeeSelectionneePreparation;
     QVector<QComboBox*>   listesDeroulantesCapsules;
     QVector<QSpinBox*>    stocksRangeesCapsules;
@@ -117,7 +117,7 @@ class IhmPikawa : public QMainWindow
     void deselectionnerRangee(int rangee);
     void decrementerNbCapsules();
     int  calculerTotalCapsulesRestantes();
-    
+
   signals:
 
   public slots:
