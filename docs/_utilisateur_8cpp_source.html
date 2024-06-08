@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Projet pikawa:  Fichier source de Utilisateur.cpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="customdoxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="projet-logo.png"/></td>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Projet pikawa
+   &#160;<span id="projectnumber">1.0</span>
+   </div>
+   <div id="projectbrief">BTS SNIR LaSalle Avignon 2024</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Recherche','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Recherche');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('_utilisateur_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">Utilisateur.cpp</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="_utilisateur_8cpp.html">Aller à la documentation de ce fichier.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_utilisateur_8h.html">Utilisateur.h</a>&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;QDebug&gt;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
+<div class="line"><a name="l00004"></a><span class="lineno"><a class="line" href="class_utilisateur.html#aa3c17f9b8c7241094d537680b1efcb8e">    4</a></span>&#160;<a class="code" href="class_utilisateur.html#aa3c17f9b8c7241094d537680b1efcb8e">Utilisateur::Utilisateur</a>(QString idUtilisateur,</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;                         QString nom,</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;                         QString prenom,</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;                         QString code,</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;                         QString badge,</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;                         QString email) :</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    idUtilisateur(idUtilisateur),</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    nom(nom), prenom(prenom), code(code), badge(badge), email(email), authentifie(false)</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;{</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    qDebug() &lt;&lt; Q_FUNC_INFO &lt;&lt; <span class="stringliteral">&quot;idUtilisateur&quot;</span> &lt;&lt; <a class="code" href="class_utilisateur.html#ae1763e7a52c82c63506bc4160cdabb20">idUtilisateur</a> &lt;&lt; <span class="stringliteral">&quot;nom&quot;</span> &lt;&lt; <a class="code" href="class_utilisateur.html#a1096e809aca4b7cf453a7af93cb72502">nom</a> &lt;&lt; <span class="stringliteral">&quot;prenom&quot;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;             &lt;&lt; <a class="code" href="class_utilisateur.html#a1dd0779807b19298f30f39d9c371170f">prenom</a> &lt;&lt; <span class="stringliteral">&quot;code&quot;</span> &lt;&lt; <a class="code" href="class_utilisateur.html#adbd9f2b5917cd99131ca200e1e55c703">code</a> &lt;&lt; <span class="stringliteral">&quot;badge&quot;</span> &lt;&lt; <a class="code" href="class_utilisateur.html#a77b48aa9d1f0ec04c69d45476897fec6">badge</a> &lt;&lt; <span class="stringliteral">&quot;email&quot;</span> &lt;&lt; <a class="code" href="class_utilisateur.html#a2f45443ce5277a5e6baefe5121e66555">email</a>;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;}</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="class_utilisateur.html#a3e37e20c35ca7977be8e9eea31f7616e">   17</a></span>&#160;<a class="code" href="class_utilisateur.html#aa3c17f9b8c7241094d537680b1efcb8e">Utilisateur::Utilisateur</a>(QStringList utilisateur) :</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    idUtilisateur(utilisateur.at(<a class="code" href="class_utilisateur.html#a965a9ead8faaf2205f8c71e974b62910">TableUtilisateur</a>::ID_UTILISATEUR)),</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    nom(utilisateur.at(<a class="code" href="class_utilisateur.html#a965a9ead8faaf2205f8c71e974b62910">TableUtilisateur</a>::NOM)), prenom(utilisateur.at(<a class="code" href="class_utilisateur.html#a965a9ead8faaf2205f8c71e974b62910">TableUtilisateur</a>::PRENOM)),</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    code(utilisateur.at(<a class="code" href="class_utilisateur.html#a965a9ead8faaf2205f8c71e974b62910">TableUtilisateur</a>::CODE)), badge(utilisateur.at(<a class="code" href="class_utilisateur.html#a965a9ead8faaf2205f8c71e974b62910">TableUtilisateur</a>::BADGE)),</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    email(utilisateur.at(<a class="code" href="class_utilisateur.html#a965a9ead8faaf2205f8c71e974b62910">TableUtilisateur</a>::EMAIL)), authentifie(false)</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;{</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    qDebug() &lt;&lt; Q_FUNC_INFO &lt;&lt; <span class="stringliteral">&quot;idUtilisateur&quot;</span> &lt;&lt; <a class="code" href="class_utilisateur.html#ae1763e7a52c82c63506bc4160cdabb20">idUtilisateur</a> &lt;&lt; <span class="stringliteral">&quot;nom&quot;</span> &lt;&lt; <a class="code" href="class_utilisateur.html#a1096e809aca4b7cf453a7af93cb72502">nom</a> &lt;&lt; <span class="stringliteral">&quot;prenom&quot;</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;             &lt;&lt; <a class="code" href="class_utilisateur.html#a1dd0779807b19298f30f39d9c371170f">prenom</a> &lt;&lt; <span class="stringliteral">&quot;code&quot;</span> &lt;&lt; <a class="code" href="class_utilisateur.html#adbd9f2b5917cd99131ca200e1e55c703">code</a> &lt;&lt; <span class="stringliteral">&quot;badge&quot;</span> &lt;&lt; <a class="code" href="class_utilisateur.html#a77b48aa9d1f0ec04c69d45476897fec6">badge</a> &lt;&lt; <span class="stringliteral">&quot;email&quot;</span> &lt;&lt; <a class="code" href="class_utilisateur.html#a2f45443ce5277a5e6baefe5121e66555">email</a>;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;}</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="class_utilisateur.html#a6631539ceecd6140fe525eb91485537b">   27</a></span>&#160;<a class="code" href="class_utilisateur.html#a6631539ceecd6140fe525eb91485537b">Utilisateur::~Utilisateur</a>()</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;{</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    qDebug() &lt;&lt; Q_FUNC_INFO;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;}</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="class_utilisateur.html#aae4df3c09e4bd421407ea526876a2eaf">   32</a></span>&#160;QString <a class="code" href="class_utilisateur.html#aae4df3c09e4bd421407ea526876a2eaf">Utilisateur::getIdUtilisateur</a>()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="class_utilisateur.html#ae1763e7a52c82c63506bc4160cdabb20">idUtilisateur</a>;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;}</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="class_utilisateur.html#adfffec2519ba338497de55b61e7bc420">   37</a></span>&#160;QString <a class="code" href="class_utilisateur.html#adfffec2519ba338497de55b61e7bc420">Utilisateur::getNom</a>()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="class_utilisateur.html#a1096e809aca4b7cf453a7af93cb72502">nom</a>;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;}</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="class_utilisateur.html#ac4483808ad54888c66a4235133d135d5">   42</a></span>&#160;QString <a class="code" href="class_utilisateur.html#ac4483808ad54888c66a4235133d135d5">Utilisateur::getPrenom</a>()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="class_utilisateur.html#a1dd0779807b19298f30f39d9c371170f">prenom</a>;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;}</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="class_utilisateur.html#a034f7c848d36fcd2115aa14f6e67bf21">   47</a></span>&#160;QString <a class="code" href="class_utilisateur.html#a034f7c848d36fcd2115aa14f6e67bf21">Utilisateur::getCode</a>()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="class_utilisateur.html#adbd9f2b5917cd99131ca200e1e55c703">code</a>;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;}</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="class_utilisateur.html#a7c74fd50b8594bec2f80670bc3682cbd">   52</a></span>&#160;QString <a class="code" href="class_utilisateur.html#a7c74fd50b8594bec2f80670bc3682cbd">Utilisateur::getBadge</a>()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="class_utilisateur.html#a77b48aa9d1f0ec04c69d45476897fec6">badge</a>;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;}</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="class_utilisateur.html#a3ea4632586f2e7586ae1439cba78da5c">   57</a></span>&#160;QString <a class="code" href="class_utilisateur.html#a3ea4632586f2e7586ae1439cba78da5c">Utilisateur::getEmail</a>()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="class_utilisateur.html#a2f45443ce5277a5e6baefe5121e66555">email</a>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;}</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="class_utilisateur.html#a4b10909fbcc606d729946efc289cc3ac">   62</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="class_utilisateur.html#a4b10909fbcc606d729946efc289cc3ac">Utilisateur::estAuthentifie</a>()</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;{</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="class_utilisateur.html#ac042335e7a25ae09d5062c12af94cc3a">authentifie</a>;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;}</div>
+<div class="ttc" id="a_utilisateur_8h_html"><div class="ttname"><a href="_utilisateur_8h.html">Utilisateur.h</a></div></div>
+<div class="ttc" id="aclass_utilisateur_html_a034f7c848d36fcd2115aa14f6e67bf21"><div class="ttname"><a href="class_utilisateur.html#a034f7c848d36fcd2115aa14f6e67bf21">Utilisateur::getCode</a></div><div class="ttdeci">QString getCode() const</div><div class="ttdef"><b>Definition:</b> <a href="_utilisateur_8cpp_source.html#l00047">Utilisateur.cpp:47</a></div></div>
+<div class="ttc" id="aclass_utilisateur_html_a1096e809aca4b7cf453a7af93cb72502"><div class="ttname"><a href="class_utilisateur.html#a1096e809aca4b7cf453a7af93cb72502">Utilisateur::nom</a></div><div class="ttdeci">QString nom</div><div class="ttdef"><b>Definition:</b> <a href="_utilisateur_8h_source.html#l00027">Utilisateur.h:27</a></div></div>
+<div class="ttc" id="aclass_utilisateur_html_a1dd0779807b19298f30f39d9c371170f"><div class="ttname"><a href="class_utilisateur.html#a1dd0779807b19298f30f39d9c371170f">Utilisateur::prenom</a></div><div class="ttdeci">QString prenom</div><div class="ttdef"><b>Definition:</b> <a href="_utilisateur_8h_source.html#l00028">Utilisateur.h:28</a></div></div>
+<div class="ttc" id="aclass_utilisateur_html_a2f45443ce5277a5e6baefe5121e66555"><div class="ttname"><a href="class_utilisateur.html#a2f45443ce5277a5e6baefe5121e66555">Utilisateur::email</a></div><div class="ttdeci">QString email</div><div class="ttdef"><b>Definition:</b> <a href="_utilisateur_8h_source.html#l00031">Utilisateur.h:31</a></div></div>
+<div class="ttc" id="aclass_utilisateur_html_a3ea4632586f2e7586ae1439cba78da5c"><div class="ttname"><a href="class_utilisateur.html#a3ea4632586f2e7586ae1439cba78da5c">Utilisateur::getEmail</a></div><div class="ttdeci">QString getEmail() const</div><div class="ttdef"><b>Definition:</b> <a href="_utilisateur_8cpp_source.html#l00057">Utilisateur.cpp:57</a></div></div>
+<div class="ttc" id="aclass_utilisateur_html_a4b10909fbcc606d729946efc289cc3ac"><div class="ttname"><a href="class_utilisateur.html#a4b10909fbcc606d729946efc289cc3ac">Utilisateur::estAuthentifie</a></div><div class="ttdeci">bool estAuthentifie()</div><div class="ttdef"><b>Definition:</b> <a href="_utilisateur_8cpp_source.html#l00062">Utilisateur.cpp:62</a></div></div>
+<div class="ttc" id="aclass_utilisateur_html_a6631539ceecd6140fe525eb91485537b"><div class="ttname"><a href="class_utilisateur.html#a6631539ceecd6140fe525eb91485537b">Utilisateur::~Utilisateur</a></div><div class="ttdeci">~Utilisateur()</div><div class="ttdef"><b>Definition:</b> <a href="_utilisateur_8cpp_source.html#l00027">Utilisateur.cpp:27</a></div></div>
+<div class="ttc" id="aclass_utilisateur_html_a77b48aa9d1f0ec04c69d45476897fec6"><div class="ttname"><a href="class_utilisateur.html#a77b48aa9d1f0ec04c69d45476897fec6">Utilisateur::badge</a></div><div class="ttdeci">QString badge</div><div class="ttdef"><b>Definition:</b> <a href="_utilisateur_8h_source.html#l00030">Utilisateur.h:30</a></div></div>
+<div class="ttc" id="aclass_utilisateur_html_a7c74fd50b8594bec2f80670bc3682cbd"><div class="ttname"><a href="class_utilisateur.html#a7c74fd50b8594bec2f80670bc3682cbd">Utilisateur::getBadge</a></div><div class="ttdeci">QString getBadge() const</div><div class="ttdef"><b>Definition:</b> <a href="_utilisateur_8cpp_source.html#l00052">Utilisateur.cpp:52</a></div></div>
+<div class="ttc" id="aclass_utilisateur_html_a965a9ead8faaf2205f8c71e974b62910"><div class="ttname"><a href="class_utilisateur.html#a965a9ead8faaf2205f8c71e974b62910">Utilisateur::TableUtilisateur</a></div><div class="ttdeci">TableUtilisateur</div><div class="ttdoc">Définit les champs de la table Utilisateur.</div><div class="ttdef"><b>Definition:</b> <a href="_utilisateur_8h_source.html#l00015">Utilisateur.h:16</a></div></div>
+<div class="ttc" id="aclass_utilisateur_html_aa3c17f9b8c7241094d537680b1efcb8e"><div class="ttname"><a href="class_utilisateur.html#aa3c17f9b8c7241094d537680b1efcb8e">Utilisateur::Utilisateur</a></div><div class="ttdeci">Utilisateur(QString idUtilisateur, QString nom, QString prenom, QString code, QString badge, QString email)</div><div class="ttdef"><b>Definition:</b> <a href="_utilisateur_8cpp_source.html#l00004">Utilisateur.cpp:4</a></div></div>
+<div class="ttc" id="aclass_utilisateur_html_aae4df3c09e4bd421407ea526876a2eaf"><div class="ttname"><a href="class_utilisateur.html#aae4df3c09e4bd421407ea526876a2eaf">Utilisateur::getIdUtilisateur</a></div><div class="ttdeci">QString getIdUtilisateur() const</div><div class="ttdef"><b>Definition:</b> <a href="_utilisateur_8cpp_source.html#l00032">Utilisateur.cpp:32</a></div></div>
+<div class="ttc" id="aclass_utilisateur_html_ac042335e7a25ae09d5062c12af94cc3a"><div class="ttname"><a href="class_utilisateur.html#ac042335e7a25ae09d5062c12af94cc3a">Utilisateur::authentifie</a></div><div class="ttdeci">bool authentifie</div><div class="ttdef"><b>Definition:</b> <a href="_utilisateur_8h_source.html#l00032">Utilisateur.h:32</a></div></div>
+<div class="ttc" id="aclass_utilisateur_html_ac4483808ad54888c66a4235133d135d5"><div class="ttname"><a href="class_utilisateur.html#ac4483808ad54888c66a4235133d135d5">Utilisateur::getPrenom</a></div><div class="ttdeci">QString getPrenom() const</div><div class="ttdef"><b>Definition:</b> <a href="_utilisateur_8cpp_source.html#l00042">Utilisateur.cpp:42</a></div></div>
+<div class="ttc" id="aclass_utilisateur_html_adbd9f2b5917cd99131ca200e1e55c703"><div class="ttname"><a href="class_utilisateur.html#adbd9f2b5917cd99131ca200e1e55c703">Utilisateur::code</a></div><div class="ttdeci">QString code</div><div class="ttdef"><b>Definition:</b> <a href="_utilisateur_8h_source.html#l00029">Utilisateur.h:29</a></div></div>
+<div class="ttc" id="aclass_utilisateur_html_adfffec2519ba338497de55b61e7bc420"><div class="ttname"><a href="class_utilisateur.html#adfffec2519ba338497de55b61e7bc420">Utilisateur::getNom</a></div><div class="ttdeci">QString getNom() const</div><div class="ttdef"><b>Definition:</b> <a href="_utilisateur_8cpp_source.html#l00037">Utilisateur.cpp:37</a></div></div>
+<div class="ttc" id="aclass_utilisateur_html_ae1763e7a52c82c63506bc4160cdabb20"><div class="ttname"><a href="class_utilisateur.html#ae1763e7a52c82c63506bc4160cdabb20">Utilisateur::idUtilisateur</a></div><div class="ttdeci">QString idUtilisateur</div><div class="ttdef"><b>Definition:</b> <a href="_utilisateur_8h_source.html#l00026">Utilisateur.h:26</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- HTML footer for doxygen 1.9.1-->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_85212270a1fa58eb9818348af0285e4e.html">pikawa-rpi</a></li><li class="navelem"><a class="el" href="_utilisateur_8cpp.html">Utilisateur.cpp</a></li>
+    <li class="footer"><img class="footer" src="lasalle-logo.png" height="31" alt="La Salle Avignon"/>&nbsp;<b>Campus La Salle Avignon</b>&nbsp;-&nbsp;9 Rue Notre Dame des 7 douleurs&nbsp;-&nbsp;BP 50165&nbsp;-&nbsp;84008 Avignon&nbsp;-&nbsp;Généré le Samedi 8 Juin 2024 12:06:01 pour Projet pikawa par&nbsp;<a href="https://www.doxygen.org/index.html">doxygen</a>&nbsp;1.9.1&nbsp;</li>
+  </ul>
+</div>
+</body>
+</html>
