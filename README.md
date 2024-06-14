@@ -8,6 +8,7 @@
   - [Présentation](#présentation)
   - [Fonctionnalités](#fonctionnalités)
   - [Screenshots](#screenshots)
+  - [Diaporama de présentation](#diaporama-de-présentation)
   - [Diagramme de classes](#diagramme-de-classes)
   - [Protocole](#protocole)
   - [Historique des versions](#historique-des-versions)
@@ -49,6 +50,10 @@ L'utilisateur pourra :
 ## Screenshots
 
 ![](images/pikawa-rpi-v1.0.gif)
+
+## Diaporama de présentation
+
+- [Nakib Mdoiouhoma - Oral.pptx](diaporamas/Nakib%20Mdoiouhoma%20-%20Oral.pptx)
 
 ## Diagramme de classes
 
